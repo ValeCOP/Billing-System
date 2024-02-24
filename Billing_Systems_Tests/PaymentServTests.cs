@@ -1,17 +1,11 @@
 ﻿namespace Billing_Systems_Tests
 {
-    using Billing_System.Core.Contracts.Home;
     using Billing_System.Core.Contracts.Payments;
-    using Billing_System.Core.Contracts.Receipt;
-    using Billing_System.Core.Services.Home;
     using Billing_System.Core.Services.Payments;
-    using Billing_System.Core.Services.Receipt;
     using Billing_System.Core.ViewModels.Payments;
     using Billing_System.Data;
     using Billing_System.Data.Entities;
     using Microsoft.EntityFrameworkCore;
-    using System.Net.Http;
-    using static Billing_Systems_Tests.Seed.DatabaseSeeder;
 
 
     [TestFixture]
@@ -19,7 +13,6 @@
     {
         private ApplicationUser _user;
         private BillingDbContext _dbContext;
-        private IReceiptService _receiptService;
         private IPaymentsService _paymentService;
 
         [OneTimeSetUp]
@@ -35,8 +28,7 @@
 
             _user = _dbContext.Users.FirstOrDefaultAsync().GetAwaiter().GetResult()!;
 
-            _receiptService = new ReceiptService(_dbContext);
-            _paymentService = new PaymentService(_dbContext, _receiptService);
+            _paymentService = new PaymentService(_dbContext);
 
 
         }
