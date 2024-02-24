@@ -8,7 +8,7 @@
 <h4>Pay per User</h4>
 <hr />
 <div class="row">
-    <div class="col-lg-6 shadow-lg" style="padding:30px">
+    <div class="col-lg-6 shadow-lg p-3">
 
         @if (User.IsInRole("Administrator"))
         {
@@ -22,8 +22,8 @@
                     <br>
                     <i class="fa-regular fa-circle-right"></i>
                     Available SUM: @user.Payments.Where(u => !u.Pending).Sum(p => p.Fee + p.InstallationFee)
+                    <hr />
                 </div>
-                <hr />
             }
         }
         else
@@ -42,7 +42,7 @@
     @if (User.IsInRole("Administrator"))
     {
         <div class="col shadow-lg" style="padding:30px">
-            <p>Total SUM: @Model.Sum(v => v.TotalValue)</p>
+            <h5>Total SUM: @Model.Sum(v => v.TotalValue)</h5>
             <hr />
             <p>Pending SUM: @Model.Sum(v => v.PendingValue)</p>
             <hr />
