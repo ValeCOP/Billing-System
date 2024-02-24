@@ -1,0 +1,116 @@
+﻿@model IEnumerable<ActivatedClientsViewModel>
+@{
+    ViewData["Title"] = "All";
+}
+<h2>All Client</h2>
+<div class="shadow-lg" style="padding: 30px">
+    <hr />
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-info" id="alert">
+            <label>✔</label>
+            @TempData["message"]
+        </div>
+    }
+    <div class="row shadow-lg">
+
+        <div class="shadow-lg" style="padding: 30px">
+            <form class="row" asp-controller="Clients" asp-action="All" method="get">
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-outline-primary">Search</button>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" name="searchString" placeholder="Search By Name">
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" name="orderBy">
+                        <option value="">Order By</option>
+                        <option value="FullName">FullName</option>
+                        <option value="FullNameDesc">FullName (Desc)</option>
+                        <option value="ActivationDate">Activation Date</option>
+                        <option value="ActivationDateDesc">Activation Date (Desc)</option>
+                        <option value="ExpiredDate">Expired Date</option>
+                        <option value="ExpiredDateDesc">Expired Date (Desc)</option>
+                        <option value="ApplicationUser">User</option>
+                        <option value="ApplicationUserDesc">User (Desc)</option>
+
+                    </select>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.Raw("Full Name")
+                            </th>
+                            <th>
+                                @Html.Raw("Activation Date")
+                            </th>
+                            <th>
+                                @Html.Raw("Expiried Date")
+                            </th>
+                            <th>
+                                @Html.Raw("User")
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @if (item.Payments.Any(p => p.Pending))
+                                {
+                                    <td class="text-danger">
+                                        @Html.DisplayFor(modelItem => item.FullName)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FullName)
+                                    </td>
+                                }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ActivationDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ExpiredDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ApplicationUser)
+                                </td>
+                                <td>
+                                    @if (User.IsInRole("Administrator"))
+                                    {
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.ClientId }, new { @class = "btn btn-outline-danger btn-sm", onclick = $"return confirm('Are you sure you want to delete {item.FullName}?');" })
+                                    }
+                                    @Html.ActionLink("Details", "Details", new { id = item.ClientId }, new { @class = "btn btn-outline-primary btn-sm" })
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                    <div class="row mb-5">
+                        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+                            <a class="btn btn-outline-primary @(ViewBag.CurrentPage == 1 ? "disabled" : string.Empty)"
+                               href="/Clients/All?page=@(ViewBag.CurrentPage - 1)">Previous</a>
+                        </div>
+
+                        @{
+                        var beDisabled = ViewBag.CurrentPage == ViewBag.TotalPages || 2 > Model.Count();
+                        }
+
+                        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a class="btn btn-outline-primary @(beDisabled ? "disabled" : string.Empty)"
+                               href="/Clients/All?page=@(ViewBag.CurrentPage + 1)">Next</a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,116 @@
+﻿@using System.Globalization
+@model ActiveISPClientsFormModel
+@{
+    ViewData["Title"] = "Index";
+  
+}
+<h2>Activate ISP Client</h2>
+<div class="shadow-lg" style="padding: 30px" >
+    <hr />
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-success" id="alert">
+            <label>✔</label>
+            @TempData["message"]
+        </div>
+    }
+    <div class="row shadow-lg">
+        <div class="col-md-4 shadow-lg" style="padding:30px">
+            <h4>Activate Client</h4>
+            <hr />
+            <form asp-action="Index">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <i class="fa-solid fa-users"></i>
+                    
+                    <label asp-for="ClientId" class="control-label"></label>
+                    <select asp-for="ClientId" id="clientId" class="form-control " onchange="getCurrentClientName(@JsonConvert.SerializeObject(Model.Clients))">
+                        <option value="">--Please choose Client--</option>
+                        @foreach (var client in Model.Clients)
+                        {
+                            <option value="@client.Id">@client.FullName</option>
+                        }
+
+                    </select>
+                    <span asp-validation-for="ClientId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input id="clientName" asp-for="ClientFullName" hidden/>
+                </div>
+                <div class="card col-10" style="margin-top: 6px" id="demo" hidden></div>
+                <div class="form-group">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    <label asp-for="InstallationFee" class="control-label"></label>
+                    <select asp-for="InstallationFee" class="form-control">
+                        <option value="00.00">00.00</option>
+                        <option value="50,00">50,00</option>
+                        <option value="70.00">70.00</option>
+                        <option value="90.00">90.00</option>
+                        <option value="110.00">110.00</option>
+                        <option value="130.00">130.00</option>
+                        <option value="150.00">150.00</option>
+                    </select>
+                    <span asp-validation-for="InstallationFee" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    <label asp-for="Fee" class="control-label"></label>
+                    <select asp-for="Fee" class="form-control">
+                        <option value="22.00">22.00</option>
+                        <option value="50.00">50.00</option>
+                    </select>
+                    <span asp-validation-for="Fee" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <label asp-for="ActivationDate" class="control-label"></label>
+                    <input asp-for="ActivationDate" name="ActivationDate" class="form-control" type="test" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)" readonly />
+                    <span asp-validation-for="ActivationDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <label asp-for="ExpiredDate" class="control-label"></label>
+                    <input asp-for="ExpiredDate" name="ExpiredDate" class="form-control tcal" type="text" value="@DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)" />
+                    <span asp-validation-for="ExpiredDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <i class="fa-regular fa-comment-dots"></i>
+                    <label asp-for="Comments" class="control-label"></label>
+                    <textarea asp-for="Comments" class="form-control"></textarea>
+                    <span asp-validation-for="Comments" class="text-danger"></span>
+                </div>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Pending" /> @Html.DisplayNameFor(model => model.Pending)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Receipt" checked /> @Html.DisplayNameFor(model => model.Receipt)
+                        </label>
+                    </div>
+                }
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-outline-primary mt-2" />
+                </div>
+            </form>
+
+            <hr />
+        </div>
+        <div class="shadow-lg col-md-8" style="padding: 30px">
+            @{
+                await Html.RenderPartialAsync("_GeneralDetails",Model.PaymentDetails);
+            }
+        </div>
+    </div>
+    <hr />
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

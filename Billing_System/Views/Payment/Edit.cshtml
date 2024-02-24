@@ -1,0 +1,79 @@
+﻿@using System.Globalization
+@model EditPaymentView
+
+<h2>Edit Payment</h2>
+<div class="shadow-lg" style="padding: 30px">
+    <hr />
+    <div class="row shadow-lg text-lg-start">
+        <div class="shadow-lg col-md-8" style="padding: 30px">
+            <div>
+                <h5 class="card-title mt-2">@Model.Client!.FullName</h5>
+                <hr />
+                <dl class="col">
+                    <dt class="row-sm-2">
+                        User
+                    </dt>
+                    <dd class="row-sm-10">
+                        @Html.DisplayFor(model => model.Client!.ApplicationUser.UserName)
+                    </dd>
+                </dl>
+                <hr />
+               
+            </div>
+        </div>
+        <div class="shadow-lg col-md-4" style="padding: 30px">
+            <div>
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control"  />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Fee" class="control-label"></label>
+                        <select asp-for="Fee" class="form-control">
+                            <option value="">--Please choose Fee--</option>
+                            <option value="22.00">22.00</option>
+                            <option value="50.00">50.00</option>
+                        </select>
+                        <span asp-validation-for="Fee" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Pending" /> @Html.DisplayNameFor(model => model.Pending)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FromDate" class="control-label"></label>
+                        <input asp-for="FromDate" name="FromDate" class="form-control" type="text" value="@Model.FromDate.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)" readonly />
+                        <span asp-validation-for="FromDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ToDate" class="control-label"></label>
+                        <input asp-for="ToDate" name="ToDate" class="form-control tcal" type="text" value="@Model.ToDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)" />
+                        <span asp-validation-for="ToDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="ClientId" class="form-control" hidden />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="UserId" class="form-control" hidden />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Edit" class="btn btn-outline-primary" style="margin: 6px" />
+                    </div>
+                </form>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

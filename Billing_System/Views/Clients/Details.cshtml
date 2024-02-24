@@ -1,0 +1,67 @@
+﻿@model ActivatedClientsViewModel
+@{
+    ViewData["Title"] = "Details";
+
+}
+<h2>Details</h2>
+<div class="shadow-lg" style="padding: 30px">
+    <hr />
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-info" id="alert">
+            <label>✔</label>
+            @TempData["message"]
+        </div>
+    }
+    <div class="row shadow-lg text-lg-start">
+        <div class="shadow-lg col-md-3" style="padding: 30px">
+            <div>
+
+                <h5 class="card-title mt-2">@Model.FullName</h5>
+                <hr />
+                <dl class="col">
+                    <dt class="row-sm-2">
+                        Activation Date
+                    </dt>
+                    <dd class="row-sm-10">
+                        @Html.DisplayFor(model => model.ActivationDate)
+                    </dd>
+                    <dt class="row-sm-2">
+                        Expired Date
+                    </dt>
+                    <dd class="row-sm-10">
+                        @Html.DisplayFor(model => model.ExpiredDate)
+                    </dd>
+                    <dt class="row-sm-2">
+                        @Html.DisplayNameFor(model => model.Comments)
+                    </dt>
+                    <dd class="row-sm-10">
+                        @Html.DisplayFor(model => model.Comments)
+                    </dd>
+                    <dt class="row-sm-2">
+                        @Html.DisplayNameFor(model => model.Address)
+                    </dt>
+                    <dd class="row-sm-10">
+                        @Html.DisplayFor(model => model.Address)
+                    </dd>
+
+                    <dt class="row-sm-2">
+                        User
+                    </dt>
+                    <dd class="row-sm-10">
+                        @Html.DisplayFor(model => model.ApplicationUser)
+                    </dd>
+                </dl>
+                <hr />
+            </div>
+        </div>
+        <div class="shadow-lg col-md-9" style="padding: 30px">
+            <div>
+                @{
+                    await Html.RenderPartialAsync("_PaymentDetails", Model.Payments.ToList());
+                }
+            </div>
+            <a asp-controller="Payment" asp-action="Add"  id="createPayment" asp-route-id="@Model.ClientId" class="btn btn-outline-primary mt-2">Add</a>
+        </div>
+    </div>
+</div>

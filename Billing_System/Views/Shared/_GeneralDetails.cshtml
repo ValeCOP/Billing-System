@@ -1,0 +1,59 @@
+﻿@model ICollection<PaymentDetailsView>
+@inject IUserServices _userServices
+
+@{
+    var users = await _userServices.GetAllUserWithPayments();
+    var currentUser = users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
+}
+<h4>Pay per User</h4>
+<hr />
+<div class="row">
+    <div class="col-lg-6 shadow-lg" style="padding:30px">
+
+        @if (User.IsInRole("Administrator"))
+        {
+            @foreach (var user in users)
+            {
+                <h5 class="font-weight-bold"><i class="fa-solid fa-user"></i> User: @user.UserName</h5>
+                <div>
+                    Total SUM: @user.Payments.Sum(p => p.Fee + p.InstallationFee)
+                    <br>
+                    Pending SUM: @user.Payments.Where(u => u.Pending).Sum(p => p.Fee + p.InstallationFee)
+                    <br>
+                    <i class="fa-regular fa-circle-right"></i>
+                    Available SUM: @user.Payments.Where(u => !u.Pending).Sum(p => p.Fee + p.InstallationFee)
+                </div>
+                <hr />
+            }
+        }
+        else
+        {
+            <h5 class="font-weight-bold">User: @User.Identity!.Name</h5>
+            <div>
+                Total SUM: @currentUser.Payments.Sum(p => p.Fee + p.InstallationFee)
+                <br>
+                Pending SUM: @currentUser.Payments.Where(p => p.Pending).Sum(p => p.Fee + p.InstallationFee)
+                <br>
+            </div>
+
+        }
+
+    </div>
+    @if (User.IsInRole("Administrator"))
+    {
+        <div class="col shadow-lg" style="padding:30px">
+            <p>Total SUM: @Model.Sum(v => v.TotalValue)</p>
+            <hr />
+            <p>Pending SUM: @Model.Sum(v => v.PendingValue)</p>
+            <hr />
+
+            <h6 class="font-weight-bold"><i class="fa-regular fa-circle-right"></i> Available SUM: @Model.Sum(v => v.TotalValue - v.PendingValue)</h6>
+            <hr />
+            <p class="font-weight-bold">RECEIPT ISSUED: @Model.Sum(v => v.ReceiptValue)</p>
+            <hr />
+        </div>
+    }
+
+</div>
+<hr />
+
