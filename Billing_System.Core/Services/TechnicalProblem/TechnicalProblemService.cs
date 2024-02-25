@@ -3,18 +3,37 @@
     using Billing_System.Core.Contracts.TechnicalProblemService;
     using Billing_System.Core.ViewModels.Clients;
     using Billing_System.Core.ViewModels.TechnicalProblem;
+    using Billing_System.Data;
+    using Billing_System.Data.Entities;
     using Newtonsoft.Json;
     using System.Collections.Generic;
 
     public class TechnicalProblemService : ITechnicalProblemService
     {
         private readonly HttpClient _httpClient;
+        private readonly BillingDbContext _context;
 
-        public TechnicalProblemService(HttpClient httpClient)
+        public TechnicalProblemService(HttpClient httpClient,BillingDbContext dbContext)
         {
+            _context = dbContext;
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("https://localhost:7231");
         }
+
+        public async Task AddTechnicalProblemAsync(AddTechProblemView model)
+        {
+            TechnicalProblem technicalProblem = new()
+            {
+                Description = model.Description,
+                ClientId = model.ClientId,
+                RegisterProblemUserId = model.RegisterProblemUserId,
+                RegisteredOn = DateTime.Now,
+                Solved = false
+            };
+            _context.TechnicalProblems.Add(technicalProblem);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<ICollection<ClientsInfoModel>> GetClientsAsync()
         {
             var clientsNames = new List<ClientsInfoModel>();

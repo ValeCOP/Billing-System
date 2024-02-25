@@ -5,6 +5,7 @@
 
     public interface ITechnicalProblemService
     {
+        Task AddTechnicalProblemAsync(AddTechProblemView model);
         Task<ICollection<ClientsInfoModel>> GetClientsAsync();
     }
 }

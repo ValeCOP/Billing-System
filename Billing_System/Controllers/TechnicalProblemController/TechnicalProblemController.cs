@@ -45,5 +45,28 @@
                 });
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddTechProblemView model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _technicalProblemService.AddTechnicalProblemAsync(model);
+                    return RedirectToAction("All");
+                }
+                model.Clients = await _technicalProblemService.GetClientsAsync();
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = ex.Message
+                });
+            }
+        }
     }
 }

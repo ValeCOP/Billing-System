@@ -53,15 +53,6 @@ setTimeout(function () {
     $('#alert').fadeOut(200);
 }, 5000);
 
-
-//<div class="card col-4" style="width: 20rem; ">
-//    <div class="card-body">
-//        <h4 class="card-title mt-1">@e.Topic</h4>
-//        <h5 class="card-title mt-1">@e.Lecturer</h5>
-//        <h5 class="card-title mt-1">@e.Category</h5>
-//        <p class="mb-0"><span class="fw-bold">Starting Time: </span>@e.DateAndTime</p>
-//    </div>
-//</div>
 function makeCardTechProblem(clientsISP) {
     let presentationElement = document.getElementById("demoCard");
     let clientId = document.getElementById("ClientId").value;
@@ -72,11 +63,21 @@ function makeCardTechProblem(clientsISP) {
         presentationElement.className = "card col-12";
         let div = domCreator("div", "", presentationElement, "", ["card-body"]);
         domCreator("h4", findedClient.FullName, div, "", ["card-title", "mt-1"]);
-        domCreator("h5", findedClient.Phone, div, "", ["card-title", "mt-1"]);
-        domCreator("h5", findedClient.Address, div, "", ["card-title", "mt-1"]);
-        domCreator("h5", findedClient.Email, div, "", ["card-title", "mt-1"]);
+        domCreator("hr", "", div);
+        domCreator("h5", "Tel: " + findedClient.Phone, div, "", ["card-title", "mt-1"]);
+        domCreator("h5", "Addres: " + findedClient.Address, div, "", ["card-title", "mt-1"]);
+        domCreator("h5", "Email: " + findedClient.Email, div, "", ["card-title", "mt-1"]);
     }
+    let commentElement = document.getElementById("Description");
+    let demoDesk = document.getElementById("demoDesc");
+    demoDesk.removeAttribute("hidden");
+    demoDesk.innerHTML = "";
+    let h5 = domCreator("h5", "", demoDesk, "", ["card","col-12"]);
+    commentElement.addEventListener("input", function () {
+        h5.innerHTML = commentElement.value;
+    });
 }
+
 function domCreator(type, content, parent, id, classes, attributes) {
     let newElement = document.createElement(type);
 
