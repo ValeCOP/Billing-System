@@ -7,7 +7,6 @@
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Threading.Tasks;
-    using System.Xml.Linq;
 
     public class ClientService : IClientsService
     {

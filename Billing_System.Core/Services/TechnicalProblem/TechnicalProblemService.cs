@@ -5,27 +5,28 @@
     using Billing_System.Core.ViewModels.TechnicalProblem;
     using Newtonsoft.Json;
     using System.Collections.Generic;
-    using System.Globalization;
 
     public class TechnicalProblemService : ITechnicalProblemService
     {
-        public ICollection<ClientsNamesModel> GetClients()
+        private readonly HttpClient _httpClient;
+
+        public TechnicalProblemService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri("https://localhost:7231");
+        }
+        public async Task<ICollection<ClientsNamesModel>> GetClientsAsync()
         {
             var clientsNames = new List<ClientsNamesModel>();
 
-            var currentDirectory = Directory.GetCurrentDirectory();
+            HttpResponseMessage request = _httpClient.GetAsync("/Clients").Result;
 
-            //this is info from the ISP router
-            string jsonString;
-            try
+            if (!request.IsSuccessStatusCode)
             {
-                jsonString = File.ReadAllText(currentDirectory + @"\clients.json");
-            }
-            catch (Exception)
-            {
-                throw new Exception("Error reading ISP router info! Check if the file exists");
+                throw new Exception("Error reading ISP router info!");
             }
 
+            var jsonString = await request.Content.ReadAsStringAsync();
             GetClientsFromISPViewModel[] clients_DTOs = JsonConvert.DeserializeObject<GetClientsFromISPViewModel[]>(jsonString)!;
 
             foreach (var client in clients_DTOs)
