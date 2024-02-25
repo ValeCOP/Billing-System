@@ -54,10 +54,16 @@ setTimeout(function () {
 }, 5000);
 
 function makeCardTechProblem(clientsISP) {
+
     let presentationElement = document.getElementById("demoCard");
     let clientId = document.getElementById("ClientId").value;
     presentationElement.innerHTML = "";
+
     let findedClient = clientsISP.find(c => c.Id === clientId);
+    let clientName = document.getElementById("ClientNameId");
+
+    clientName.value = findedClient.FullName;
+    debugger;
     if (findedClient) {
         presentationElement.removeAttribute("hidden");
         presentationElement.className = "card col-12";

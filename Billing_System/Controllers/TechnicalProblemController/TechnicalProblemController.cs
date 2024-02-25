@@ -68,5 +68,22 @@
                 });
             }
         }
+
+        public async Task<IActionResult> All()
+        {
+            try
+            {
+                ICollection<AllTechProblemViewModel> model = await _technicalProblemService.GetAllTechnicalProblemsAsync();
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = ex.Message
+                });
+            }
+        }
     }
 }

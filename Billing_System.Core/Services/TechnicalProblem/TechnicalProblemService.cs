@@ -5,6 +5,7 @@
     using Billing_System.Core.ViewModels.TechnicalProblem;
     using Billing_System.Data;
     using Billing_System.Data.Entities;
+    using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
     using System.Collections.Generic;
 
@@ -25,13 +26,27 @@
             TechnicalProblem technicalProblem = new()
             {
                 Description = model.Description,
-                ClientId = model.ClientId,
+                ClientName = model.ClientName,
                 RegisterProblemUserId = model.RegisterProblemUserId,
                 RegisteredOn = DateTime.Now,
                 Solved = false
             };
             _context.TechnicalProblems.Add(technicalProblem);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<AllTechProblemViewModel>> GetAllTechnicalProblemsAsync()
+        {
+           var allTechProblems = await _context.TechnicalProblems
+                .Select(t => new AllTechProblemViewModel
+                {
+                    Description = t.Description,
+                    Solved = t.Solved,
+                    RegisteredOn = t.RegisteredOn,
+                    ClientName = t.ClientName,
+                    RegisterProblemUserName = t.RegisterProblemUser.UserName,
+                }).ToListAsync();
+            return allTechProblems;
         }
 
         public async Task<ICollection<ClientsInfoModel>> GetClientsAsync()

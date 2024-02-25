@@ -22,24 +22,19 @@
         [Required]
         public DateTime RegisteredOn { get; set; }
 
-       
-        public DateTime ResolvedOn { get; set; }
+        public DateTime? ResolvedOn { get; set; }
 
-        [Required]
-        [ForeignKey("Client")]
-        public Guid ClientId { get; set; }
-        [Required]
-        public virtual Client Client { get; set; } = null!;
+        public string ClientName { get; set; } = null!;
 
         [Required]
         [ForeignKey("RegisterProblemUser")]
         public Guid RegisterProblemUserId { get; set; }
         public virtual ApplicationUser RegisterProblemUser { get; set; } = null!;
 
-        [Required]
+       
         [ForeignKey("ResolvedProblemUser")]
-        public Guid ResolvedProblemUserId { get; set; }
-        public virtual ApplicationUser ResolvedProblemUser { get; set; } = null!;
+        public Guid? ResolvedProblemUserId { get; set; }
+        public virtual ApplicationUser? ResolvedProblemUser { get; set; }
 
 
     }
