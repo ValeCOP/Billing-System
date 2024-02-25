@@ -15,9 +15,9 @@
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("https://localhost:7231");
         }
-        public async Task<ICollection<ClientsNamesModel>> GetClientsAsync()
+        public async Task<ICollection<ClientsInfoModel>> GetClientsAsync()
         {
-            var clientsNames = new List<ClientsNamesModel>();
+            var clientsNames = new List<ClientsInfoModel>();
 
             HttpResponseMessage request = _httpClient.GetAsync("/Clients").Result;
 
@@ -31,10 +31,15 @@
 
             foreach (var client in clients_DTOs)
             {
-               clientsNames.Add(new ClientsNamesModel
+               clientsNames.Add(new ClientsInfoModel
                {
                    Id = client.Id,
                    FullName = client.FullName,
+                   ActivationDate = DateTime.Parse(client.ActivationDate),
+                   ExpiredDate = DateTime.Parse(client.ExpiredDate),
+                   Address = client.Address,
+                   Email = client.Email,
+                   Phone = client.Phone
                });
             }
             return clientsNames.OrderBy( c => c.FullName).ToList();

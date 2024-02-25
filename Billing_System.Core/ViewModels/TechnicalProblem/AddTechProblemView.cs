@@ -18,7 +18,7 @@
         [Required]
         public Guid ClientId { get; set; }
 
-        public ICollection<ClientsNamesModel> Clients { get; set; }
+        public ICollection<ClientsInfoModel> Clients { get; set; }
 
         [Required]
         public Guid RegisterProblemUserId { get; set; }

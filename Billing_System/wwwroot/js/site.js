@@ -53,6 +53,30 @@ setTimeout(function () {
     $('#alert').fadeOut(200);
 }, 5000);
 
+
+//<div class="card col-4" style="width: 20rem; ">
+//    <div class="card-body">
+//        <h4 class="card-title mt-1">@e.Topic</h4>
+//        <h5 class="card-title mt-1">@e.Lecturer</h5>
+//        <h5 class="card-title mt-1">@e.Category</h5>
+//        <p class="mb-0"><span class="fw-bold">Starting Time: </span>@e.DateAndTime</p>
+//    </div>
+//</div>
+function makeCardTechProblem(clientsISP) {
+    let presentationElement = document.getElementById("demoCard");
+    let clientId = document.getElementById("ClientId").value;
+    presentationElement.innerHTML = "";
+    let findedClient = clientsISP.find(c => c.Id === clientId);
+    if (findedClient) {
+        presentationElement.removeAttribute("hidden");
+        presentationElement.className = "card col-12";
+        let div = domCreator("div", "", presentationElement, "", ["card-body"]);
+        domCreator("h4", findedClient.FullName, div, "", ["card-title", "mt-1"]);
+        domCreator("h5", findedClient.Phone, div, "", ["card-title", "mt-1"]);
+        domCreator("h5", findedClient.Address, div, "", ["card-title", "mt-1"]);
+        domCreator("h5", findedClient.Email, div, "", ["card-title", "mt-1"]);
+    }
+}
 function domCreator(type, content, parent, id, classes, attributes) {
     let newElement = document.createElement(type);
 

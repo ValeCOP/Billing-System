@@ -18,5 +18,17 @@
         [Required]
         [MaxLength(10)]
         public string ExpiredDate { get; set; } = null!;
+
+        [Required]
+        [MaxLength(500)]
+        public string Address { get; set; } = null!;
+
+        [Required]
+        [MaxLength(500)]
+        public string Email { get; set; } = null!;
+
+        [Required]
+        [MaxLength(500)]
+        public string Phone { get; set; } = null!;
     }
 }

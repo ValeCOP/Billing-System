@@ -9,7 +9,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="ClientId" class="control-label"></label>
-                    <select asp-for="ClientId" class="form-control">
+                    <select asp-for="ClientId" class="form-control" onchange="makeCardTechProblem(@JsonConvert.SerializeObject(Model.Clients))">
                         <option value="">--Please choose Client--</option>
                         @foreach (var client in Model.Clients)
                         {
@@ -38,14 +38,8 @@
         </div>
         <div class="col-md-8 shadow-lg p-3">
             <h4>Active TechProblems</h4>
-            <div class="card col-4" style="width: 20rem; ">
-                <div class="card-body">
-                    <h4 class="card-title mt-1">Topic</h4>
-                    <h5 class="card-title mt-1">Lecturer</h5>
-                    <h5 class="card-title mt-1">Category</h5>
-                    <p class="mb-0"><span class="fw-bold">Starting Time: </span>DateAndTime</p>
-                </div>
-            </div>
+            <div id="demoCard" hidden></div>
+           
         </div>
     </div>
 </div>

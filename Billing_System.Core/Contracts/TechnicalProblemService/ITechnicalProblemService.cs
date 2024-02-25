@@ -5,6 +5,6 @@
 
     public interface ITechnicalProblemService
     {
-        Task<ICollection<ClientsNamesModel>> GetClientsAsync();
+        Task<ICollection<ClientsInfoModel>> GetClientsAsync();
     }
 }
