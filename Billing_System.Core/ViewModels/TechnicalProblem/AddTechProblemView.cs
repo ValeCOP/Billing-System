@@ -21,10 +21,11 @@
         [Required]
         public string ClientName { get; set; } = null!;
 
-        public ICollection<ClientsInfoModel> Clients { get; set; } = new List<ClientsInfoModel>();
-
         [Required]
         public Guid RegisterProblemUserId { get; set; }
+        public ICollection<ClientsInfoModel> Clients { get; set; } = new List<ClientsInfoModel>();
+        public ICollection<AllTechProblemViewModel> TechnicalProblems { get; set; } = new List<AllTechProblemViewModel>();
+
        
 
     }

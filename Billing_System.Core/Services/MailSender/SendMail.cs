@@ -1,4 +1,4 @@
-﻿namespace Billing_System.Utilities.MailSender
+﻿namespace Billing_System.Core.MailSender
 {
     using System.Net.Mail;
     using System.Net;

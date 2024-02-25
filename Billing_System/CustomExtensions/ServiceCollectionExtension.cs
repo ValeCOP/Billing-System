@@ -8,6 +8,7 @@
     using Billing_System.Core.Contracts.Receipt;
     using Billing_System.Core.Contracts.TechnicalProblemService;
     using Billing_System.Core.Contracts.Users;
+    using Billing_System.Core.MailSender;
     using Billing_System.Core.Services.Archive;
     using Billing_System.Core.Services.Clients;
     using Billing_System.Core.Services.Home;
@@ -32,6 +33,7 @@
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IArchiveService, ArchiveService>();
             services.AddScoped<ITechnicalProblemService, TechnicalProblemService>();
+            services.AddScoped<ISendMail, SendMail>();
 
 
             return services;
