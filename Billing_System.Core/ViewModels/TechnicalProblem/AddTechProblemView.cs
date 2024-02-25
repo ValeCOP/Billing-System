@@ -12,6 +12,10 @@
         public DateTime RegisteredOn { get; set; } = DateTime.Now;
 
         [Required]
+        [Display(Name = "Send Mail")]
+        public bool SendMail { get; set; }
+
+        [Required]
         public Guid ClientId { get; set; }
 
         [Required]

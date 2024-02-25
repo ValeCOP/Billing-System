@@ -2,29 +2,25 @@
 @{
     ViewData["Title"] = "All";
 }
-<h2><i class="fa-solid fa-triangle-exclamation"></i> Add TechProblem</h2>
+<h2 ><i class="fa-solid fa-hand-dots"></i> All TechProblem</h2>
 <div class="shadow-lg" style="padding: 30px">
     <hr />
     <div class="row shadow-lg">
-        <div class="shadow-lg col-md-12 p-3" style="padding: 30px">
-            <h4>Report a problem</h4>
-            <hr />
-            @foreach (var item in Model)
-            {
-                <div class="card col-4" style="width: 20rem; ">
-                    <div class="card-body">
-                        <h5></h5><i class="fa-solid fa-triangle-exclamation"></i>
-                        <h4 class="card-title mt-1">@item.ClientName</h4>
-                        <hr />
-                        <h5 class="card-title mt-1">@item.Phone</h5>
-                        <h5 class="card-title mt-1">@item.Address</h5>
-                        <h5 class="card-title mt-1">@item.RegisteredOn</h5>
-                        <h5 class="card-title mt-1">@item.RegisterProblemUserName</h5>
-                        <p class="mb-0"><span class="fw-bold">Description: </span>@item.Description</p>
-                    </div>
-                </div>
-            }
-        </div>
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 shadow-lg p-3">
+                    <h5><i class="fa-solid fa-triangle-exclamation alert-danger"></i></h5>
+                    <h4 class="card-title mt-1">@item.ClientName</h4>
+                    <hr />
+                    <h5 class="card-title mt-1">@item.Phone</h5>
+                    <h5 class="card-title mt-1">@item.Address</h5>
+                    <h5 class="card-title mt-1">@item.RegisteredOn</h5>
+                    <h5 class="card-title mt-1">@item.RegisterProblemUserName</h5>
+                    <p class="mb-0"><span class="fw-bold">Description: </span>@item.Description</p>
+                    <a class="btn btn-outline-danger btn-sm mt-2" asp-controller="TechnicalProblem" asp-action="Resolve" asp-route-id="@item.Id"><i class="fa-brands fa-resolving"></i> Resolve</a>
+              
+            </div>
+        }
     </div>
 </div>
 

@@ -3,6 +3,7 @@
     using Billing_System.Core.Contracts.Archive;
     using Billing_System.Core.Contracts.Clients;
     using Billing_System.Core.Contracts.Home;
+    using Billing_System.Core.Contracts.MailSender;
     using Billing_System.Core.Contracts.Payments;
     using Billing_System.Core.Contracts.Receipt;
     using Billing_System.Core.Contracts.TechnicalProblemService;

@@ -40,6 +40,7 @@
            var allTechProblems = await _context.TechnicalProblems
                 .Select(t => new AllTechProblemViewModel
                 {
+                    Id = t.Id,
                     Description = t.Description,
                     Solved = t.Solved,
                     RegisteredOn = t.RegisteredOn,

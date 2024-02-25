@@ -2,7 +2,7 @@
 {
     public class AllTechProblemViewModel
     {
-        
+        public Guid Id { get; set; }
         public string Description { get; set; } = null!;
         public bool Solved { get; set; }
         public string Phone { get; set; } = null!;

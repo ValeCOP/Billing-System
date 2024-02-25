@@ -3,7 +3,9 @@
     using System.Net.Mail;
     using System.Net;
     using Microsoft.Extensions.Configuration;
-    public class SendMail
+    using Billing_System.Core.Contracts.MailSender;
+
+    public class SendMail : ISendMail
     {
         private readonly IConfiguration _configuration;
 
@@ -11,7 +13,7 @@
         {
             _configuration = configuration;
         }
-        public void SendEmail(string body, string description)
+        public void SendEmail(string subject,string body, string description)
         {
             var smtpServer = _configuration["EmailSettings:SmtpServer"];
             var smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]);
@@ -22,9 +24,9 @@
 
             MailMessage email = new();
             email.From = from;
-            email.To.Add("359888719126@sms.mtel.net,adminraiovo@gmail.com");
-            email.Subject = "INFOCAST SYSTEMS Messages";
-            email.Body = $"Text: {body} {Environment.NewLine}Description: {description}";
+            email.To.Add("359888719126@sms.mtel.net,adminraiovo@gmail.com,359883339303@sms.mtel.net");
+            email.Subject = subject;
+            email.Body = $"Text: {description} {Environment.NewLine}Description: {body}";
 
             SmtpClient smtp = new();
             smtp.Host = smtpServer;
