@@ -114,6 +114,8 @@
                 ExpiredDate = client.ExpiredDate.ToString("yyyy-MM-dd"),
                 Comments = client.Comments,
                 Address = client.Address,
+                Email = client.Email,
+                Phone = client.Phone,
                 ApplicationUser = client.ApplicationUser.UserName,
             };
 

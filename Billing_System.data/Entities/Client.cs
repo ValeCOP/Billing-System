@@ -26,6 +26,10 @@ namespace Billing_System.Data.Entities
 
         public string? Address { get; set; }
 
+        public string? Email { get; set; }
+
+        public string? Phone { get; set; }
+
         [Required]
         [ForeignKey("ApplicationUser")]
         public Guid UserId { get; set; }

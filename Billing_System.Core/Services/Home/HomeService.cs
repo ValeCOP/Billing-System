@@ -68,6 +68,9 @@
                                 FullName = client.FullName,
                                 ExpiredDate = expiredDate,
                                 ActivationDate = activationDate,
+                                Address = client.Address,
+                                Email = client.Email,
+                                Phone = client.Phone,
                             });
                         }
                     }
@@ -103,6 +106,9 @@
                 ExpiredDate = model.ExpiredDate,
                 Comments = HttpUtility.HtmlEncode(model.Comments),
                 UserId = Guid.Parse(userId),
+                Address = model.Address,
+                Email = model.Email,
+                Phone = model.Phone,
             };
             Payment payment = new()
             {

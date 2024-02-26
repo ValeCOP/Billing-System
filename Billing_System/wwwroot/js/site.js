@@ -9,8 +9,16 @@
     let findedClient = clientsISP.find(c => c.Id === clientId);
 
     if (findedClient) {
-        let element = document.getElementById("clientName");
-        element.value = findedClient.FullName;
+
+        document.getElementById("clientName").value = findedClient.FullName;
+        document.getElementById("clientPhone").value = findedClient.Phone;
+        document.getElementById("clientEmail").value = findedClient.Email;
+        document.getElementById("clientAddress").value = findedClient.Address;
+
+        let activatedDateValue = findedClient.ActivationDate.split("T")[0];
+        let expiredDateValue = findedClient.ExpiredDate.split("T")[0];
+        let today = new Date().toISOString().split("T")[0];
+        debugger;
 
         fetch("Api/Get")
             .then(response => response.json())
@@ -38,10 +46,16 @@
                     presentationElement.removeAttribute("hidden");
                     let div = domCreator("div", "", presentationElement, "", ["border-primary"])
                     div.setAttribute("style", "padding:10px")
-                    domCreator("p", "Replay from ISP Router: ", div, "", ["font-weight-bold"], { style: "padding-top: 5px" })
+                    domCreator("h6", "Replay from ISP Router: ", div, "", ["font-weight-bold"])
                     domCreator("hr", "", div);
-                    domCreator("div", "FROM Date: " + findedClient.ActivationDate.split("T")[0], div, "", ["text-danger", "fw-bold"], { style: "padding-top: 5px" })
-                    domCreator("div", "TO Date: " + findedClient.ExpiredDate.split("T")[0], div, "", ["text-danger", "fw-bold"], { style: "padding-top: 5px" })
+                    domCreator("h6", "Activated: " + findedClient.ActivationDate.split("T")[0], div, "", ["fw-bold"])
+                    if (today > expiredDateValue) {
+                        domCreator("h6", "--Expires: " + findedClient.ExpiredDate.split("T")[0], div, "", ["text-danger", "fw-bold"], { style: "padding-top: 1px" })
+                    }
+                    else {
+                        domCreator("h6", "--Expired: " + findedClient.ExpiredDate.split("T")[0], div, "", ["text-success", "fw-bold"], { style: "padding-top: 1px" })
+                    }
+                    domCreator("h6", "Tel: " + findedClient.Phone, div, "", ["card-title"]);
                     domCreator("hr", "", div);
                 }
             })
@@ -49,6 +63,7 @@
     }
 
 }
+
 setTimeout(function () {
     $('#alert').fadeOut(200);
 }, 5000);
@@ -78,7 +93,7 @@ function makeCardTechProblem(clientsISP) {
     let demoDesk = document.getElementById("demoDesc");
     demoDesk.removeAttribute("hidden");
     demoDesk.innerHTML = "";
-    let h5 = domCreator("h5", "", demoDesk, "", ["card","col-12"]);
+    let h5 = domCreator("h5", "", demoDesk, "", ["card", "col-12"]);
     commentElement.addEventListener("input", function () {
         h5.innerHTML = commentElement.value;
     });

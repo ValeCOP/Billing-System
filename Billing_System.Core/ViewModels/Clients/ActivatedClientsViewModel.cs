@@ -16,6 +16,10 @@
 
         public string? Address { get; set; }
 
+        public string? Email { get; set; }
+
+        public string? Phone { get; set; }
+
         public string ApplicationUser { get; set; } = null!;
 
         public ICollection<PaymentsDetailsView> Payments { get; set; } = new List<PaymentsDetailsView>();
