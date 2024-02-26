@@ -14,15 +14,18 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="ClientId" class="control-label"></label>
-                    <select asp-for="ClientId" class="form-control" onchange="makeCardTechProblem(@JsonConvert.SerializeObject(Model.Clients))">
+                    <select asp-for="ClientId" class="form-control" onchange="makeCardTechProblem(@JsonConvert.SerializeObject(Model.ClientsFromISPRouter))">
                         <option value="">--Please choose Client--</option>
-                        @foreach (var client in Model.Clients)
+                        @foreach (var client in Model.ClientsFromISPRouter)
                         {
                             <option value="@client.Id">@client.FullName</option>
                         }
                     </select>
                     <span asp-validation-for="ClientId" class="text-danger"></span>
                 </div>
+                <input id="clientPhone" name="ClientPhone" >
+                <input id="clientEmail" name="ClientEmail" >
+                <input id="clientAddress" name="ClientAddress" >
                 <div class="form-group">
                     <input asp-for="ClientName" id="ClientNameId" hidden />
                 </div>
@@ -66,11 +69,14 @@
                 <h5><i class="fa-solid fa-triangle-exclamation alert-danger"></i></h5>
                 <h4 class="card-title mt-1">@item.ClientName</h4>
                 <hr />
-                <h5 class="card-title mt-1">@item.Phone</h5>
-                <h5 class="card-title mt-1">@item.Address</h5>
-                <h5 class="card-title mt-1">@item.RegisteredOn</h5>
+                <h5 class="card-title mt-1">Tel: @item.ClientPhone</h5>
+                <h5 class="card-title mt-1">Address: @item.ClientAddress</h5>
+                <h5 class="card-title mt-1">Email: @item.ClientEmail</h5>
+                <h5 class="card-title mt-1"><i class="fa-regular fa-clock"></i> @item.RegisteredOn</h5>
+                <hr />
+                <h5><span class="fw-bold">Description: </span>@item.Description</h5>
+                <hr />
                 <h5 class="card-title mt-1">@item.RegisterProblemUserName</h5>
-                <p class="mb-0"><span class="fw-bold">Description: </span>@item.Description</p>
                 <a class="btn btn-outline-danger btn-sm mt-2" asp-controller="TechnicalProblem" asp-action="Resolve" asp-route-id="@item.Id"><i class="fa-brands fa-resolving"></i> Resolve</a>
 
             </div>

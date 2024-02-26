@@ -29,7 +29,10 @@
                 ClientName = model.ClientName,
                 RegisterProblemUserId = model.RegisterProblemUserId,
                 RegisteredOn = DateTime.Now,
-                Solved = false
+                Solved = false,
+                ClientPhone = model.ClientPhone,
+                ClientAddress = model.ClientAddress,
+                ClientEmail = model.ClientEmail
             };
             _context.TechnicalProblems.Add(technicalProblem);
             await _context.SaveChangesAsync();
@@ -45,6 +48,9 @@
                     Solved = t.Solved,
                     RegisteredOn = t.RegisteredOn,
                     ClientName = t.ClientName,
+                    ClientPhone = t.ClientPhone,
+                    ClientAddress = t.ClientAddress,
+                    ClientEmail = t.ClientEmail,
                     RegisterProblemUserName = t.RegisterProblemUser.UserName,
                 }).ToListAsync();
             return allTechProblems;

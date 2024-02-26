@@ -35,7 +35,7 @@
                 AddTechProblemView model = new()
                 { 
                     RegisterProblemUserId = Guid.Parse(_userManager.GetUserId(User)),
-                    Clients = await _technicalProblemService.GetClientsAsync(),
+                    ClientsFromISPRouter = await _technicalProblemService.GetClientsAsync(),
                     TechnicalProblems = await _technicalProblemService.GetAllTechnicalProblemsAsync()
                 };
                 return View(model);
@@ -66,7 +66,7 @@
                     return RedirectToAction("All");
                 }
                
-                model.Clients = await _technicalProblemService.GetClientsAsync();
+                model.ClientsFromISPRouter = await _technicalProblemService.GetClientsAsync();
                 model.TechnicalProblems = await _technicalProblemService.GetAllTechnicalProblemsAsync();
 
                 return View(model);

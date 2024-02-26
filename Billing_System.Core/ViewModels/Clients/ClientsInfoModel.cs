@@ -1,4 +1,4 @@
-﻿namespace Billing_System.Core.ViewModels.TechnicalProblem
+﻿namespace Billing_System.Core.ViewModels.Clients
 {
     public class ClientsInfoModel
     {
@@ -9,7 +9,6 @@
         public string Address { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Phone { get; set; } = null!;
-
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace Billing_System.Core.ViewModels.TechnicalProblem
 {
+    using Billing_System.Core.ViewModels.Clients;
     using System.ComponentModel.DataAnnotations;
 
     public class AddTechProblemView
@@ -17,13 +18,16 @@
 
         [Required]
         public Guid ClientId { get; set; }
+        public string? ClientPhone { get; set; }
+        public string? ClientAddress { get; set; }
+        public string? ClientEmail { get; set; }
 
         [Required]
         public string ClientName { get; set; } = null!;
 
         [Required]
         public Guid RegisterProblemUserId { get; set; }
-        public ICollection<ClientsInfoModel> Clients { get; set; } = new List<ClientsInfoModel>();
+        public ICollection<ClientsInfoModel> ClientsFromISPRouter { get; set; } = new List<ClientsInfoModel>();
         public ICollection<AllTechProblemViewModel> TechnicalProblems { get; set; } = new List<AllTechProblemViewModel>();
 
        

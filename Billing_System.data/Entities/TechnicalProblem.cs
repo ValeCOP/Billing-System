@@ -25,6 +25,9 @@
         public DateTime? ResolvedOn { get; set; }
 
         public string ClientName { get; set; } = null!;
+        public string? ClientPhone { get; set; }
+        public string? ClientEmail { get; set; }
+        public string? ClientAddress { get; set; }
 
         [Required]
         [ForeignKey("RegisterProblemUser")]

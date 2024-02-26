@@ -75,6 +75,11 @@ function makeCardTechProblem(clientsISP) {
     presentationElement.innerHTML = "";
 
     let findedClient = clientsISP.find(c => c.Id === clientId);
+
+    document.getElementById("clientPhone").value = findedClient.Phone;
+    document.getElementById("clientEmail").value = findedClient.Email;
+    document.getElementById("clientAddress").value = findedClient.Address;
+
     let clientName = document.getElementById("ClientNameId");
 
     clientName.value = findedClient.FullName;

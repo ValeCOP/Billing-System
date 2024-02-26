@@ -1,5 +1,6 @@
 ﻿namespace Billing_System.Core.Contracts.TechnicalProblemService
 {
+    using Billing_System.Core.ViewModels.Clients;
     using Billing_System.Core.ViewModels.TechnicalProblem;
     using System.Collections.Generic;
 

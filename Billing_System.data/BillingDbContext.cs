@@ -11,9 +11,8 @@
         public BillingDbContext(DbContextOptions<BillingDbContext> options)
             : base(options)
         {
+            
             Database.EnsureCreated();
-            //migration
-            //Database.Migrate();
         }
         public DbSet<Client> Clients { get; set; } = null!;    
         public DbSet<Payment> Payments { get; set; } = null!;
