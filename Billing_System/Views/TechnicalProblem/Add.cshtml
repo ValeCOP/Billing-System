@@ -23,9 +23,9 @@
                     </select>
                     <span asp-validation-for="ClientId" class="text-danger"></span>
                 </div>
-                <input id="clientPhone" name="ClientPhone" >
-                <input id="clientEmail" name="ClientEmail" >
-                <input id="clientAddress" name="ClientAddress" >
+                <input id="clientPhone" name="ClientPhone" hidden>
+                <input id="clientEmail" name="ClientEmail" hidden>
+                <input id="clientAddress" name="ClientAddress" hidden>
                 <div class="form-group">
                     <input asp-for="ClientName" id="ClientNameId" hidden />
                 </div>
@@ -48,7 +48,7 @@
                     <input asp-for="RegisterProblemUserId" class="form-control" hidden />
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary mt-2" />
+                    <input type="submit" value="Create" class="btn btn-outline-primary mt-2" />
                 </div>
             </form>
         </div>
@@ -66,7 +66,14 @@
         @foreach (var item in Model.TechnicalProblems)
         {
             <div class="col-md-4 shadow-lg p-3">
-                <h5><i class="fa-solid fa-triangle-exclamation alert-danger"></i></h5>
+                @if (item.Solved)
+                {
+                    <h5 class="alert-success p-3">Resolved</h5>
+                }
+                else
+                {
+                    <h5 class="alert-danger p-3">Not resolved</h5>
+                }
                 <h4 class="card-title mt-1">@item.ClientName</h4>
                 <hr />
                 <h5 class="card-title mt-1">Tel: @item.ClientPhone</h5>
@@ -74,10 +81,19 @@
                 <h5 class="card-title mt-1">Email: @item.ClientEmail</h5>
                 <h5 class="card-title mt-1"><i class="fa-regular fa-clock"></i> @item.RegisteredOn</h5>
                 <hr />
-                <h5><span class="fw-bold">Description: </span>@item.Description</h5>
-                <hr />
-                <h5 class="card-title mt-1">@item.RegisterProblemUserName</h5>
-                <a class="btn btn-outline-danger btn-sm mt-2" asp-controller="TechnicalProblem" asp-action="Resolve" asp-route-id="@item.Id"><i class="fa-brands fa-resolving"></i> Resolve</a>
+                @if (!item.Solved)
+                {
+                    <h5><span class="fw-bold">Description: </span>@item.Description</h5>
+                    <hr />
+                    <h5 class="card-title mt-1">User: @item.RegisterProblemUserName</h5>
+                    <a class="btn btn-outline-danger btn-sm mt-2" asp-controller="TechnicalProblem" asp-action="Resolve" asp-route-id="@item.Id"><i class="fa-brands fa-resolving"></i> Resolve</a>
+                }
+                else
+                {
+                    <h6><span class="fw-bold">Resolved: </span>@item.ResolvedOn</h6>
+                    <h6><span class="fw-bold">Resolved by: </span>@item.ResolvedProblemUserName</h6>
+                    <h5><span class="fw-bold">Solution: </span>@item.Solution</h5>
+                }
 
             </div>
         }

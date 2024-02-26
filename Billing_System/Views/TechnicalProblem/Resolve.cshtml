@@ -1,19 +1,17 @@
 ﻿@model ResolveTechProblem
 
-
-
 @{
     ViewData["Title"] = "Resolve";
 }
 
-<h2><i class="fa-solid fa-triangle-exclamation"></i> Add TechProblem</h2>
+<h2><i class="fa-solid fa-triangle-exclamation"></i> Solve TechProblem</h2>
 <div class="shadow-lg" style="padding: 30px">
     <hr />
     <div class="row shadow-lg">
         <div class="shadow-lg col-md-4 p-3">
-            <h4>Report a problem</h4>
+            <h4>Solve problem</h4>
             <hr />
-            <form asp-action="Add">
+            <form asp-action="Resolve">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
@@ -31,7 +29,7 @@
                     </label>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary mt-2" />
+                    <input type="submit" value="Resolve" class="btn btn-outline-primary mt-2" />
                 </div>
             </form>
         </div>
@@ -59,17 +57,34 @@
                         @Html.DisplayFor(model => model.ClientName)
                     </dd>
                     <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.ClientEmail)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.ClientEmail)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.ClientPhone)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.ClientPhone)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.ClientAddress)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.ClientAddress)
+                    </dd>
+                    <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.RegisterProblemUserName)
                     </dt>
                     <dd class="col-sm-10">
                         @Html.DisplayFor(model => model.RegisterProblemUserName)
                     </dd>
                 </dl>
+                <hr />
             </div>
-
         </div>
     </div>
-
 </div>
 
 @section Scripts {

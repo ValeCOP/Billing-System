@@ -45,13 +45,16 @@
                 {
                     Id = t.Id,
                     Description = t.Description,
+                    Solution = t.Solution!,
                     Solved = t.Solved,
                     RegisteredOn = t.RegisteredOn,
+                    ResolvedOn = t.ResolvedOn,
                     ClientName = t.ClientName,
                     ClientPhone = t.ClientPhone,
                     ClientAddress = t.ClientAddress,
                     ClientEmail = t.ClientEmail,
                     RegisterProblemUserName = t.RegisterProblemUser.UserName,
+                    ResolvedProblemUserName = t.ResolvedProblemUser.UserName
                 }).ToListAsync();
             return allTechProblems;
         }
@@ -84,6 +87,36 @@
                });
             }
             return clientsNames.OrderBy( c => c.FullName).ToList();
+        }
+
+        public async Task<ResolveTechProblem> GetTechnicalProblemByIdAsync(Guid id)
+        {
+            var technicalProblem = await _context.TechnicalProblems
+                .Where(t => t.Id == id)
+                .Select(t => new ResolveTechProblem
+                {
+                    Id = t.Id,
+                    Description = t.Description,
+                    Solved = t.Solved,
+                    RegisteredOn = t.RegisteredOn,
+                    ClientName = t.ClientName,
+                    ClientPhone = t.ClientPhone,
+                    ClientAddress = t.ClientAddress,
+                    ClientEmail = t.ClientEmail,
+                    RegisterProblemUserName = t.RegisterProblemUser.UserName,
+                }).FirstOrDefaultAsync();
+            return technicalProblem!;
+        }
+
+        public async Task ResolveTechnicalProblemAsync(string description,bool solved,Guid tpId, Guid userId)
+        {
+            var technicalProblem = await _context.TechnicalProblems.FindAsync(tpId);
+            technicalProblem!.Solved = solved;
+            technicalProblem.ResolvedOn  = DateTime.Now;
+            technicalProblem.ResolvedProblemUserId = userId;
+            technicalProblem.Solution = description;
+            _context.TechnicalProblems.Update(technicalProblem);
+            await _context.SaveChangesAsync();
         }
     }
 }

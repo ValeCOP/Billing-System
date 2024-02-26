@@ -8,6 +8,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
+    using MySqlConnector;
     using System.Diagnostics;
     using static Billing_System.Areas.Admin.Constants.AdminConstants;
 
@@ -33,7 +35,7 @@
             try
             {
                 AddTechProblemView model = new()
-                { 
+                {
                     RegisterProblemUserId = Guid.Parse(_userManager.GetUserId(User)),
                     ClientsFromISPRouter = await _technicalProblemService.GetClientsAsync(),
                     TechnicalProblems = await _technicalProblemService.GetAllTechnicalProblemsAsync()
@@ -63,9 +65,9 @@
                     {
                         _sendMail.SendEmail("Technical Problem", model.Description, model.ClientName);
                     }
-                    return RedirectToAction("All");
+                    return RedirectToAction("Add");
                 }
-               
+
                 model.ClientsFromISPRouter = await _technicalProblemService.GetClientsAsync();
                 model.TechnicalProblems = await _technicalProblemService.GetAllTechnicalProblemsAsync();
 
@@ -80,6 +82,39 @@
                 });
             }
         }
+        //resolve
+        public async Task<IActionResult> Resolve(Guid id)
+        {
+            try
+            {
+                ResolveTechProblem model = await _technicalProblemService.GetTechnicalProblemByIdAsync(id);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = ex.Message
+                });
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Resolve(ResolveTechProblemView model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _technicalProblemService.ResolveTechnicalProblemAsync(
+                    model.Description,
+                    model.Solved,
+                    model.Id,
+                    Guid.Parse(_userManager.GetUserId(User)));
+                return RedirectToAction("Add");
+            }
+            ModelState.AddModelError(string.Empty, "Invalid data!");
+            return View(model);
 
+           
+        }
     }
 }
