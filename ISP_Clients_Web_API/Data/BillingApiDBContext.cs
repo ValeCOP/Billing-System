@@ -1,12 +1,9 @@
 ﻿namespace ISP_Clients_Web_API.Data
 {
     using ISP_Clients_Web_API.Data.Entities;
-    using ISP_Clients_Web_API.ViewModels;
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
     using System.Collections.Generic;
-    using System.Text;
 
     public class BillingApiDBContext : DbContext
     {

@@ -3,10 +3,11 @@ namespace ISP_Clients_Web_API.Controllers
     using ISP_Clients_Web_API.Data;
     using ISP_Clients_Web_API.Data.Entities;
     using ISP_Clients_Web_API.ViewModels;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
     using System.Globalization;
-
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ClientsController : ControllerBase

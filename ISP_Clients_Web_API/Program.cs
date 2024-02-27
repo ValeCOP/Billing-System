@@ -1,7 +1,10 @@
 namespace ISP_Clients_Web_API
 {
     using ISP_Clients_Web_API.Data;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.IdentityModel.Tokens;
+    using System.Text;
 
     public class Program
     {
@@ -14,10 +17,26 @@ namespace ISP_Clients_Web_API
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+           
+            var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
+            var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
 
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+             .AddJwtBearer(options =>
+             {
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+                     ValidIssuer = jwtIssuer,
+                     ValidAudience = jwtIssuer,
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+                 };
+             });
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -30,9 +49,9 @@ namespace ISP_Clients_Web_API
                 app.UseSwaggerUI();
             }
 
-
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
