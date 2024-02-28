@@ -13,5 +13,6 @@
         Task<ResolveTechProblem> GetTechnicalProblemByIdAsync(Guid id);
         Task ResolveTechnicalProblemAsync(string desc,bool solved,Guid tpId, Guid userId);
         Task<int> GetTechnicalCountAsync();
+        Task DeleteTechnicalProblemAsync(Guid id);
     }
 }

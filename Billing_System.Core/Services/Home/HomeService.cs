@@ -170,8 +170,10 @@
 
             var loginModel = new
             {
-                Username = _configuration.GetSection("JWTCredentials:Username").Value,
-                Password = _configuration.GetSection("JWTCredentials:Password").Value,
+                //Username = _configuration.GetSection("JWTCredentials:Username").Value,
+                //Password = _configuration.GetSection("JWTCredentials:Password").Value,
+                Username = "admin", 
+                Password = "admin",
             };
             var jsonContentOnPost = JsonConvert.SerializeObject(loginModel);
             var content = new StringContent(jsonContentOnPost, Encoding.UTF8, "application/json");

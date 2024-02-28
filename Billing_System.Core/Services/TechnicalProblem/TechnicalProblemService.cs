@@ -46,7 +46,9 @@
         {
 
             var allTechProblems = _context.TechnicalProblems
-                 .AsQueryable();
+                .OrderByDescending(t => !t.Solved)
+                .ThenBy(t => t.RegisteredOn)
+                .AsQueryable();
             if (!string.IsNullOrEmpty(modelGetForm.Filter))
             {
                 allTechProblems = allTechProblems.Where(t => t.ClientName.ToLower().Contains(modelGetForm.Filter.ToLower()));
@@ -63,7 +65,7 @@
                     "ResolvedOnDesc" => allTechProblems.OrderByDescending(t => t.ResolvedOn),
                     "ApplicationUser" => allTechProblems.OrderBy(t => t.RegisterProblemUser.UserName),
                     "ApplicationUserDesc" => allTechProblems.OrderByDescending(t => t.RegisterProblemUser.UserName),
-                    _ => allTechProblems.OrderBy(t => t.RegisteredOn)
+                    _ => allTechProblems.OrderByDescending(t => t.RegisteredOn)
                 };
             }
             allTechProblems = allTechProblems.Skip((modelGetForm.CurrentPage - 1) * 3).Take(3);
@@ -146,10 +148,17 @@
             await _context.SaveChangesAsync();
         }
 
-        public Task<int> GetTechnicalCountAsync()
+        public async Task<int> GetTechnicalCountAsync()
         {
-            var count = _context.TechnicalProblems.CountAsync();
+            var count = await _context.TechnicalProblems.CountAsync();
             return count;
+        }
+
+        public async Task DeleteTechnicalProblemAsync(Guid id)
+        {
+            var technicalProblem = await _context.TechnicalProblems.FindAsync(id);
+            _context.TechnicalProblems.Remove(technicalProblem!);
+            await _context.SaveChangesAsync();
         }
     }
 }

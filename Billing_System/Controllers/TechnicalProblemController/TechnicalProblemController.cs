@@ -12,7 +12,6 @@
     using static Billing_System.Areas.Admin.Constants.AdminConstants;
 
 
-    [Authorize(Roles = AdministratorRoleName)]
     public class TechnicalProblemController : Controller
     {
         private readonly ITechnicalProblemService _technicalProblemService;
@@ -62,7 +61,7 @@
                     {
                         _sendMail.SendEmail("Technical Problem", model.Description, model.ClientName);
                     }
-                    return RedirectToAction("Add");
+                    return RedirectToAction("All");
                 }
 
                 model.ClientsFromISPRouter = await _technicalProblemService.GetClientsAsync();
@@ -105,12 +104,12 @@
                     model.Solved,
                     model.Id,
                     Guid.Parse(_userManager.GetUserId(User)));
-                return RedirectToAction("Add");
+                return RedirectToAction("All");
             }
             ModelState.AddModelError(string.Empty, "Invalid data!");
             return View(model);
         }
-        //all
+        
         public async Task<IActionResult> All(FilteredTechProblemsViewModel modelGetForm)
         {
             
@@ -124,6 +123,23 @@
                 model.ProblemsCount = model.TechnicalProblems.Count;
                 model.CurrentPage = modelGetForm.CurrentPage;
                 return View(model);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = ex.Message
+                });
+            }
+        }
+        //delete
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await _technicalProblemService.DeleteTechnicalProblemAsync(id);
+                return RedirectToAction("All");
             }
             catch (Exception ex)
             {
