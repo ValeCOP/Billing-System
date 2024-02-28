@@ -59,7 +59,15 @@
                     await _technicalProblemService.AddTechnicalProblemAsync(model);
                     if (model.SendMail)
                     {
-                        _sendMail.SendEmail("Technical Problem", model.Description, model.ClientName);
+                        try
+                        {
+                            _sendMail.SendEmail("Technical Problem", model.Description, model.ClientName);
+                        }
+                        catch (Exception)
+                        {
+                            TempData["message"] = "Email not sent!";
+                            RedirectToAction("All");
+                        }
                     }
                     return RedirectToAction("All");
                 }
@@ -109,10 +117,10 @@
             ModelState.AddModelError(string.Empty, "Invalid data!");
             return View(model);
         }
-        
+
         public async Task<IActionResult> All(FilteredTechProblemsViewModel modelGetForm)
         {
-            
+
             try
             {
                 var model = new FilteredTechProblemsViewModel

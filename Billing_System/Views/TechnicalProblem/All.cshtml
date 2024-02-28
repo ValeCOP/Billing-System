@@ -9,6 +9,14 @@
     <div class="row shadow-lg">
         <div class="row shadow-lg">
             <h4 class="mt-5">All problems</h4>
+
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-danger" id="alert">
+                    <label>✖</label>
+                    @TempData["message"]
+                </div>
+            }
             <div class="col-md-2 mb-3">
                 <a class="btn btn-danger mt-2" asp-controller="TechnicalProblem" asp-action="Add">Add new</a>
             </div>
@@ -57,7 +65,7 @@
                     </div>
 
                     @{
-                        var shouldButtonBeDisabled = Model.CurrentPage >= Model.ProblemsCount;
+                        var shouldButtonBeDisabled = Model.ProblemsCount < 3;
                     }
 
                     <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
@@ -102,7 +110,10 @@
                         <h6><span class="fw-bold">Resolved: </span>@item.ResolvedOn?.ToString("R")</h6>
                         <h6><span class="fw-bold">Resolved by: </span>@item.ResolvedProblemUserName</h6>
                         <h5><span class="fw-bold">Solution: </span>@item.Solution</h5>
-                        <a class="btn btn-outline-danger btn-sm mt-2" asp-controller="TechnicalProblem" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <a class="btn btn-outline-danger btn-sm mt-2" asp-controller="TechnicalProblem" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
                     }
 
                 </div>

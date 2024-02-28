@@ -2,6 +2,6 @@
 {
     public interface ISendMail
     {
-        public void SendEmail(string subject,string body, string description);
+        public void SendEmail(string subject,string body, string clirntName);
     }
 }
