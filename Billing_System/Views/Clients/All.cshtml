@@ -33,7 +33,6 @@
                         <option value="ExpiredDateDesc">Expired Date (Desc)</option>
                         <option value="ApplicationUser">User</option>
                         <option value="ApplicationUserDesc">User (Desc)</option>
-
                     </select>
                 </div>
             </form>
@@ -93,23 +92,6 @@
                         }
                     </tbody>
                 </table>
-            </div>
-            <div class="row">
-                    <div class="row mb-5">
-                        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
-                            <a class="btn btn-outline-primary @(ViewBag.CurrentPage == 1 ? "disabled" : string.Empty)"
-                               href="/Clients/All?page=@(ViewBag.CurrentPage - 1)">Previous</a>
-                        </div>
-
-                        @{
-                        var beDisabled = ViewBag.CurrentPage == ViewBag.TotalPages || 2 > Model.Count();
-                        }
-
-                        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a class="btn btn-outline-primary @(beDisabled ? "disabled" : string.Empty)"
-                               href="/Clients/All?page=@(ViewBag.CurrentPage + 1)">Next</a>
-                        </div>
-                    </div>
             </div>
         </div>
     </div>

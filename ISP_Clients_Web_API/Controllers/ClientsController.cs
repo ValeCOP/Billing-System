@@ -4,7 +4,6 @@ namespace ISP_Clients_Web_API.Controllers
     using ISP_Clients_Web_API.Data.Entities;
     using ISP_Clients_Web_API.ViewModels;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using System.Globalization;
     [Authorize]
@@ -27,6 +26,14 @@ namespace ISP_Clients_Web_API.Controllers
                 .OrderBy(c => c.FullName)
                 .ToList();
         }
+        [HttpGet("{id}")]
+        [Produces("application/json")]
+        public Client GetById(Guid Id)
+        {
+            return _context.ClientsISP
+                .FirstOrDefault(c => c.Id == Id)!;
+        }
+
         [HttpPatch("{id}")]
         [Produces("application/json")]
         public IActionResult Patch(Guid id, [FromBody] CreateClientViewModel client)

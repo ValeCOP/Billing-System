@@ -7,5 +7,6 @@
         Task ActivateClientAsync(ActiveISPClientsFormModel model, string userId);
         Task<ActiveISPClientsFormModel> ImportISPRouterDataAsync();
         Task UpdateISPRouterDataAsync(Guid clientId);
+        Task<string> GetJWTAsync();
     }
 }

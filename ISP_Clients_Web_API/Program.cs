@@ -36,13 +36,24 @@ namespace ISP_Clients_Web_API
                  };
              });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://example.com")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+            app.UseCors("AllowSpecificOrigin");
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -53,7 +64,6 @@ namespace ISP_Clients_Web_API
 
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 

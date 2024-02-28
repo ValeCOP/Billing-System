@@ -18,7 +18,6 @@
         let activatedDateValue = findedClient.ActivationDate.split("T")[0];
         let expiredDateValue = findedClient.ExpiredDate.split("T")[0];
         let today = new Date().toISOString().split("T")[0];
-        debugger;
 
         fetch("Api/Get")
             .then(response => response.json())

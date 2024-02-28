@@ -1,5 +1,6 @@
 ﻿namespace Billing_System.Core.Services.TechnicalProblem
 {
+    using Billing_System.Core.Contracts.Home;
     using Billing_System.Core.Contracts.TechnicalProblemService;
     using Billing_System.Core.ViewModels.Clients;
     using Billing_System.Core.ViewModels.TechnicalProblem;
@@ -8,14 +9,17 @@
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
     using System.Collections.Generic;
+    using System.Net.Http.Headers;
 
     public class TechnicalProblemService : ITechnicalProblemService
     {
         private readonly HttpClient _httpClient;
         private readonly BillingDbContext _context;
+        private readonly IHomeService _homeService;
 
-        public TechnicalProblemService(HttpClient httpClient,BillingDbContext dbContext)
+        public TechnicalProblemService(HttpClient httpClient, BillingDbContext dbContext, IHomeService homeService)
         {
+            _homeService = homeService;
             _context = dbContext;
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("https://localhost:7231");
@@ -38,30 +42,53 @@
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ICollection<AllTechProblemViewModel>> GetAllTechnicalProblemsAsync()
+        public async Task<ICollection<AllTechProblemViewModel>> GetTechnicalProblemsAsync(FilteredTechProblemsViewModel modelGetForm)
         {
-           var allTechProblems = await _context.TechnicalProblems
-                .Select(t => new AllTechProblemViewModel
+
+            var allTechProblems = _context.TechnicalProblems
+                 .AsQueryable();
+            if (!string.IsNullOrEmpty(modelGetForm.Filter))
+            {
+                allTechProblems = allTechProblems.Where(t => t.ClientName.ToLower().Contains(modelGetForm.Filter.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(modelGetForm.OrderBy))
+            {
+                allTechProblems = modelGetForm.OrderBy switch
                 {
-                    Id = t.Id,
-                    Description = t.Description,
-                    Solution = t.Solution!,
-                    Solved = t.Solved,
-                    RegisteredOn = t.RegisteredOn,
-                    ResolvedOn = t.ResolvedOn,
-                    ClientName = t.ClientName,
-                    ClientPhone = t.ClientPhone,
-                    ClientAddress = t.ClientAddress,
-                    ClientEmail = t.ClientEmail,
-                    RegisterProblemUserName = t.RegisterProblemUser.UserName,
-                    ResolvedProblemUserName = t.ResolvedProblemUser.UserName
-                }).ToListAsync();
-            return allTechProblems;
+                    "FullName" => allTechProblems.OrderBy(t => t.ClientName),
+                    "FullNameDesc" => allTechProblems.OrderByDescending(t => t.ClientName),
+                    "RegisteredOn" => allTechProblems.OrderBy(t => t.RegisteredOn),
+                    "RegisteredOnDesc" => allTechProblems.OrderByDescending(t => t.RegisteredOn),
+                    "ResolvedOn" => allTechProblems.OrderBy(t => t.ResolvedOn),
+                    "ResolvedOnDesc" => allTechProblems.OrderByDescending(t => t.ResolvedOn),
+                    "ApplicationUser" => allTechProblems.OrderBy(t => t.RegisterProblemUser.UserName),
+                    "ApplicationUserDesc" => allTechProblems.OrderByDescending(t => t.RegisterProblemUser.UserName),
+                    _ => allTechProblems.OrderBy(t => t.RegisteredOn)
+                };
+            }
+            allTechProblems = allTechProblems.Skip((modelGetForm.CurrentPage - 1) * 3).Take(3);
+            return await allTechProblems.Select(t => new AllTechProblemViewModel
+            {
+                Id = t.Id,
+                Description = t.Description,
+                Solution = t.Solution!,
+                Solved = t.Solved,
+                RegisteredOn = t.RegisteredOn,
+                ResolvedOn = t.ResolvedOn,
+                ClientName = t.ClientName,
+                ClientPhone = t.ClientPhone,
+                ClientAddress = t.ClientAddress,
+                ClientEmail = t.ClientEmail,
+                RegisterProblemUserName = t.RegisterProblemUser.UserName,
+                ResolvedProblemUserName = t.ResolvedProblemUser.UserName
+            }).ToListAsync();
         }
 
         public async Task<ICollection<ClientsInfoModel>> GetClientsAsync()
         {
             var clientsNames = new List<ClientsInfoModel>();
+            var token = await _homeService.GetJWTAsync();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             HttpResponseMessage request = _httpClient.GetAsync("/Clients").Result;
 
@@ -75,18 +102,18 @@
 
             foreach (var client in clients_DTOs)
             {
-               clientsNames.Add(new ClientsInfoModel
-               {
-                   Id = client.Id,
-                   FullName = client.FullName,
-                   ActivationDate = DateTime.Parse(client.ActivationDate),
-                   ExpiredDate = DateTime.Parse(client.ExpiredDate),
-                   Address = client.Address,
-                   Email = client.Email,
-                   Phone = client.Phone
-               });
+                clientsNames.Add(new ClientsInfoModel
+                {
+                    Id = client.Id,
+                    FullName = client.FullName,
+                    ActivationDate = DateTime.Parse(client.ActivationDate),
+                    ExpiredDate = DateTime.Parse(client.ExpiredDate),
+                    Address = client.Address,
+                    Email = client.Email,
+                    Phone = client.Phone
+                });
             }
-            return clientsNames.OrderBy( c => c.FullName).ToList();
+            return clientsNames.OrderBy(c => c.FullName).ToList();
         }
 
         public async Task<ResolveTechProblem> GetTechnicalProblemByIdAsync(Guid id)
@@ -108,15 +135,21 @@
             return technicalProblem!;
         }
 
-        public async Task ResolveTechnicalProblemAsync(string description,bool solved,Guid tpId, Guid userId)
+        public async Task ResolveTechnicalProblemAsync(string description, bool solved, Guid tpId, Guid userId)
         {
             var technicalProblem = await _context.TechnicalProblems.FindAsync(tpId);
             technicalProblem!.Solved = solved;
-            technicalProblem.ResolvedOn  = DateTime.Now;
+            technicalProblem.ResolvedOn = DateTime.Now;
             technicalProblem.ResolvedProblemUserId = userId;
             technicalProblem.Solution = description;
             _context.TechnicalProblems.Update(technicalProblem);
             await _context.SaveChangesAsync();
+        }
+
+        public Task<int> GetTechnicalCountAsync()
+        {
+            var count = _context.TechnicalProblems.CountAsync();
+            return count;
         }
     }
 }

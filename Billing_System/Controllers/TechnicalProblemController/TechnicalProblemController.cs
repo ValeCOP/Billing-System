@@ -8,8 +8,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore.Metadata.Internal;
-    using MySqlConnector;
     using System.Diagnostics;
     using static Billing_System.Areas.Admin.Constants.AdminConstants;
 
@@ -37,8 +35,7 @@
                 AddTechProblemView model = new()
                 {
                     RegisterProblemUserId = Guid.Parse(_userManager.GetUserId(User)),
-                    ClientsFromISPRouter = await _technicalProblemService.GetClientsAsync(),
-                    TechnicalProblems = await _technicalProblemService.GetAllTechnicalProblemsAsync()
+                    ClientsFromISPRouter = await _technicalProblemService.GetClientsAsync()
                 };
                 return View(model);
 
@@ -69,7 +66,6 @@
                 }
 
                 model.ClientsFromISPRouter = await _technicalProblemService.GetClientsAsync();
-                model.TechnicalProblems = await _technicalProblemService.GetAllTechnicalProblemsAsync();
 
                 return View(model);
             }
@@ -113,8 +109,30 @@
             }
             ModelState.AddModelError(string.Empty, "Invalid data!");
             return View(model);
+        }
+        //all
+        public async Task<IActionResult> All(FilteredTechProblemsViewModel modelGetForm)
+        {
+            
+            try
+            {
+                var model = new FilteredTechProblemsViewModel
+                {
+                    TechnicalProblems = await _technicalProblemService.GetTechnicalProblemsAsync(modelGetForm)
 
-           
+                };
+                model.ProblemsCount = model.TechnicalProblems.Count;
+                model.CurrentPage = modelGetForm.CurrentPage;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = ex.Message
+                });
+            }
         }
     }
 }

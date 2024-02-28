@@ -10,7 +10,7 @@
         <div class="shadow-lg col-md-4 p-3">
             <h4>Report a problem</h4>
             <hr />
-            <form asp-action="Add">
+            <form asp-action="Add" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="ClientId" class="control-label"></label>
@@ -59,44 +59,6 @@
             <div id="demoDesc" hidden></div>
 
         </div>
-    </div>
-    <div class="row shadow-lg">
-        <h4 class="mt-5">All problems</h4>
-        <hr />
-        @foreach (var item in Model.TechnicalProblems)
-        {
-            <div class="col-md-4 shadow-lg p-3">
-                @if (item.Solved)
-                {
-                    <h5 class="alert-success p-3">Resolved</h5>
-                }
-                else
-                {
-                    <h5 class="alert-danger p-3">Not resolved</h5>
-                }
-                <h4 class="card-title mt-1">@item.ClientName</h4>
-                <hr />
-                <h5 class="card-title mt-1">Tel: @item.ClientPhone</h5>
-                <h5 class="card-title mt-1">Address: @item.ClientAddress</h5>
-                <h5 class="card-title mt-1">Email: @item.ClientEmail</h5>
-                <h5 class="card-title mt-1"><i class="fa-regular fa-clock"></i> @item.RegisteredOn</h5>
-                <hr />
-                @if (!item.Solved)
-                {
-                    <h5><span class="fw-bold">Description: </span>@item.Description</h5>
-                    <hr />
-                    <h5 class="card-title mt-1">User: @item.RegisterProblemUserName</h5>
-                    <a class="btn btn-outline-danger btn-sm mt-2" asp-controller="TechnicalProblem" asp-action="Resolve" asp-route-id="@item.Id"><i class="fa-brands fa-resolving"></i> Resolve</a>
-                }
-                else
-                {
-                    <h6><span class="fw-bold">Resolved: </span>@item.ResolvedOn</h6>
-                    <h6><span class="fw-bold">Resolved by: </span>@item.ResolvedProblemUserName</h6>
-                    <h5><span class="fw-bold">Solution: </span>@item.Solution</h5>
-                }
-
-            </div>
-        }
     </div>
 </div>
 

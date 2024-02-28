@@ -1,14 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 namespace Billing_System
 {
     using Billing_System.Core.CustomBinders;
     using Billing_System.Core.CustomExstensions;
     using Billing_System.CustomExtensions;
-    using Billing_System.Data;
-    using Billing_System.Data.Entities;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     public class Program
     {
@@ -34,8 +29,6 @@ namespace Billing_System
             });
 
             var app = builder.Build();
-
-
 
             if (app.Environment.IsDevelopment())
             {

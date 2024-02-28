@@ -28,9 +28,6 @@
         [Required]
         public Guid RegisterProblemUserId { get; set; }
         public ICollection<ClientsInfoModel> ClientsFromISPRouter { get; set; } = new List<ClientsInfoModel>();
-        public ICollection<AllTechProblemViewModel> TechnicalProblems { get; set; } = new List<AllTechProblemViewModel>();
-
-       
 
     }
 }
