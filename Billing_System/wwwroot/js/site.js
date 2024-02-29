@@ -14,8 +14,7 @@
         document.getElementById("clientPhone").value = findedClient.Phone;
         document.getElementById("clientEmail").value = findedClient.Email;
         document.getElementById("clientAddress").value = findedClient.Address;
-
-        let activatedDateValue = findedClient.ActivationDate.split("T")[0];
+        
         let expiredDateValue = findedClient.ExpiredDate.split("T")[0];
         let today = new Date().toISOString().split("T")[0];
 
@@ -129,5 +128,11 @@ function domCreator(type, content, parent, id, classes, attributes) {
     }
     return newElement;
 }
+
+$(document).ready(function () {
+    $('#clientId').selectize({
+        sortField: 'text'
+    });
+});
 
 
