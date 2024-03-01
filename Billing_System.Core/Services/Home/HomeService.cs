@@ -5,9 +5,7 @@
     using Billing_System.Core.ViewModels.Payments;
     using Billing_System.Data;
     using Billing_System.Data.Entities;
-    using Castle.Core.Configuration;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Globalization;
@@ -22,27 +20,27 @@
     public class HomeService : IHomeService
     {
         private readonly BillingDbContext _context;
-        private readonly HttpClient _httpClient;
-        private readonly Microsoft.Extensions.Configuration.IConfiguration _configuration;
+        private readonly IHttpClientFactory _clientFactory;
+        private string clientsUrl = "https://94.236.201.183:4231/Clients";
+        private string loginUrl = "https://94.236.201.183:4231/Login/Login";
 
-        public HomeService(BillingDbContext dbContext, HttpClient httpClient, Microsoft.Extensions.Configuration.IConfiguration configuration)
+        public HomeService(BillingDbContext dbContext, IHttpClientFactory clientFactory)
         {
-            _configuration = configuration;
+            _clientFactory = clientFactory;
             _context = dbContext;
-            _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://localhost:7231");
         }
+
         public async Task<ActiveISPClientsFormModel> ImportISPRouterDataAsync()
         {
             var clients = new List<ClientsFromISPModel>();
 
-            var token = await GetJWTAsync();
-            
             try
             {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var httpClient = _clientFactory.CreateClient("BillingServer");
+                
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetJWTAsync());
 
-                HttpResponseMessage response = await _httpClient.GetAsync("/Clients");
+                HttpResponseMessage response = await httpClient.GetAsync(clientsUrl);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -151,13 +149,14 @@
                 ExpiredDate = client.ExpiredDate.ToString(AppExpiredDateFormat),
             };
 
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetJWTAsync());
+            var httpClient = _clientFactory.CreateClient("BillingServer");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetJWTAsync());
 
             var jsonContentOnPatch = JsonConvert.SerializeObject(clientToUpdate);
 
             var content = new StringContent(jsonContentOnPatch, Encoding.UTF8, "application/json");
 
-            var result = await _httpClient.PatchAsync("/Clients/" + client.Id.ToString(), content);
+            var result = await httpClient.PatchAsync("/Clients/" + client.Id.ToString(), content);
 
             if (!result.IsSuccessStatusCode)
             {
@@ -166,19 +165,20 @@
         }
         public async Task<string> GetJWTAsync()
         {
-            var apiUrl = "https://localhost:7231/Login/login";
+
+            var httpClient = _clientFactory.CreateClient("BillingServer");
 
             var loginModel = new
             {
                 //Username = _configuration.GetSection("JWTCredentials:Username").Value,
                 //Password = _configuration.GetSection("JWTCredentials:Password").Value,
-                Username = "admin", 
+                Username = "admin",
                 Password = "admin",
             };
             var jsonContentOnPost = JsonConvert.SerializeObject(loginModel);
             var content = new StringContent(jsonContentOnPost, Encoding.UTF8, "application/json");
 
-            var responseOnPost = await _httpClient.PostAsync(apiUrl, content);
+            var responseOnPost = await httpClient.PostAsync(loginUrl, content);
 
             if (!responseOnPost.IsSuccessStatusCode)
             {

@@ -25,7 +25,12 @@
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddHttpClient();
+
+            services.AddHttpClient("BillingServer").ConfigurePrimaryHttpMessageHandler(_ => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            });
+
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IClientsService, ClientService>();
             services.AddScoped<IPaymentsService, PaymentService>();
@@ -34,7 +39,6 @@
             services.AddScoped<IArchiveService, ArchiveService>();
             services.AddScoped<ITechnicalProblemService, TechnicalProblemService>();
             services.AddScoped<ISendMail, SendMail>();
-
 
             return services;
         }

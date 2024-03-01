@@ -41,7 +41,7 @@ namespace ISP_Clients_Web_API
                 options.AddPolicy("AllowSpecificOrigin",
                     builder =>
                     {
-                        builder.WithOrigins("http://example.com")
+                        builder.WithOrigins("https://94.236.201.183:443")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
@@ -58,6 +58,7 @@ namespace ISP_Clients_Web_API
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();

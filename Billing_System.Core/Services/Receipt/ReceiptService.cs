@@ -33,7 +33,7 @@
 
             string filePath = Directory.GetCurrentDirectory();
 
-            using (StreamWriter writer = new StreamWriter(filePath + @"\Receipt\ReceiptPrint.inp", true, Encoding.GetEncoding("utf-8")))
+            using (StreamWriter writer = new StreamWriter(filePath + @"\ReceiptPrint.inp", true, Encoding.GetEncoding("utf-8")))
             {
                 writer.WriteLine(sb);
             }

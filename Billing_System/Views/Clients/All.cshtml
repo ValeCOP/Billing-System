@@ -62,7 +62,7 @@
                                 @if (item.Payments.Any(p => p.Pending))
                                 {
                                     <td class="text-danger">
-                                        @Html.DisplayFor(modelItem => item.FullName)
+                                        @Html.DisplayFor(modelItem => item.FullName) (Pending)
                                     </td>
                                 }
                                 else

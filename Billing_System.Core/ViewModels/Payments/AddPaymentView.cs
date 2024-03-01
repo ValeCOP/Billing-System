@@ -28,7 +28,7 @@
         public string ToDate { get; set; } = null!;
 
         [Required]
-        public Guid ClientId { get; set; }
+        public Guid ClId { get; set; }
         
         public virtual  Client? Client { get; set; }
 

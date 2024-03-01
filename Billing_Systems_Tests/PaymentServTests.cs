@@ -50,7 +50,7 @@
                 Receipt = true,
                 FromDate = "2022-01-01",
                 ToDate = "2022-12-31",
-                ClientId = Guid.Parse("274ec2c5-ec55-42d5-aae7-619004eb964a")
+                ClId = Guid.Parse("274ec2c5-ec55-42d5-aae7-619004eb964a")
             };
 
 

@@ -27,7 +27,7 @@
 
             var addPaymentView = new AddPaymentView()
             {
-                ClientId = clientId,
+                ClId = clientId,
                 Client = client!,
                 UserId = client!.ApplicationUser.Id,
             };
@@ -51,7 +51,7 @@
                 FromDate = DateTime.Parse(payment.FromDate),
                 ToDate = DateTime.Parse(payment.ToDate),
                 ApplicationUser = user,
-                ClientId = payment.ClientId
+                ClientId = payment.ClId
             };
             
             var client = await _context.Clients.FindAsync(newPayment.ClientId);
@@ -78,7 +78,7 @@
             payment.Pending = model.Pending;
             payment.FromDate = model.FromDate;
             payment.ToDate = model.ToDate;
-            payment.ClientId = model.ClientId;
+            payment.ClientId = model.ClId;
             payment.ApplicationUser.Id = model.UserId;
 
             var client = await _context.Clients.FindAsync(payment.ClientId);
@@ -113,7 +113,7 @@
                 Pending = payment.Pending,
                 FromDate = payment.FromDate,
                 ToDate = payment.ToDate,
-                ClientId = payment.ClientId,
+                ClId = payment.ClientId,
                 Client = payment.Client!,
                 UserId = payment.ApplicationUser.Id
             };

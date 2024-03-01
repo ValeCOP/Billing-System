@@ -83,7 +83,7 @@
                     await _receiptService.CreateReceiptAsync(payment!.Id);
                 }
 
-                return RedirectToAction("Details", "Clients", new { id = model.ClientId });
+                return RedirectToAction("Details", "Clients", new { id = model.ClId });
             }
             catch (Exception ex)
             {
@@ -106,7 +106,7 @@
                 if (model.UserId.ToString() != userId)
                 {
                     TempData["Error"] = "You are not allowed to edit this payment";
-                    return RedirectToAction("Details", "Clients", new { id = model.ClientId });
+                    return RedirectToAction("Details", "Clients", new { id = model.ClId });
                 }
                 return View(model);
             }
@@ -140,9 +140,9 @@
             {
                 await _paymentsService.EditPaymentAsync(model, Id);
 
-                await _homeService.UpdateISPRouterDataAsync(model.ClientId);
+                await _homeService.UpdateISPRouterDataAsync(model.ClId);
 
-                return RedirectToAction("Details", "Clients", new { id = model.ClientId });
+                return RedirectToAction("Details", "Clients", new { id = model.ClId });
             }
             catch (Exception ex)
             {
@@ -165,10 +165,10 @@
                 if (model.UserId.ToString() != userId)
                 {
                     TempData["Error"] = "You are not allowed to delete this payment";
-                    return RedirectToAction("Details", "Clients", new { id = model.ClientId });
+                    return RedirectToAction("Details", "Clients", new { id = model.ClId });
                 }
                 await _paymentsService.DeletePaymentAsync(Id);
-                return RedirectToAction("Details", "Clients", new { id = model.ClientId });
+                return RedirectToAction("Details", "Clients", new { id = model.ClId });
             }
             catch (Exception ex)
             {
