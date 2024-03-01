@@ -9,20 +9,24 @@
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Net.Http.Headers;
+    using static Utilities.ValidationConstants.ValidationConstants;
+
 
     public class TechnicalProblemService : ITechnicalProblemService
     {
-        private readonly HttpClient _httpClient;
+       
         private readonly BillingDbContext _context;
         private readonly IHomeService _homeService;
+        private readonly IHttpClientFactory _clientFactory;
+        private string clientsUrl = "https://94.236.201.183:4231/Clients";
 
-        public TechnicalProblemService(HttpClient httpClient, BillingDbContext dbContext, IHomeService homeService)
+        public TechnicalProblemService(IHttpClientFactory clientFactory, BillingDbContext dbContext, IHomeService homeService)
         {
             _homeService = homeService;
             _context = dbContext;
-            _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://localhost:7231");
+            _clientFactory = clientFactory;
         }
 
         public async Task AddTechnicalProblemAsync(AddTechProblemView model)
@@ -89,10 +93,12 @@
         public async Task<ICollection<ClientsInfoModel>> GetClientsAsync()
         {
             var clientsNames = new List<ClientsInfoModel>();
-            var token = await _homeService.GetJWTAsync();
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            HttpResponseMessage request = _httpClient.GetAsync("/Clients").Result;
+            var token = await _homeService.GetJWTAsync();
+            var httpClient = _clientFactory.CreateClient("BillingServer");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage request = httpClient.GetAsync(clientsUrl).Result;
 
             if (!request.IsSuccessStatusCode)
             {
@@ -104,6 +110,24 @@
 
             foreach (var client in clients_DTOs)
             {
+                if (client.Id.ToString() == null || string.IsNullOrEmpty(client.FullName))
+                {
+                    continue;
+                }
+
+                DateTime activationDate;
+                if (!DateTime.TryParseExact(client.ActivationDate, AppExpiredDateFormat,
+                            CultureInfo.InvariantCulture, DateTimeStyles.None, out activationDate))
+                {
+                    throw new Exception("Error reading ISP router info! Invalid Activation Date format");
+                }
+
+                DateTime expiredDate;
+                if (!DateTime.TryParseExact(client.ExpiredDate, AppExpiredDateFormat,
+                            CultureInfo.InvariantCulture, DateTimeStyles.None, out expiredDate))
+                {
+                    throw new Exception("Error reading ISP router info! Invalid Expired Date format");
+                }
                 clientsNames.Add(new ClientsInfoModel
                 {
                     Id = client.Id,

@@ -156,7 +156,7 @@
 
             var content = new StringContent(jsonContentOnPatch, Encoding.UTF8, "application/json");
 
-            var result = await httpClient.PatchAsync("/Clients/" + client.Id.ToString(), content);
+            var result = await httpClient.PatchAsync(Path.Combine(clientsUrl,client.Id.ToString()), content);
 
             if (!result.IsSuccessStatusCode)
             {
