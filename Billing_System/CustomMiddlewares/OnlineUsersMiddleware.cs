@@ -1,4 +1,6 @@
-﻿namespace Billing_System.Core.CustomExtensions
+﻿using Billing_System.Core.CustomExtensions;
+
+namespace Billing_System.CustomMiddlewares
 {
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Caching.Memory;
@@ -26,12 +28,12 @@
         {
             if (context.User.Identity?.IsAuthenticated ?? false)
             {
-                if (!context.Request.Cookies.TryGetValue(this.cookieName, out string userId))
+                if (!context.Request.Cookies.TryGetValue(cookieName, out string userId))
                 {
                     // First login after being offline
                     userId = context.User.GetId()!;
 
-                    context.Response.Cookies.Append(this.cookieName, userId, new CookieOptions() { HttpOnly = true, MaxAge = TimeSpan.FromDays(30) });
+                    context.Response.Cookies.Append(cookieName, userId, new CookieOptions() { HttpOnly = true, MaxAge = TimeSpan.FromDays(30) });
                 }
 
                 memoryCache.GetOrCreate(userId, cacheEntry =>
@@ -43,8 +45,8 @@
                     }
                     else
                     {
-                        cacheEntry.SlidingExpiration = TimeSpan.FromMinutes(this.lastActivityMinutes);
-                        cacheEntry.RegisterPostEvictionCallback(this.RemoveKeyWhenExpired);
+                        cacheEntry.SlidingExpiration = TimeSpan.FromMinutes(lastActivityMinutes);
+                        cacheEntry.RegisterPostEvictionCallback(RemoveKeyWhenExpired);
                     }
 
                     return string.Empty;
@@ -53,18 +55,18 @@
             else
             {
                 // User has just logged out
-                if (context.Request.Cookies.TryGetValue(this.cookieName, out string userId))
+                if (context.Request.Cookies.TryGetValue(cookieName, out string userId))
                 {
                     if (!AllKeys.TryRemove(userId, out _))
                     {
                         AllKeys.TryUpdate(userId, false, true);
                     }
 
-                    context.Response.Cookies.Delete(this.cookieName);
+                    context.Response.Cookies.Delete(cookieName);
                 }
             }
 
-            return this.next(context);
+            return next(context);
         }
 
         public static bool CheckIfUserIsOnline(string userId)

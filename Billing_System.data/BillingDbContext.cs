@@ -11,7 +11,6 @@
         public BillingDbContext(DbContextOptions<BillingDbContext> options)
             : base(options)
         {
-            
             Database.EnsureCreated();
         }
         public DbSet<Client> Clients { get; set; } = null!;    
