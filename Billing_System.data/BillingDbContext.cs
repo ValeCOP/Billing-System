@@ -11,11 +11,12 @@
         public BillingDbContext(DbContextOptions<BillingDbContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
         public DbSet<Client> Clients { get; set; } = null!;    
         public DbSet<Payment> Payments { get; set; } = null!;
         public DbSet<TechnicalProblem> TechnicalProblems { get; set; } = null!;
+        public DbSet<Expense> Expenses { get; set; } = null!;
 
         override protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -58,6 +59,10 @@
                 .WithMany(u => u.ResolvedTechnicalProblems)
                 .HasForeignKey(t => t.ResolvedProblemUserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Expense>()
+                .Property(e => e.Value)
+                .HasColumnType("decimal(18,2)");
 
             base.OnModelCreating(builder);
         }   

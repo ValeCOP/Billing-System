@@ -2,14 +2,14 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-
+    using static Utilities.ValidationConstants.ValidationConstants.TechnicalProblems;
     public class TechnicalProblem
     {
         [Key]
         public Guid Id { get; set; }
 
         [Required]
-        [StringLength(1000)]
+        [StringLength(DescriptionMaxLength)]
         public string Description { get; set; } = null!;
 
         [Required]

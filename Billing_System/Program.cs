@@ -40,7 +40,6 @@ namespace Billing_System
                 app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
                 app.UseHsts();
             }
-            
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
@@ -52,7 +51,7 @@ namespace Billing_System
             app.UseAuthorization();
 
             app.EnableOnlineUsersCheck();
-            app.EnableLoggedUsersCheck();
+
 
             app.SeedAdmin();
 

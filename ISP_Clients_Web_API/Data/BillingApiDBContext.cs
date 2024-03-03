@@ -10,7 +10,7 @@
         public BillingApiDBContext(DbContextOptions<BillingApiDBContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
         public DbSet<Client> ClientsISP { get; set; } = null!;
 

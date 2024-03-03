@@ -2,6 +2,7 @@
 {
     using Billing_System.Core.Contracts.Home;
     using Billing_System.Core.Contracts.Receipt;
+    using Billing_System.Core.CustomExtensions;
     using Billing_System.Core.ViewModels.Clients;
     using Billing_System.Data;
     using Billing_System.Data.Entities;
@@ -20,16 +21,13 @@
         private readonly IHomeService _homeService;
         private readonly IReceiptService _receiptInterface;
         private readonly BillingDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public HomeController(IHomeService homeInterface, 
-                   UserManager<ApplicationUser> userManager,
-                                    BillingDbContext context, 
-                                        IReceiptService receiptInterface)
+        public HomeController(IHomeService homeInterface,
+                   BillingDbContext context, 
+                   IReceiptService receiptInterface)
         {
             _context = context;
-            _userManager = userManager;
             _homeService = homeInterface;
             _receiptInterface = receiptInterface;
         }
@@ -57,7 +55,7 @@
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, ActivationImputDataErrorMessage);
+                ModelState.AddModelError(string.Empty, ActivationInputDataErrorMessage);
 
                 model = await _homeService.ImportISPRouterDataAsync();
 
@@ -95,25 +93,26 @@
                 return View("Error", new ErrorViewModel
                 {
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
-                    Message = "Expiried Date must be after Activation Date"
+                    Message = "Expired Date must be after Activation Date"
                 });
             }
 
-            var userId = _userManager.GetUserId(User);
+            var userId  = User.GetId();
 
             try
             {
                 await _homeService.ActivateClientAsync(model, userId);
                 await _homeService.UpdateISPRouterDataAsync(model.ClientId);
 
-                TempData["message"] = $"Client {model.ClientFullName} has activated successfully to {model.ExpiredDate}!";
+                TempData["message"]
+                    = $"Client {model.ClientFullName} has activated successfully to {model.ExpiredDate.ToString("D",CultureInfo.InvariantCulture)}!";
 
                 if (model.Receipt)
                 {
                     var payment = _context.Payments.FirstOrDefault(p => p.ClientId == model.ClientId);
                     await _receiptInterface.CreateReceiptAsync(payment!.Id);
                     TempData["message"] =
-                        $"Client {model.ClientFullName} has activated successfully to {model.ExpiredDate}.{Environment.NewLine}Receipt created!";
+                        $"Client {model.ClientFullName} has activated successfully to {model.ExpiredDate.ToString("D",CultureInfo.InvariantCulture)}.{Environment.NewLine}Receipt created!";
                 }
 
                 return RedirectToAction("Index", "Home");

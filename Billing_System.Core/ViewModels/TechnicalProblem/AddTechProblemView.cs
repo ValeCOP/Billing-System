@@ -2,11 +2,13 @@
 {
     using Billing_System.Core.ViewModels.Clients;
     using System.ComponentModel.DataAnnotations;
+    using static Utilities.ValidationConstants.ValidationConstants.TechnicalProblems;
 
     public class AddTechProblemView
     {
         [Required]
-        [StringLength(1000)]
+        [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength,
+            ErrorMessage = DescriptionErrorMessage)]
         public string Description { get; set; } = null!;
 
         [Required]
