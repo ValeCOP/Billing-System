@@ -32,4 +32,8 @@
     <ProjectReference Include="..\Billing_System.data\Billing_System.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\expense\" />
+  </ItemGroup>
+
 </Project>

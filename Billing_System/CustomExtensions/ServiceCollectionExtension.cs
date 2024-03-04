@@ -2,6 +2,7 @@
 {
     using Billing_System.Core.Contracts.Archive;
     using Billing_System.Core.Contracts.Clients;
+    using Billing_System.Core.Contracts.Expense;
     using Billing_System.Core.Contracts.Home;
     using Billing_System.Core.Contracts.MailSender;
     using Billing_System.Core.Contracts.Payments;
@@ -11,6 +12,7 @@
     using Billing_System.Core.MailSender;
     using Billing_System.Core.Services.Archive;
     using Billing_System.Core.Services.Clients;
+    using Billing_System.Core.Services.Expense;
     using Billing_System.Core.Services.Home;
     using Billing_System.Core.Services.Payments;
     using Billing_System.Core.Services.Receipt;
@@ -39,6 +41,7 @@
             services.AddScoped<IArchiveService, ArchiveService>();
             services.AddScoped<ITechnicalProblemService, TechnicalProblemService>();
             services.AddScoped<ISendMail, SendMail>();
+            services.AddScoped<IExpenseService, ExpenseService>();
 
             return services;
         }
