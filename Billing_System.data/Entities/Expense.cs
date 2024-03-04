@@ -20,10 +20,7 @@
         [StringLength(DescriptionMaxLength)]
         public string Description { get; set; } = null!;
 
-        [Required]
-        //url regular expression
-        [RegularExpression(@"^(http|https)://", ErrorMessage = ReceiptUrlErrorMessage)]
-        public string? ReceiptUrl { get; set; } = null!;
+        public string? ReceiptUrl { get; set; } 
 
         [ForeignKey("ApplicationUser")]
         public Guid UserId { get; set; }
