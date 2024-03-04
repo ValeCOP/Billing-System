@@ -1,0 +1,60 @@
+﻿@model AddExpenseViewModel
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h2><i class="fa-solid fa-triangle-exclamation"></i> Add TechProblem</h2>
+<div class="shadow-lg" style="padding: 30px">
+    <hr />
+    <div class="row shadow-lg">
+        <div class="shadow-lg col-md-4 p-3">
+            <h4>Report a problem</h4>
+            <hr />
+            <form asp-action="Add" enctype="multipart/form-data" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" id="name-input" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="UserId" hidden />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Value" class="control-label"></label>
+                    <input asp-for="Value" class="form-control" id="value-input" type="number" />
+                    <span asp-validation-for="Value" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" id="description-input"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="File" class="control-label"></label>
+                    <input asp-for="File" name="File" type="file" class="form-control" accept="image/jpeg, image/jpg, image/pjpeg" onchange="loadFile(event)">
+                    <span asp-validation-for="File" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-outline-primary mt-2" />
+                </div>
+            </form>
+        </div>
+        <div class="col-md-4 shadow-lg p-3">
+            <h4>Img</h4>
+            <hr />
+            <div class="card">
+                <img id="output" class="shadow-lg col-md-12 p-3" />
+                <h5 class="shadow-lg col-md-12 p-3" id="output-name"></h5>
+                <h6 class="shadow-lg col-md-12 p-3" id="output-value"></h6>
+                <p class="shadow-lg col-md-12 p-3" id="output-description"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
