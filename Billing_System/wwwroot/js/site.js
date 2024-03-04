@@ -135,4 +135,40 @@ $(document).ready(function () {
     });
 });
 
+$(function () {
+    $("#clientId").select2();
+});
+$(function () {
+    $("#ClientId").select2();
+});
+var loadFile = function (event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function () {
+        URL.revokeObjectURL(output.src) // free memory
+    }
+};
 
+$("#name-input").focusout(function () {
+    let name = $("#name-input").val();
+
+    if (name.length != 0) {
+        $('#output-name').text(name);
+    }
+})
+
+$("#value-input").focusout(function () {
+    let name = $("#value-input").val();
+
+    if (name.length != 0) {
+        $('#output-value').text(name);
+    }
+})
+
+$("#description-input").focusout(function () {
+    let name = $("#description-input").val();
+
+    if (name.length != 0) {
+        $('#output-description').text(name);
+    }
+})
