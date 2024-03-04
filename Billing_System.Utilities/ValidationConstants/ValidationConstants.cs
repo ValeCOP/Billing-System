@@ -61,6 +61,7 @@
             public const string ValueMaxLength = "10000.00";
             public const int DescriptionMaxLength = 1000;
             public const int DescriptionMinLength = 3;
+            public const string NameErrorMessage = "Name must be between {2} and {1} characters";
             public const string DescriptionErrorMessage = "Description must be between {2} and {1} characters";
             public const string ReceiptUrlErrorMessage = "Invalid URL";
         }
