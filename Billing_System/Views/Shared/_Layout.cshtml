@@ -38,6 +38,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Archive" asp-action="Index">Archive Month</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Expense" asp-action="All">Expenses</a>
+                                </li>
                             }
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="TechnicalProblem" asp-action="All">Technical Problems</a>
@@ -66,19 +69,14 @@
             &copy; @DateTime.Now.Year - Bill
         </div>
     </footer>
-    <script src="~/js/site.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="~/js/tcal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/js/site.js"></script>
 
     <script>
-        $(function () {
-            $("#clientId").select2();
-        });
-        $(function () {
-            $("#ClientId").select2();
-        });
+       
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
