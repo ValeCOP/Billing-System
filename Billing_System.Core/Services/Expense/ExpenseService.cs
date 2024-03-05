@@ -5,6 +5,8 @@
     using Billing_System.Data;
     using Billing_System.Data.Entities;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class ExpenseService : IExpenseService
@@ -31,7 +33,7 @@
                     throw new System.Exception("File must be an image");
                 }
             }
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "expense", model.File!.FileName);
+            string path = Path.Combine(Environment.CurrentDirectory, "wwwroot", "expense", model.File!.FileName);
             try
             {
                 using (var stream = new FileStream(path, FileMode.Create))
@@ -45,7 +47,7 @@
                     Value = model.Value,
                     Date = DateTime.Now,
                     Description = model.Description,
-                    ReceiptUrl = path
+                    ReceiptUrl = @"../expense/" + model.File!.FileName
                 };
                 await _context.Expenses.AddAsync(expense);
                 await _context.SaveChangesAsync();
@@ -56,6 +58,44 @@
             }
 
         }
+
+        public async Task<ICollection<AllExpenseViewModel>> GetExpenseAsync(FilteredExpensesViewModel modelGetForm)
+        {
+            var allExpenses = _context.Expenses
+                .OrderByDescending(e => e.Date)
+                .AsQueryable();
+            if (!string.IsNullOrEmpty(modelGetForm.Filter))
+            {
+                allExpenses = allExpenses.Where(e => e.Name.ToLower().Contains(modelGetForm.Filter.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(modelGetForm.OrderBy))
+            {
+                allExpenses = modelGetForm.OrderBy switch
+                {
+                    "Name" => allExpenses.OrderBy(e => e.Name),
+                    "NameDesc" => allExpenses.OrderByDescending(e => e.Name),
+                    "Date" => allExpenses.OrderBy(e => e.Date),
+                    "DateDesc" => allExpenses.OrderByDescending(e => e.Date),
+                    "Value" => allExpenses.OrderBy(e => e.Value),
+                    "ValueDesc" => allExpenses.OrderByDescending(e => e.Value),
+                    "ApplicationUser" => allExpenses.OrderBy(e => e.ApplicationUser.UserName),
+                    "ApplicationUserDesc" => allExpenses.OrderByDescending(e => e.ApplicationUser.UserName),
+                    _ => allExpenses.OrderByDescending(e => e.Date)
+                };
+            }
+            allExpenses = allExpenses.Skip((modelGetForm.CurrentPage - 1) * 6).Take(6);
+            return await allExpenses.Select(e => new AllExpenseViewModel
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Value = e.Value,
+                Date = e.Date,
+                Description = e.Description,
+                ReceiptUrl = e.ReceiptUrl,
+                UserName = e.ApplicationUser.UserName
+            }).ToListAsync();
+        }
+
         private bool IsJpeg(IFormFile file)
         {
             if (file.ContentType == "image/jpeg" ||
