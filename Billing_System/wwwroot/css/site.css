@@ -14,7 +14,6 @@ html {
 }
 
 html {
-    
     position: relative;
     min-height: 100%;
     background-color: #000;
@@ -24,14 +23,41 @@ body {
     margin-bottom: 60px;
     background-color: antiquewhite;
 }
+
 input {
     margin-bottom: 10px;
 }
+
 select {
     margin-bottom: 10px;
 }
+
 header {
-    
     background-color: #EEF5FF;
     color: white;
+}
+
+.player-image {
+    transition: transform .3s;
+}
+
+    .player-image:hover {
+        z-index: 1;
+        transform: scale(2);
+    }
+
+a {
+color: #007bff;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    a:active {
+        color: #0056b3;
+        text-decoration: underline;
+    }
 }
