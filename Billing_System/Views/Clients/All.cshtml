@@ -52,7 +52,9 @@
                             <th>
                                 @Html.Raw("User")
                             </th>
-                            <th></th>
+                            <th>
+                                @Html.Raw("Action")
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,13 +64,13 @@
                                 @if (item.Payments.Any(p => p.Pending))
                                 {
                                     <td class="text-danger">
-                                        @Html.DisplayFor(modelItem => item.FullName) (Pending)
+                                        <a asp-controller="Clients" asp-action="Details" asp-route-id="@item.ClientId" class="link-danger"> @Html.DisplayFor(modelItem => item.FullName) (Pending)</a>
                                     </td>
                                 }
                                 else
                                 {
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.FullName)
+                                        <a asp-controller="Clients" asp-action="Details" asp-route-id="@item.ClientId" class="link-dark"> @Html.DisplayFor(modelItem => item.FullName)</a>
                                     </td>
                                 }
                                 <td>
@@ -85,7 +87,6 @@
                                     {
                                         @Html.ActionLink("Delete", "Delete", new { id = item.ClientId }, new { @class = "btn btn-outline-danger btn-sm", onclick = $"return confirm('Are you sure you want to delete {item.FullName}?');" })
                                     }
-                                    @Html.ActionLink("Details", "Details", new { id = item.ClientId }, new { @class = "btn btn-outline-primary btn-sm" })
                                 </td>
 
                             </tr>

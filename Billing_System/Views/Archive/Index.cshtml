@@ -34,6 +34,8 @@
                         <h4>Month: @item.MonthName</h4>
                         <p><i class="fa-regular fa-circle-right"></i> Activated clients: @item.ClientsCount</p>
                         <h5><i class="fa-regular fa-circle-right"></i> Total Amount: @item.TotalAmount</h5>
+                        <h5><i class="fa-regular fa-circle-right"></i> Total Expense: @item.TotalExpenses</h5>
+                        <h5><i class="fa-regular fa-circle-right"></i> Total TechProblem: @item.TotalTechnicalProblems</h5>
                         <a asp-action="Remove" asp-controller="Archive" asp-route-monthName="@item.MonthName" class="btn btn-outline-danger mt-2">Delete</a>
                     </div>
                 }
