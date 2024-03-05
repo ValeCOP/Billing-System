@@ -3,8 +3,10 @@
     using Billing_System.Core.Contracts.Expense;
     using Billing_System.Core.CustomExtensions;
     using Billing_System.Core.ViewModels.Expense;
+    using Billing_System.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Diagnostics;
 
     [Authorize]
     public class ExpenseController : Controller
@@ -47,6 +49,30 @@
                 return View(model);
             }
             return RedirectToAction("All");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> All(FilteredExpensesViewModel modelGetForm)
+        {
+            try
+            {
+                FilteredExpensesViewModel model = new FilteredExpensesViewModel()
+                {
+                    Expenses = await _expenseService.GetExpenseAsync(modelGetForm)
+                };
+                model.ExpensesCount = model.Expenses.Count;
+                model.CurrentPage = modelGetForm.CurrentPage;
+                return View(model);
+
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = ex.Message
+                });
+            }
         }
        
     }
