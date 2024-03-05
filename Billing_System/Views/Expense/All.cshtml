@@ -40,11 +40,11 @@
             @foreach (var item in Model.Expenses)
             {
                 <div class="col-md-2 shadow-lg p-3 ">
-                    <a href="@item.ReceiptUrl" target="_blank"><img src="@Url.Content(item.ReceiptUrl)" alt="Product Image" class="img-thumbnail player-image w-100" /></a>
+                    <a href="@item.ReceiptUrl" target="_blank"><img src="@item.ReceiptUrl" alt="Document Image" class="img-thumbnail player-image w-100" /></a>
                     <h4 class="card-title mt-1">Name: @item.Name</h4>
                     <hr />
                     <h5 class="card-title mt-1">Value: @item.Value</h5>
-                    <h5 class="card-title mt-1">Date: @item.Date</h5>
+                    <h5 class="card-title mt-1">Date: @item.Date.ToString("D",CultureInfo.InvariantCulture)</h5>
                     <p class="card-title mt-1">Description: @item.Description</p>
                     <h5 class="card-title mt-1">User: @item.UserName</h5>
                     <hr />
