@@ -4,6 +4,7 @@ namespace Billing_System
     using Billing_System.Core.CustomExstensions;
     using Billing_System.CustomExtensions;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.FileProviders;
 
     public class Program
     {
@@ -52,6 +53,7 @@ namespace Billing_System
 
             app.EnableOnlineUsersCheck();
 
+            app.EnableUsersTracker();
 
             app.SeedAdmin();
 
