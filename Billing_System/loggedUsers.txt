@@ -1,0 +1,18 @@
+admin - 5.3.2024 г. 12:55:08 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+admin - 5.3.2024 г. 12:55:19 - GET /Clients/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+admin - 5.3.2024 г. 12:55:26 - GET /Clients/Details/1d315603-14bc-4f70-a832-ddcafdd4df21
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+admin - 5.3.2024 г. 12:55:37 - GET /Payment/Edit/a5994e53-1984-4be2-891d-25f7da96e54a
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+admin - 5.3.2024 г. 12:55:44 - POST /Payment/Edit/a5994e53-1984-4be2-891d-25f7da96e54a
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+admin - 5.3.2024 г. 12:55:44 - GET /Clients/Details/1d315603-14bc-4f70-a832-ddcafdd4df21
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
