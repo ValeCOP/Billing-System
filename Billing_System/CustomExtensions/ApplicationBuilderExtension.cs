@@ -1,7 +1,7 @@
 ﻿namespace Billing_System.Core.CustomExstensions
 {
-    using Billing_System.Core.CustomExtensions;
-    using Billing_System.CustomExtensions;
+    using Billing_System.CustomMiddleware;
+    using Billing_System.CustomMiddlewares;
     using Billing_System.Data.Entities;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
@@ -40,6 +40,11 @@
         public static IApplicationBuilder EnableOnlineUsersCheck(this IApplicationBuilder app)
         {
             app.UseMiddleware<OnlineUsersMiddleware>();
+            return app;
+        }
+        public static IApplicationBuilder EnableUsersTracker(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<UsersTrackerMiddleware>();
             return app;
         }
     }
