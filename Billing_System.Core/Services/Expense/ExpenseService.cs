@@ -47,7 +47,7 @@
                     Value = model.Value,
                     Date = DateTime.Now,
                     Description = model.Description,
-                    ReceiptUrl = @"../expense/" + model.File!.FileName
+                    ReceiptUrl = @"/expense/" + model.File!.FileName
                 };
                 await _context.Expenses.AddAsync(expense);
                 await _context.SaveChangesAsync();
@@ -58,6 +58,25 @@
             }
 
         }
+
+        public Task DeleteExpenseAsync(Guid id)
+        {
+            var expense = _context.Expenses.Find(id);
+            if (expense == null)
+            {
+                throw new System.Exception("Expense not found");
+            }
+            _context.Expenses.Remove(expense);
+            var path = Path.Combine(Environment.CurrentDirectory, "wwwroot","expense", expense.ReceiptUrl.Split("/")[2]);
+            //delete file
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+
+            return _context.SaveChangesAsync();
+        }
+
 
         public async Task<ICollection<AllExpenseViewModel>> GetExpenseAsync(FilteredExpensesViewModel modelGetForm)
         {

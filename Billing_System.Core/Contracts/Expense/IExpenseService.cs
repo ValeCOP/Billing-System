@@ -8,6 +8,7 @@
     public interface IExpenseService
     {
         Task AddExpenseAsync(AddExpenseViewModel model);
+        Task DeleteExpenseAsync(Guid id);
         Task<ICollection<AllExpenseViewModel>> GetExpenseAsync(FilteredExpensesViewModel modelGetForm);
     }
 }

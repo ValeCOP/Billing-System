@@ -74,6 +74,23 @@
                 });
             }
         }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await _expenseService.DeleteExpenseAsync(id);
+            }
+            catch (Exception e)
+            {
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = e.Message
+                });
+            }
+            return RedirectToAction("All");
+        }
        
     }
 }
