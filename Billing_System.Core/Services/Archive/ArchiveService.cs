@@ -22,6 +22,8 @@
             string monthName = CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(month);
             string tableClientsName = $"Clients_{monthName}";
             string tablePaymentsName = $"Payments_{monthName}";
+            string tableExpensesName = $"Expenses_{monthName}";
+            string tableTechnicalProblemsName = $"TechnicalProblems_{monthName}";
 
             var sql = $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{tableClientsName}'";
             var sqlConnection = _dbContext.Database.GetDbConnection();
@@ -39,12 +41,13 @@
             {
                 try
                 {
-                    //await _dbContext.Database.ExecuteSqlRawAsync($"DROP TABLE IF EXISTS {tableClientsName};");
-                    //await _dbContext.Database.ExecuteSqlRawAsync($"DROP TABLE IF EXISTS {tablePaymentsName};");
                     await _dbContext.Database.ExecuteSqlRawAsync(
                         $"SELECT c.* INTO {tableClientsName} FROM Clients AS c  LEFT JOIN Payments AS p ON c.Id = p.ClientId WHERE p.Pending = 0"
                         );
                     await _dbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO {tablePaymentsName} FROM Payments WHERE Payments.Pending = 0");
+                    await _dbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO {tableExpensesName} FROM Expenses");
+                    await _dbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO {tableTechnicalProblemsName} FROM TechnicalProblems");
+                  
 
                     var payments = await _dbContext
                         .Payments
@@ -62,6 +65,9 @@
 
                     _dbContext.Clients.RemoveRange(clients);
                     await _dbContext.SaveChangesAsync();
+
+                    await _dbContext.Database.ExecuteSqlRawAsync($"TRUNCATE TABLE Expenses");
+                    await _dbContext.Database.ExecuteSqlRawAsync($"TRUNCATE TABLE TechnicalProblems");
 
                     await transaction.CommitAsync();
                 }
@@ -98,11 +104,15 @@
 
                 var clientsCount = _dbContext.Clients.FromSqlRaw($"SELECT * FROM Clients_{monthName}").Count();
                 var totalAmount = _dbContext.Payments.FromSqlRaw($"SELECT * FROM Payments_{monthName}").Sum(p => p.Fee);
+                var totalExpenses = _dbContext.Expenses.FromSqlRaw($"SELECT * FROM Expenses_{monthName}").Sum(e => e.Value);
+                var totalTechnicalProblems = _dbContext.TechnicalProblems.FromSqlRaw($"SELECT * FROM TechnicalProblems_{monthName}").Count();
                 var archiveMonthDetails = new ArchiveMonthDetails
                 {
                     MonthName = monthName,
                     ClientsCount = clientsCount,
-                    TotalAmount = totalAmount
+                    TotalAmount = totalAmount,
+                    TotalExpenses = totalExpenses,
+                    TotalTechnicalProblems = totalTechnicalProblems
                 };
                 archiveMonthsDetails.Add(archiveMonthDetails);
                 await sqlConnection.CloseAsync();
@@ -119,6 +129,8 @@
                 {
                     await _dbContext.Database.ExecuteSqlRawAsync($"DROP TABLE IF EXISTS Clients_{monthName};");
                     await _dbContext.Database.ExecuteSqlRawAsync($"DROP TABLE IF EXISTS Payments_{monthName};");
+                    await _dbContext.Database.ExecuteSqlRawAsync($"DROP TABLE IF EXISTS Expenses_{monthName};");
+                    await _dbContext.Database.ExecuteSqlRawAsync($"DROP TABLE IF EXISTS TechnicalProblems_{monthName};");
                     await transaction.CommitAsync();
                 }
                 catch (DbUpdateException)
