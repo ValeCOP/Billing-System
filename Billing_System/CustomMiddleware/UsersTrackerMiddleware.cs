@@ -20,19 +20,20 @@
         {
             if (context.User.Identity?.IsAuthenticated ?? false)
             {
-                string userId = context.User.GetId()!;
-                string username = context.User.Identity.Name;
-                string date = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
-                string requestPath = context.Request.Path;
-                string requestMethod = context.Request.Method;
-                string replyUrl = context.Response.StatusCode.ToString();
-                string requestQueryString = context.Request.QueryString.Value;
-                string requestUrl = $"{requestMethod} - {requestPath} - {requestQueryString}";
-                string replyMethod = context.Response.HttpContext.Request.Method;
 
-                string log = $"{date} - {username} - {userId} - {requestUrl} {Environment.NewLine}" +
-                    $"{replyUrl}{Environment.NewLine}" +
-                    $"{replyMethod}{Environment.NewLine}";
+                string logMessage = $"{DateTime.Now} - {context.Request.Method} {context.Request.Path}{context.Request.QueryString.Value}" 
+                    + Environment.NewLine;
+
+                string username = context.User.Identity.Name;
+
+                string ipaddress = context.Connection.RemoteIpAddress.ToString();
+
+                string userAgent = context.Request.Headers["User-Agent"].ToString();
+
+                string replyUrl = context.Response.StatusCode.ToString();
+
+                string log = $"{username} - {logMessage} - {ipaddress} - {userAgent}{Environment.NewLine}" +
+                    $"{replyUrl}{Environment.NewLine}";
 
                 await File.AppendAllTextAsync(filePath, log);
             }

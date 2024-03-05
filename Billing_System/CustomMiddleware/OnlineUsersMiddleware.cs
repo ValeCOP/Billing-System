@@ -1,6 +1,6 @@
 ﻿using Billing_System.Core.CustomExtensions;
 
-namespace Billing_System.CustomMiddlewares
+namespace Billing_System.CustomMiddleware
 {
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Caching.Memory;
