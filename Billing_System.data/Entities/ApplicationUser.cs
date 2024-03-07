@@ -22,5 +22,6 @@
 
         public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
+        public virtual ICollection<Expense> Expenses { get; set; } = new LinkedList<Expense>();
     }
 }
