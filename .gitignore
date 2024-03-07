@@ -361,4 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Billing_System/loggedUsers.txt
+/Billing_System/wwwroot/expense
+/Billing_System/images/
