@@ -3,8 +3,9 @@
     ViewData["Title"] = "Details";
 
 }
-<h2>Details</h2>
+<h2><i class="fa-solid fa-circle-info"></i> Details</h2>
 <div class="shadow-lg" style="padding: 30px">
+    <h5 class="card-title mt-2">@Model.FullName</h5>
     <hr />
     @if (TempData["message"] != null)
     {
@@ -16,9 +17,6 @@
     <div class="row shadow-lg text-lg-start">
         <div class="shadow-lg col-md-3" style="padding: 30px">
             <div>
-
-                <h5 class="card-title mt-2">@Model.FullName</h5>
-                <hr />
                 <dl class="col">
                     <dt class="row-sm-2">
                         Activation Date
@@ -64,6 +62,8 @@
             </div>
         </div>
         <div class="shadow-lg col-md-9" style="padding: 30px">
+            <h6 class="card-title mt-2">Payments</h6>
+            <hr />
             <div>
                 @{
                     await Html.RenderPartialAsync("_PaymentDetails", Model.Payments.ToList());
