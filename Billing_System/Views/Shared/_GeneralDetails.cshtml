@@ -5,11 +5,11 @@
     var users = await _userServices.GetAllUserWithPayments();
     var currentUser = users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
 }
-<h4>Pay per User</h4>
-<hr />
+
 <div class="row">
     <div class="col-lg-6 shadow-lg p-3">
-
+        <h4>Pay per User</h4>
+        <hr />
         @if (User.IsInRole("Administrator"))
         {
             @foreach (var user in users)
@@ -45,6 +45,8 @@
     @if (User.IsInRole("Administrator"))
     {
         <div class="col shadow-lg" style="padding:30px">
+            <h4></h4>
+            <hr />
             <h5>Total SUM: @Model.Sum(v => v.TotalValue)</h5>
             <hr />
             <p>Pending SUM: @Model.Sum(v => v.PendingValue)</p>
