@@ -1,6 +1,6 @@
 ﻿@model FilteredTechProblemsViewModel
 @{
-    ViewData["Title"] = "All";
+    ViewData["Title"] = "All - TechProblem";
 }
 
 <h2><i class="fa-solid fa-triangle-exclamation"></i> All TechProblem</h2>
@@ -17,6 +17,7 @@
                     @TempData["message"]
                 </div>
             }
+
             <div class="col-md-2 mb-3">
                 <a class="btn btn-danger mt-2" asp-controller="TechnicalProblem" asp-action="Add">Add new</a>
             </div>
