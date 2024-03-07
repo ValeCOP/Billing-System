@@ -129,15 +129,10 @@ function domCreator(type, content, parent, id, classes, attributes) {
     return newElement;
 }
 
-$(document).ready(function () {
-    $('#clientId').selectize({
-        sortField: 'text'
-    });
-});
-
 $(function () {
     $("#clientId").select2();
 });
+
 $(function () {
     $("#ClientId").select2();
 });
@@ -153,22 +148,22 @@ $("#name-input").focusout(function () {
     let name = $("#name-input").val();
 
     if (name.length != 0) {
-        $('#output-name').text(name);
+        $('#output-name').text("Expense for: " + name);
     }
 })
 
 $("#value-input").focusout(function () {
-    let name = $("#value-input").val();
+    let value = $("#value-input").val();
 
-    if (name.length != 0) {
-        $('#output-value').text(name);
+    if (value.length != 0) {
+        $('#output-value').text("Value: " + value);
     }
 })
 
 $("#description-input").focusout(function () {
-    let name = $("#description-input").val();
+    let description = $("#description-input").val();
 
-    if (name.length != 0) {
-        $('#output-description').text(name);
+    if (description.length != 0) {
+        $('#output-description').text("Description" + description);
     }
 })

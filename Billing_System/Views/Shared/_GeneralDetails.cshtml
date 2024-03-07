@@ -23,6 +23,9 @@
                     <i class="fa-regular fa-circle-right"></i>
                     Available SUM: @user.Payments.Where(u => !u.Pending).Sum(p => p.Fee + p.InstallationFee)
                     <hr />
+                    <i class="fa-regular fa-circle-xmark"></i>
+                    Expenses SUM: @user.Expenses.Sum(e => e.Value)
+                    <hr />
                 </div>
             }
         }
@@ -46,8 +49,9 @@
             <hr />
             <p>Pending SUM: @Model.Sum(v => v.PendingValue)</p>
             <hr />
-
             <h6 class="font-weight-bold"><i class="fa-regular fa-circle-right"></i> Available SUM: @Model.Sum(v => v.TotalValue - v.PendingValue)</h6>
+            <hr />
+            <h6 class="font-weight-bold"><i class="fa-regular fa-circle-xmark"></i> Expenses SUM: @users.Sum(u => u.Expenses.Sum(e => e.Value))</h6>
             <hr />
             <p class="font-weight-bold">RECEIPT ISSUED: @Model.Sum(v => v.ReceiptValue)</p>
             <hr />
