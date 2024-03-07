@@ -21,8 +21,10 @@
     {
         private readonly BillingDbContext _context;
         private readonly IHttpClientFactory _clientFactory;
-        private string clientsUrl = "https://94.236.201.183:4231/Clients";
-        private string loginUrl = "https://94.236.201.183:4231/Login/Login";
+        private string clientsUrl = "https://localhost:7231/Clients";
+        //private string clientsUrl = "https://94.236.201.183:4231/Clients";
+        private string loginUrl = "https://localhost:7231/Login/Login";
+        //private string clientsUrl = "https://94.236.201.183:4231/Clients";
 
         public HomeService(BillingDbContext dbContext, IHttpClientFactory clientFactory)
         {
