@@ -6,7 +6,8 @@
     {
         public Guid Id { get; set; }
         public string UserName { get; set; } = null!;
-        public string UserRole { get; set; } = null!;
         public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+        public ICollection<Expense> Expenses { get; set; } = new List<Expense>();
+
     }
 }

@@ -148,12 +148,14 @@
         public async Task<ICollection<UsersViewWithPayments>> GetAllUserWithPayments()
         {
             return await _context.Users
+                .Include(u => u.Payments)
+                .Include(u => u.Expenses)
                 .Select(u => new UsersViewWithPayments
                 {
                     Id = u.Id,
                     UserName = u.UserName,
                     Payments = u.Payments,
-                    UserRole = _context.UserRoles.Where(ur => ur.UserId == u.Id).Select(ur => ur.RoleId).FirstOrDefault().ToString()
+                    Expenses = u.Expenses,
                 }).ToListAsync();
         }
     }
