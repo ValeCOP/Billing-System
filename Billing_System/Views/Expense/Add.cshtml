@@ -3,12 +3,12 @@
     ViewData["Title"] = "Add";
 }
 
-<h2><i class="fa-solid fa-triangle-exclamation"></i> Add TechProblem</h2>
+<h2><i class="fa-solid fa-cart-shopping"></i> All Expenses</h2>
 <div class="shadow-lg" style="padding: 30px">
     <hr />
     <div class="row shadow-lg">
         <div class="shadow-lg col-md-4 p-3">
-            <h4>Report a problem</h4>
+            <h4>Add expense</h4>
             <hr />
             <form asp-action="Add" enctype="multipart/form-data" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -41,13 +41,13 @@
             </form>
         </div>
         <div class="col-md-4 shadow-lg p-3">
-            <h4>Img</h4>
+            <h4>Preview</h4>
             <hr />
-            <div class="card">
+            <div class="card shadow-lg col-md-12 p-3">
                 <img id="output" class="shadow-lg col-md-12 p-3" />
-                <h5 class="shadow-lg col-md-12 p-3" id="output-name"></h5>
-                <h6 class="shadow-lg col-md-12 p-3" id="output-value"></h6>
-                <p class="shadow-lg col-md-12 p-3" id="output-description"></p>
+                <h5 id="output-name"></h5>
+                <h6 id="output-value"></h6>
+                <p id="output-description"></p>
             </div>
         </div>
     </div>
