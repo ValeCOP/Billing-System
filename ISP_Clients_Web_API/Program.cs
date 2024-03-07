@@ -36,23 +36,12 @@ namespace ISP_Clients_Web_API
                  };
              });
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigin",
-                    builder =>
-                    {
-                        builder.WithOrigins("https://94.236.201.183:443")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
-            });
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-            app.UseCors("AllowSpecificOrigin");
 
             if (app.Environment.IsDevelopment())
             {

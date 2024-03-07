@@ -21,7 +21,7 @@ namespace ISP_Clients_Web_API.Controllers
 
         [HttpGet]
         [Produces("application/json")]
-        public IEnumerable<Client> Get()
+        public  ActionResult<IEnumerable<Client>> Get()
         {
             return _context.ClientsISP
                 .OrderBy(c => c.FullName)
@@ -29,7 +29,7 @@ namespace ISP_Clients_Web_API.Controllers
         }
         [HttpGet("{id}")]
         [Produces("application/json")]
-        public Client GetById(Guid Id)
+        public ActionResult<Client> GetById(Guid Id)
         {
             return _context.ClientsISP
                 .FirstOrDefault(c => c.Id == Id)!;
