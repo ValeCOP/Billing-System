@@ -156,7 +156,7 @@ $("#value-input").focusout(function () {
     let value = $("#value-input").val();
 
     if (value.length != 0) {
-        $('#output-value').text("Value: " + value);
+        $('#output-value').text("Price: " + value);
     }
 })
 
@@ -164,6 +164,6 @@ $("#description-input").focusout(function () {
     let description = $("#description-input").val();
 
     if (description.length != 0) {
-        $('#output-description').text("Description" + description);
+        $('#output-description').text("Description: " + description);
     }
 })
