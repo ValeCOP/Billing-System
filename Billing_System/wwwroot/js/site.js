@@ -14,7 +14,7 @@
         document.getElementById("clientPhone").value = findedClient.Phone;
         document.getElementById("clientEmail").value = findedClient.Email;
         document.getElementById("clientAddress").value = findedClient.Address;
-        
+
         let expiredDateValue = findedClient.ExpiredDate.split("T")[0];
         let today = new Date().toISOString().split("T")[0];
 
@@ -48,10 +48,10 @@
                     domCreator("hr", "", div);
                     domCreator("h6", "Activated: " + findedClient.ActivationDate.split("T")[0], div, "", ["fw-bold"])
                     if (today > expiredDateValue) {
-                        domCreator("h6", "--Expires: " + findedClient.ExpiredDate.split("T")[0], div, "", ["text-danger", "fw-bold"], { style: "padding-top: 1px" })
+                        domCreator("h6", "Expired on: " + findedClient.ExpiredDate.split("T")[0], div, "", ["text-danger", "fw-bold"], { style: "padding-top: 1px" })
                     }
                     else {
-                        domCreator("h6", "--Expired: " + findedClient.ExpiredDate.split("T")[0], div, "", ["text-success", "fw-bold"], { style: "padding-top: 1px" })
+                        domCreator("h6", "Expires: " + findedClient.ExpiredDate.split("T")[0], div, "", ["text-success", "fw-bold"], { style: "padding-top: 1px" })
                     }
                     domCreator("h6", "Tel: " + findedClient.Phone, div, "", ["card-title"]);
                     domCreator("hr", "", div);
