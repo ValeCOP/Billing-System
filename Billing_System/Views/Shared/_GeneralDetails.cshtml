@@ -1,9 +1,14 @@
-﻿@model ICollection<PaymentDetailsView>
-@inject IUserServices _userServices
+﻿@inject IUserServices _userServices
 
 @{
     var users = await _userServices.GetAllUserWithPayments();
     var currentUser = users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
+    var availableSum = users.Sum(u => u.Payments.Where(p => !p.Pending).Sum(p => p.Fee + p.InstallationFee));
+    var expensesSum = users.Sum(u => u.Expenses.Sum(e => e.Value));
+    var totalSum = users.Sum(u => u.Payments.Sum(p => p.Fee + p.InstallationFee));
+    var pendingSum = users.Sum(u => u.Payments.Where(p => p.Pending).Sum(p => p.Fee + p.InstallationFee));
+    var receiptIssued = users.Sum(u => u.Payments.Where(p => p.Receipt).Sum(p => p.Fee + p.InstallationFee));
+    var profit = availableSum - expensesSum;
 }
 
 <div class="row">
@@ -14,17 +19,21 @@
         {
             @foreach (var user in users)
             {
-                <h5 class="font-weight-bold"><i class="fa-solid fa-user"></i> User: @user.UserName</h5>
+                <h5><i class="fa-solid fa-user"></i> <span class="fw-bold">User: @user.UserName</span></h5>
                 <div>
                     Total SUM: @user.Payments.Sum(p => p.Fee + p.InstallationFee)
                     <br>
                     Pending SUM: @user.Payments.Where(u => u.Pending).Sum(p => p.Fee + p.InstallationFee)
                     <br>
-                    <i class="fa-regular fa-circle-right"></i>
-                    Available SUM: @user.Payments.Where(u => !u.Pending).Sum(p => p.Fee + p.InstallationFee)
-                    <hr />
-                    <i class="fa-regular fa-circle-xmark"></i>
-                    Expenses SUM: @user.Expenses.Sum(e => e.Value)
+                    <p>
+                        <i class="fa-regular fa-circle-right"></i>
+                        Available SUM: <span class="fw-bold">@user.Payments.Where(u => !u.Pending).Sum(p => p.Fee + p.InstallationFee)</span>
+                    </p>
+                    <p>
+                        <i class="fa-regular fa-circle-right"></i>
+                        Expenses SUM: <span class="fw-bold">@user.Expenses.Sum(e => e.Value)</span>
+                    </p>
+
                     <hr />
                 </div>
             }
@@ -42,23 +51,23 @@
         }
 
     </div>
-    @if (User.IsInRole("Administrator"))
-    {
-        <div class="col shadow-lg" style="padding:30px">
-            <h4></h4>
+    <div class="col-lg-6 shadow-lg p-3">
+        <h4>Monthly Report</h4>
+        <hr />
+        @if (User.IsInRole("Administrator"))
+        {
+            <h5>Total SUM: @totalSum</h5>
             <hr />
-            <h5>Total SUM: @Model.Sum(v => v.TotalValue)</h5>
+            <h5>Pending SUM: @pendingSum</h5>
             <hr />
-            <p>Pending SUM: @Model.Sum(v => v.PendingValue)</p>
+            <h5><i class="fa-regular fa-circle-right"></i> Available SUM: <span class="fw-bold">@availableSum</span></h5>
             <hr />
-            <h6 class="font-weight-bold"><i class="fa-regular fa-circle-right"></i> Available SUM: @Model.Sum(v => v.TotalValue - v.PendingValue)</h6>
+            <h5 class="font-weight-bold"><i class="fa-regular fa-circle-xmark"></i> Expenses SUM: <span class="fw-bold">@expensesSum</span></h5>
             <hr />
-            <h6 class="font-weight-bold"><i class="fa-regular fa-circle-xmark"></i> Expenses SUM: @users.Sum(u => u.Expenses.Sum(e => e.Value))</h6>
+            <h5 class="font-weight-bold"><i class="fa-solid fa-sack-dollar"></i><span class="fw-bold"> Income: @profit BGN</span></h5>
             <hr />
-            <p class="font-weight-bold">RECEIPT ISSUED: @Model.Sum(v => v.ReceiptValue)</p>
-            <hr />
-        </div>
-    }
+        }
+    </div>
 
 </div>
 <hr />
