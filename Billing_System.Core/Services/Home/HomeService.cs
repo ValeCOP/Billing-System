@@ -21,10 +21,10 @@
     {
         private readonly BillingDbContext _context;
         private readonly IHttpClientFactory _clientFactory;
-        private string clientsUrl = "https://localhost:7231/Clients";
-        //private string clientsUrl = "https://94.236.201.183:4231/Clients";
-        private string loginUrl = "https://localhost:7231/Login/Login";
-        //private string clientsUrl = "https://94.236.201.183:4231/Clients";
+        //private string clientsUrl = "https://localhost:7231/Clients";
+        private string clientsUrl = "https://94.236.201.183:4231/Clients";
+        //private string loginUrl = "https://localhost:7231/Login/Login";
+        private string loginUrl = "https://94.236.201.183:4231/Login/Login";
 
         public HomeService(BillingDbContext dbContext, IHttpClientFactory clientFactory)
         {
@@ -90,17 +90,10 @@
                 throw new Exception("Error reading ISP router info!");
             }
 
-            var paymentDetails = await _context.Payments.Select(x => new PaymentDetailsView
-            {
-                TotalValue = x.Fee + x.InstallationFee,
-                PendingValue = x.Pending ? x.Fee + x.InstallationFee : 0,
-                ReceiptValue = x.Receipt ? x.Fee + x.InstallationFee : 0,
-            }).ToListAsync();
 
             var model = new ActiveISPClientsFormModel
             {
                 Clients = clients.OrderBy(c => c.FullName).ToArray(),
-                PaymentDetails = paymentDetails,
             };
 
             return model;

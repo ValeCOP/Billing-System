@@ -67,7 +67,7 @@
                 throw new System.Exception("Expense not found");
             }
             _context.Expenses.Remove(expense);
-            var path = Path.Combine(Environment.CurrentDirectory, "wwwroot","expense", expense.ReceiptUrl.Split("/")[2]);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","expense", expense.ReceiptUrl!.Split("/")[2]);
             //delete file
             if (System.IO.File.Exists(path))
             {

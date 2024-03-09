@@ -1,7 +1,6 @@
 ﻿namespace Billing_System.Core.ViewModels.Clients
 {
     using Billing_System.Core.ValidationAttributes;
-    using Billing_System.Core.ViewModels.Payments;
     using System.ComponentModel.DataAnnotations;
     using static Utilities.ValidationConstants.ValidationConstants.ActiveISPClientsForm;
 
@@ -15,12 +14,10 @@
         public string ClientFullName { get; set; } = null!;
 
         [Required, Range(typeof(decimal), InstallationFeeMin, InstallationFeeMax)]
-        [RegularExpression(@"^\d+.?\d{0,2}$", ErrorMessage = FeeErrorMessage)]
         [Display(Name = "Installation Fee")]
         public decimal InstallationFee { get; set; }
 
         [Required, Range(typeof(decimal), FeeMin, FeeMax)]
-        [RegularExpression(@"^\d+.?\d{0,2}$", ErrorMessage = InstallationFeeErrorMessage)]
         [Display(Name = "Fee")]
         public decimal Fee { get; set; }
 
@@ -47,6 +44,5 @@
 
         public ICollection<ClientsFromISPModel> Clients { get; set; } = new List<ClientsFromISPModel>();
 
-        public ICollection<PaymentDetailsView> PaymentDetails { get; set; } = new List<PaymentDetailsView>();
     }
 }

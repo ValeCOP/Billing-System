@@ -94,7 +94,7 @@
                 .FirstOrDefaultAsync(c => c.Id == clientId);
             return client;
         }
-        public async Task<EditPaymentView> GetPaymentAsync(Guid Id)
+        public async Task<EditPaymentView> GetPaymentForEditAsync(Guid Id)
         {
             var payment = await _context.Payments
                 .Include(p => p.ApplicationUser)
@@ -151,5 +151,15 @@
             await _context.SaveChangesAsync();
         }
 
+        public Guid GetPaymentIdByClientId(Guid clientId)
+        {
+            var payment = _context.Payments
+                .FirstOrDefault(p => p.ClientId == clientId);
+            if (payment == null)
+            {
+                throw new Exception("Payment not found");
+            }
+            return payment.Id;
+        }
     }
 }

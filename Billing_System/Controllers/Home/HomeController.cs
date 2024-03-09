@@ -1,14 +1,13 @@
 ﻿namespace Billing_System.Controllers.Home
 {
     using Billing_System.Core.Contracts.Home;
+    using Billing_System.Core.Contracts.Payments;
     using Billing_System.Core.Contracts.Receipt;
     using Billing_System.Core.CustomExtensions;
     using Billing_System.Core.ViewModels.Clients;
     using Billing_System.Data;
-    using Billing_System.Data.Entities;
     using Billing_System.ViewModels;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
     using System.Globalization;
@@ -20,14 +19,14 @@
     {
         private readonly IHomeService _homeService;
         private readonly IReceiptService _receiptInterface;
-        private readonly BillingDbContext _context;
+        private readonly IPaymentsService _paymentsService;
 
 
         public HomeController(IHomeService homeInterface,
-                   BillingDbContext context, 
-                   IReceiptService receiptInterface)
+                   IReceiptService receiptInterface,
+                   IPaymentsService paymentsService)
         {
-            _context = context;
+            _paymentsService = paymentsService;
             _homeService = homeInterface;
             _receiptInterface = receiptInterface;
         }
@@ -109,8 +108,8 @@
 
                 if (model.Receipt)
                 {
-                    var payment = _context.Payments.FirstOrDefault(p => p.ClientId == model.ClientId);
-                    await _receiptInterface.CreateReceiptAsync(payment!.Id);
+                    var paymentId = _paymentsService.GetPaymentIdByClientId(model.ClientId);
+                    await _receiptInterface.CreateReceiptAsync(paymentId);
                     TempData["message"] =
                         $"Client {model.ClientFullName} has activated successfully to {model.ExpiredDate.ToString("D",CultureInfo.InvariantCulture)}.{Environment.NewLine}Receipt created!";
                 }

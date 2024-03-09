@@ -100,7 +100,7 @@
         {
             try
             {
-                var model = await _paymentsService.GetPaymentAsync(Id);
+                var model = await _paymentsService.GetPaymentForEditAsync(Id);
                 var userId = _userManager.GetUserId(User);
 
                 if (model.UserId.ToString() != userId)
@@ -159,7 +159,7 @@
         {
             try
             {
-                var model = await _paymentsService.GetPaymentAsync(Id);
+                var model = await _paymentsService.GetPaymentForEditAsync(Id);
                 var userId = _userManager.GetUserId(User);
 
                 if (model.UserId.ToString() != userId)
