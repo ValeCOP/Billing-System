@@ -5,7 +5,6 @@
     using Billing_System.Core.Contracts.Receipt;
     using Billing_System.Core.CustomExtensions;
     using Billing_System.Core.ViewModels.Clients;
-    using Billing_System.Data;
     using Billing_System.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
