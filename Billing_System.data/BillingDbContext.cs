@@ -18,6 +18,8 @@
         public DbSet<TechnicalProblem> TechnicalProblems { get; set; } = null!;
         public DbSet<Expense> Expenses { get; set; } = null!;
 
+        public DbSet<Promotion> Promotions { get; set; } = null!;
+
         override protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseLazyLoadingProxies();
