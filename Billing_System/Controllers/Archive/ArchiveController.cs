@@ -2,9 +2,10 @@
 {
     using Billing_System.Core.Contracts.Archive;
     using Billing_System.Core.ViewModels.ArchiveClients;
+    using Billing_System.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
+    using System.Diagnostics;
     using static Billing_System.Areas.Admin.Constants.AdminConstants;
 
     [Authorize(Roles = AdministratorRoleName)]
@@ -23,7 +24,7 @@
             try
             {
                 var monthDetails = await _archiveService.GetMonthDetailsAsync();
-                model.archiveMonthsDetails = monthDetails;
+                model.ArchiveMonthsDetails = monthDetails;
             }
             catch (Exception)
             {
@@ -38,16 +39,16 @@
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, "Please select a month");
+                ModelState.AddModelError(string.Empty, "Invalid Input");
                 return View("Index", model);
             }
             try
             {
                 await _archiveService.ArchiveClients(model.SelectedMonth);
             }
-            catch (DbUpdateException)
+            catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Archive failed");
+                ModelState.AddModelError(string.Empty, ex.Message);
                 return View("Index", model);
             }
             return RedirectToAction("All", "Clients");
@@ -59,10 +60,13 @@
             {
                 await _archiveService.DeleteMonth(monthName);
             }
-            catch (DbUpdateException)
+            catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Delete failed");
-                return RedirectToAction("Index");
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = ex.Message
+                });
             }
             return RedirectToAction("Index");
         }
