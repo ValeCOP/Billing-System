@@ -1,5 +1,4 @@
 ﻿@inject IUserServices _userServices
-
 @{
     var users = await _userServices.GetAllUserWithPayments();
     var currentUser = users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
@@ -52,10 +51,10 @@
 
     </div>
     <div class="col-lg-6 shadow-lg p-3">
-        <h4>Monthly Report</h4>
-        <hr />
         @if (User.IsInRole("Administrator"))
         {
+        <h4>Monthly Report</h4>
+        <hr />
             <h5>Total SUM: @totalSum</h5>
             <hr />
             <h5>Pending SUM: @pendingSum</h5>
@@ -66,6 +65,12 @@
             <hr />
             <h5 class="font-weight-bold"><i class="fa-solid fa-sack-dollar"></i><span class="fw-bold"> Income: @profit BGN</span></h5>
             <hr />
+        }
+        else
+        {
+            <div class=" col-md-12 p-3">
+                <h3 class="shadow-lg p-3 text-center text-muted"><em><i class="fa-solid fa-hand-holding-dollar"></i> INFOCAST SYSTEMS</em> - <strong><em>Billing</em></strong></h3>
+            </div>
         }
     </div>
 
