@@ -1,10 +1,5 @@
 ﻿namespace Billing_System.CustomMiddlewares
 {
-    using Billing_System.Core.CustomExtensions;
-    using System.Linq;
-    using System.Text;
-    using System.Text.Encodings.Web;
-
     public class UsersTrackerMiddleware
     {
         //write in file logged users with date and time
