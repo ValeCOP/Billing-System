@@ -176,12 +176,37 @@ $(document).ready(function () {
             .then(data => {
                 console.log(data);
                 let random = Math.floor(Math.random() * data.length);
-                let client = data[random].fullName;
-                let strong = document.createElement("strong");
-                let h4 = domCreator("h4", "Promotion : " + client + " win one mounth free", "", "", ["text-primary"]);
+                let clientName = data[random].fullName;
+                let h4 = domCreator("h4", "Promotion : " + clientName + " win one mounth free", "", "", ["text-primary"]);
                 let randomRecord = document.getElementById("randomRecord");
                 randomRecord.innerHTML = "";
                 randomRecord.appendChild(h4);
+
+                let clientId = data[random].clientId;
+                let token = document.querySelector('input[name="X-CSRF-TOKEN"]').value
+                debugger;
+                $.ajax({
+                    type: "POST",
+                    url: 'https://localhost:7171/Home/SetTempData?data=' + clientName + " WIN one mounth FREE!!!",
+                    headers: {
+                        "X-CSRF-TOKEN": token
+                    },
+                    success: function (r) {
+                        $.ajax({
+                            type: "POST",
+                            url: 'https://localhost:7171/Promotion/Add',
+                            headers: {
+                                "X-CSRF-TOKEN": token
+                            },
+                            data: { clientId: clientId },
+                            success: function (r) {
+                                debugger;
+                                window.location.href = "https://localhost:7171/Promotion/Index";
+                            }
+                        })
+
+                    }
+                });
             })
     });
 });
