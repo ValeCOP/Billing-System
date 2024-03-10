@@ -6,15 +6,19 @@
     using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
+    using System.Data;
+    using Microsoft.Extensions.Configuration;
     using System.Globalization;
     using System.Threading.Tasks;
 
     public class ArchiveService : IArchiveService
     {
         private readonly BillingDbContext _dbContext;
+        private  IConfiguration _config;
 
-        public ArchiveService(BillingDbContext dbContext)
+        public ArchiveService(BillingDbContext dbContext, IConfiguration config)
         {
+            _config = config;
             _dbContext = dbContext;
         }
         public async Task ArchiveClients(int month)
@@ -31,33 +35,43 @@
             string tableExpensesName = $"Expenses_{monthName}";
             string tableTechnicalProblemsName = $"TechnicalProblems_{monthName}";
 
-            var sql = $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{tableClientsName}'";
-            var sqlConnection = _dbContext.Database.GetDbConnection();
-            await sqlConnection.OpenAsync();
-            var command = sqlConnection.CreateCommand();
-            command.CommandText = sql;
-            var result = await command.ExecuteScalarAsync();
+            string[] tablesNames = { tableClientsName, tablePaymentsName, tableExpensesName, tableTechnicalProblemsName };
 
-            if (result != null && (int)result > 0)
+            foreach (var tableName in tablesNames)
             {
-                await sqlConnection.CloseAsync();
-                throw new DbUpdateException("Archive already exists");
+                var isExist = DoesTableExist(tableName);
+                if (isExist)
+                {
+                    throw new DbUpdateException($"{tableName} already exists");
+                }
             }
-            await sqlConnection.CloseAsync();
-
 
             using (var transaction = await _dbContext.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    await _dbContext.Database.ExecuteSqlRawAsync(
-                        $"SELECT c.* INTO {tableClientsName} FROM Clients AS c  LEFT JOIN Payments AS p ON c.Id = p.ClientId WHERE p.Pending = 0"
-                        );
+                    await _dbContext
+                        .Database
+                        .ExecuteSqlRawAsync(
+                        $"SELECT c.* INTO {tableClientsName} FROM Clients AS c  " +
+                        $"LEFT JOIN Payments AS p" +
+                        $" ON c.Id = p.ClientId WHERE p.Pending = 0");
 
-                    await _dbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO {tablePaymentsName} FROM Payments WHERE Payments.Pending = 0");
-                    await _dbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO {tableExpensesName} FROM Expenses");
-                    await _dbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO {tableTechnicalProblemsName} FROM TechnicalProblems");
-                  
+                    await _dbContext
+                        .Database
+                        .ExecuteSqlRawAsync(
+                        $"SELECT * INTO {tablePaymentsName} FROM Payments WHERE Payments.Pending = 0");
+
+                    await _dbContext
+                        .Database
+                        .ExecuteSqlRawAsync(
+                        $"SELECT * INTO {tableExpensesName} FROM Expenses");
+
+                    await _dbContext
+                        .Database
+                        .ExecuteSqlRawAsync(
+                        $"SELECT * INTO {tableTechnicalProblemsName} FROM TechnicalProblems");
+
 
                     var payments = await _dbContext
                         .Payments
@@ -76,8 +90,13 @@
                     _dbContext.Clients.RemoveRange(clients);
                     await _dbContext.SaveChangesAsync();
 
-                    await _dbContext.Database.ExecuteSqlRawAsync($"TRUNCATE TABLE Expenses");
-                    await _dbContext.Database.ExecuteSqlRawAsync($"TRUNCATE TABLE TechnicalProblems");
+                    await _dbContext
+                        .Database
+                        .ExecuteSqlRawAsync($"TRUNCATE TABLE Expenses");
+
+                    await _dbContext
+                        .Database
+                        .ExecuteSqlRawAsync($"TRUNCATE TABLE TechnicalProblems");
 
                     await transaction.CommitAsync();
                 }
@@ -154,6 +173,21 @@
                 }
             }
         }
+        private bool DoesTableExist(string TableName)
+        {
+            string connectionString = _config.GetConnectionString("DefaultConnection")!;
+            using (SqlConnection conn =
+                         new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                DataTable dTable = conn.GetSchema("TABLES",
+                               new string[] { null, null, TableName });
+
+                return dTable.Rows.Count > 0;
+            }
+        }
+
 
     }
 }
