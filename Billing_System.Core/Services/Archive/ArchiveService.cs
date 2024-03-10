@@ -3,6 +3,7 @@
     using Billing_System.Core.Contracts.Archive;
     using Billing_System.Core.ViewModels.ArchiveClients;
     using Billing_System.Data;
+    using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Globalization;
@@ -18,6 +19,11 @@
         }
         public async Task ArchiveClients(int month)
         {
+            int[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+            if (!months.Contains(month))
+            {
+                throw new DbUpdateException("Invalid month");
+            }
 
             string monthName = CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(month);
             string tableClientsName = $"Clients_{monthName}";
@@ -35,8 +41,11 @@
             if (result != null && (int)result > 0)
             {
                 await sqlConnection.CloseAsync();
-                return;
+                throw new DbUpdateException("Archive already exists");
             }
+            await sqlConnection.CloseAsync();
+
+
             using (var transaction = await _dbContext.Database.BeginTransactionAsync())
             {
                 try
@@ -44,6 +53,7 @@
                     await _dbContext.Database.ExecuteSqlRawAsync(
                         $"SELECT c.* INTO {tableClientsName} FROM Clients AS c  LEFT JOIN Payments AS p ON c.Id = p.ClientId WHERE p.Pending = 0"
                         );
+
                     await _dbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO {tablePaymentsName} FROM Payments WHERE Payments.Pending = 0");
                     await _dbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO {tableExpensesName} FROM Expenses");
                     await _dbContext.Database.ExecuteSqlRawAsync($"SELECT * INTO {tableTechnicalProblemsName} FROM TechnicalProblems");
@@ -97,7 +107,6 @@
                 if (result == null || (int)result == 0)
                 {
                     await sqlConnection.CloseAsync();
-
                     continue;
                 }
 
@@ -123,6 +132,11 @@
 
         public async Task DeleteMonth(string monthName)
         {
+            string[] months = CultureInfo.InvariantCulture.DateTimeFormat.MonthNames;
+            if (!months.Contains(monthName))
+            {
+                throw new DbUpdateException("Invalid month");
+            }
             using (var transaction = await _dbContext.Database.BeginTransactionAsync())
             {
                 try
@@ -133,7 +147,7 @@
                     await _dbContext.Database.ExecuteSqlRawAsync($"DROP TABLE IF EXISTS TechnicalProblems_{monthName};");
                     await transaction.CommitAsync();
                 }
-                catch (DbUpdateException)
+                catch (OperationCanceledException)
                 {
                     await transaction.RollbackAsync();
                     throw;

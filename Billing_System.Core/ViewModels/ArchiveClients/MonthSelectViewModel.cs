@@ -5,12 +5,9 @@
     public class MonthSelectViewModel
     {
         [Required]
-        [Display(Name = "Select month")]
+        [Display(Name = "Archive in:")]
         public int SelectedMonth { get; set; }
 
-        public ICollection<ArchiveMonthDetails> archiveMonthsDetails { get; set; } = new List<ArchiveMonthDetails>();
-
-
-
+        public ICollection<ArchiveMonthDetails> ArchiveMonthsDetails { get; set; } = new List<ArchiveMonthDetails>();
     }
 }

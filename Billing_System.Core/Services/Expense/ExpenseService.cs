@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
+    using System.Net;
     using System.Threading.Tasks;
 
     public class ExpenseService : IExpenseService
@@ -21,19 +22,26 @@
         }
 
         public async Task AddExpenseAsync(AddExpenseViewModel model)
+
         {
             if (model.File != null)
             {
                 if (model.File.Length > MaxFileSize)
                 {
-                    throw new System.Exception("File size must be less than 5MB");
+                    throw new Exception("File size must be less than 5MB");
                 }
                 if (!IsJpeg(model.File))
                 {
-                    throw new System.Exception("File must be an image");
+                    throw new Exception("File must be an image");
                 }
             }
-            string path = Path.Combine(Environment.CurrentDirectory, "wwwroot", "expense", model.File!.FileName);
+
+            var fileName = Path.GetFileName(model.File!.FileName);
+            var fileExtension = Path.GetExtension(fileName);
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+            var sanitizedFileName = WebUtility.HtmlEncode(fileNameWithoutExtension) + fileExtension;
+
+            string path = Path.Combine(Environment.CurrentDirectory, "wwwroot", "expense", sanitizedFileName);
             try
             {
                 using (var stream = new FileStream(path, FileMode.Create))
@@ -54,7 +62,7 @@
             }
             catch (Exception e)
             {
-                throw new System.Exception(e.Message);
+                throw new Exception(e.Message);
             }
 
         }
@@ -64,19 +72,17 @@
             var expense = _context.Expenses.Find(id);
             if (expense == null)
             {
-                throw new System.Exception("Expense not found");
+                throw new Exception("Expense not found");
             }
             _context.Expenses.Remove(expense);
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","expense", expense.ReceiptUrl!.Split("/")[2]);
-            //delete file
-            if (System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
-            }
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "expense", expense.ReceiptUrl!.Split("/")[2]);  
 
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
             return _context.SaveChangesAsync();
         }
-
 
         public async Task<ICollection<AllExpenseViewModel>> GetExpenseAsync(FilteredExpensesViewModel modelGetForm)
         {

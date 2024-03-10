@@ -5,7 +5,6 @@
         public string MonthName { get; set; } = null!;
         public int ClientsCount { get; set; }
         public decimal TotalAmount { get; set; }
-
         public int TotalTechnicalProblems { get; set; }
         public decimal TotalExpenses { get; set; }
     }

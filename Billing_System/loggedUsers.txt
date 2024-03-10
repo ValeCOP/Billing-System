@@ -1,0 +1,339 @@
+val - 9.3.2024 г. 9:38:00 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 9:38:11 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 9:38:40 - GET /Admin/User/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 9:38:46 - GET /TechnicalProblem/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 9:38:49 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 9:46:30 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 9:52:13 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 9:57:39 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 9:59:16 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:02:04 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:06:50 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:07:53 - GET /Archive/Remove?monthName=January
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:07:53 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:07:54 - GET /Archive/Remove?monthName=April
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:07:54 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:07:56 - GET /Archive/Remove?monthName=December
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:07:56 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:07:57 - GET /Clients/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:08:00 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:08:04 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:10:13 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:10:26 - POST /Archive/Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:14:15 - POST /Archive/Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:17:09 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:17:30 - POST /Archive/Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:17:30 - GET /Clients/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:17:35 - GET /Expense/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:17:36 - GET /TechnicalProblem/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:17:37 - GET /Admin/User/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:17:37 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:18:47 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:21:29 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:22:17 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:34:38 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:34:44 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:34:48 - POST /Archive/Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:35:28 - GET /Clients/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:39:36 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:39:39 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:39:42 - POST /Archive/Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:39:52 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:39:53 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:39:54 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:39:54 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:39:55 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:39:57 - POST /Archive/Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:40:18 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:40:29 - GET /Admin/User/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:56:27 - GET /TechnicalProblem/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:56:29 - GET /Admin/User/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:56:31 - GET /Expense/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:56:36 - GET /Expense/Add
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:57:17 - POST /Expense/Add
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 10:57:17 - GET /Expense/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:11:50 - GET /Expense/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:12:03 - GET /Expense/Add
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:12:12 - POST /Expense/Add
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:12:12 - GET /Expense/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:19:40 - GET /Expense/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:20:03 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:20:10 - GET /Expense/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:20:28 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:20:31 - GET /Api/Get
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:51:47 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:51:53 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:52:11 - POST /Archive/Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:53:50 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:53:53 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:54:09 - POST /Archive/Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:55:35 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:55:43 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:58:06 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:58:17 - POST /Archive/Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:59:25 - POST /Archive/Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:59:26 - GET /Clients/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 11:59:34 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:02:31 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:02:49 - POST /Archive/Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:03:03 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:03:38 - GET /Archive/Remove?monthName=Februaryr
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:03:38 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:03:48 - GET /Archive/Remove?monthName=February11
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:03:48 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:05:37 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:05:49 - GET /Archive/Remove?monthName=Februaryww
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:05:49 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:06:22 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:06:30 - GET /Archive/Remove?monthName=Februaryww
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:10:59 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:11:08 - GET /Archive/Remove?monthName=February66
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:11:54 - GET /Archive/Remove?monthName=February66
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:13:11 - GET /Archive/Remove?monthName=February66&user=wefwefwefdwedwe
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:13:58 - GET /Archive/Remove?monthName=February66&user=wefwefwefdwedwe
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:15:38 - GET /Archive/Remove?monthName=February66&user=wefwefwefdwedwe
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:18:19 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:18:21 - GET /Expense/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:18:25 - GET /Expense/Allj
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:34:45 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:34:53 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:34:59 - GET /Clients/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:35:01 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:35:53 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:38:45 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:38:48 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:59:18 - GET /
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:59:22 - GET /Expense/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:59:22 - GET /expense/2024-03-0912.28.338547804450551850862.jpg
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:59:23 - GET /TechnicalProblem/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 12:59:24 - GET /Archive
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 13:01:55 - GET /Clients/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 13:01:59 - GET /Expense/All
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 13:01:59 - GET /expense/2024-03-0912.28.338547804450551850862.jpg
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200
+val - 9.3.2024 г. 13:01:59 - GET /expense/2024-03-0912.28.338547804450551850862.jpg
+ - 127.0.0.1 - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+200

@@ -11,23 +11,23 @@
                     <label asp-for="SelectedMonth" class="control-label"></label>
 
                     <select asp-for="SelectedMonth" class="form-control">
-                        <option value="">Select Month</option>
-                        @for (int i = 1; i <= 12; i++)
-                        {
-                            <option value="@i">@CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)</option>
-                        }
+
+                        <option value="@DateTime.Now.AddMonths(-1).Month">@CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(@DateTime.Now.Month - 1)</option>
+                        
                     </select>
 
                     <span asp-validation-for="SelectedMonth" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Archive" class="btn btn-outline-primary mt-2" />
+                    <input type="submit" value="Archive" class="btn btn-outline-primary mt-2" onclick="return confirm('This will delete all current information except the clients with pending payments')" />
                 </div>
             </form>
+            <p>The current information will be recorded in DB tables with suffix <strong class="text-danger">_@CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(@DateTime.Now.Month - 1)</strong></p>
+            <p>This will <strong class="text-danger">delete</strong> all current information except the clients with pending payments</p>
         </div>
         <div class="shadow-lg col-md-8" style="padding: 30px">
             <div class="row">
-                @foreach (var item in Model.archiveMonthsDetails)
+                @foreach (var item in Model.ArchiveMonthsDetails)
                 {
 
                     <div class="col-md-4 shadow-lg p-3">
