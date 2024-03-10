@@ -65,5 +65,12 @@
             public const string DescriptionErrorMessage = "Description must be between {2} and {1} characters";
             public const string ReceiptUrlErrorMessage = "Invalid URL";
         }
+
+        public static class Promotions
+        {
+            public const int NameMaxLength = 100;
+            public const int NameMinLength = 3;
+            public const string NameErrorMessage = "Name must be between {2} and {1} characters";
+        }
     }
 }
