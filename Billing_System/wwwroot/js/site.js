@@ -167,3 +167,21 @@ $("#description-input").focusout(function () {
         $('#output-description').text("Description: " + description);
     }
 })
+
+$(document).ready(function () {
+
+    $("#showRandomRecord").click(function () {
+        fetch("https://localhost:7171/Api/Get")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                let random = Math.floor(Math.random() * data.length);
+                let client = data[random].fullName;
+                let strong = document.createElement("strong");
+                let h4 = domCreator("h4", "Promotion : " + client + " win one mounth free", "", "", ["text-primary"]);
+                let randomRecord = document.getElementById("randomRecord");
+                randomRecord.innerHTML = "";
+                randomRecord.appendChild(h4);
+            })
+    });
+});
