@@ -1,15 +1,12 @@
-﻿namespace Billing_System.Controllers.Archive
+﻿namespace Billing_System.Areas.Admin.Controllers
 {
     using Billing_System.Core.Contracts.Archive;
     using Billing_System.Core.ViewModels.ArchiveClients;
     using Billing_System.ViewModels;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
-    using static Billing_System.Areas.Admin.Constants.AdminConstants;
 
-    [Authorize(Roles = AdministratorRoleName)]
-    public class ArchiveController : Controller
+    public class ArchiveController : AdminControllerBase
     {
         private readonly IArchiveService _archiveService;
 
@@ -51,7 +48,7 @@
                 ModelState.AddModelError(string.Empty, ex.Message);
                 return View("Index", model);
             }
-            return RedirectToAction("All", "Clients");
+            return RedirectToAction("Index");
 
         }
         public async Task<IActionResult> Remove(string monthName)

@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
 
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class ExpenseController : Controller
     {
         private readonly IExpenseService _expenseService;
