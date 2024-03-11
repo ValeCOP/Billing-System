@@ -42,7 +42,7 @@
         public async Task AddPayment_Test_01()
         {
             // Arrange
-            var payment = new AddPaymentView
+            var payment = new AddPaymentViewModel
             {
                 Name = "Initial2",
                 Fee = 22,

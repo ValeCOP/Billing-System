@@ -12,10 +12,9 @@
         public string Name { get; set; } = null!;
 
         [Required]
-        public int Mounth { get; set; }
-        public Guid ClientId { get; set; }
-
-        [ForeignKey(nameof(ClientId))]
-        public virtual Client Client { get; set; } = null!;
+        public int Month { get; set; }
+        
+        [Required]
+        public string ClientFullName { get; set; } = null!;
     }
 }
