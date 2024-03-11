@@ -1,14 +1,12 @@
 ﻿namespace Billing_System.Core.ViewModels.Payments
 {
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.ComponentModel.DataAnnotations;
-    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.Payments;
     using Billing_System.Data.Entities;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.Payments;
 
-    public class EditPaymentView
+    public class AddPaymentViewModel
     {
-        [Required]
-        public Guid Id { get; set; }
 
         [Required, MaxLength(NameMaxLength)]
         public string Name { get; set; } = null!;
@@ -20,19 +18,19 @@
 
         [Required]
         public bool Pending { get; set; }
+        [Required]
+        public bool Receipt { get; set; }
 
         [Required]
-        [Display(Name = "From Date")]
-        public DateTime FromDate { get; set; } 
+        public string FromDate { get; set; } = null!;
 
         [Required]
-        [Display(Name = "To Date")] 
-        public DateTime ToDate { get; set; } 
+        public string ToDate { get; set; } = null!;
 
         [Required]
         public Guid ClId { get; set; }
-
-        public virtual Client? Client { get; set; }
+        
+        public virtual  Client? Client { get; set; }
 
         [Required]
         public Guid UserId { get; set; }

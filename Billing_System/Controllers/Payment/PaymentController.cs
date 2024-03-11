@@ -39,7 +39,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddPaymentView model)
+        public async Task<IActionResult> Add(AddPaymentViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -121,7 +121,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditPaymentView model, Guid Id)
+        public async Task<IActionResult> Edit(EditPaymentViewModel model, Guid Id)
         {
             if (!ModelState.IsValid)
             {
