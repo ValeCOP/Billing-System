@@ -6,11 +6,11 @@
     public interface IPaymentsService
     {
         Task<PaymentsDetailsView> GetPaymentDetailsAsync(Guid id);
-        Task<EditPaymentView> GetPaymentForEditAsync(Guid Id);
-        Task<Payment> AddPaymentAsync(AddPaymentView model, Guid userId);
-        Task EditPaymentAsync(EditPaymentView model, Guid paymentId);
+        Task<EditPaymentViewModel> GetPaymentForEditAsync(Guid Id);
+        Task<Payment> AddPaymentAsync(AddPaymentViewModel model, Guid userId);
+        Task EditPaymentAsync(EditPaymentViewModel model, Guid paymentId);
         Task DeletePaymentAsync(Guid paymentId);
-        Task<AddPaymentView> Add(Guid clientId);
+        Task<AddPaymentViewModel> Add(Guid clientId);
         Guid GetPaymentIdByClientId(Guid clientId);
     }
 }
