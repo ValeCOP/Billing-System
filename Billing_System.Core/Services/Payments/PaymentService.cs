@@ -18,14 +18,14 @@
         {
             _context = context;
         }
-        public async Task<AddPaymentView> Add(Guid clientId)
+        public async Task<AddPaymentViewModel> Add(Guid clientId)
         {
             var client = await _context.Clients
                 .Include(c => c.ApplicationUser)
                 .FirstOrDefaultAsync(c => c.Id == clientId);
                 ;
 
-            var addPaymentView = new AddPaymentView()
+            var addPaymentView = new AddPaymentViewModel()
             {
                 ClId = clientId,
                 Client = client!,
@@ -33,7 +33,7 @@
             };
             return addPaymentView;
         }
-        public async Task<Payment> AddPaymentAsync(AddPaymentView payment, Guid userId)
+        public async Task<Payment> AddPaymentAsync(AddPaymentViewModel payment, Guid userId)
         {
 
             var user = await _context.Users.FindAsync(userId);
@@ -62,7 +62,7 @@
             await _context.SaveChangesAsync();
             return newPayment;
         }
-        public async Task EditPaymentAsync(EditPaymentView model, Guid paymentId)
+        public async Task EditPaymentAsync(EditPaymentViewModel model, Guid paymentId)
         {
             var payment = await _context.Payments
                .Include(p => p.ApplicationUser)
@@ -94,7 +94,7 @@
                 .FirstOrDefaultAsync(c => c.Id == clientId);
             return client;
         }
-        public async Task<EditPaymentView> GetPaymentForEditAsync(Guid Id)
+        public async Task<EditPaymentViewModel> GetPaymentForEditAsync(Guid Id)
         {
             var payment = await _context.Payments
                 .Include(p => p.ApplicationUser)
@@ -106,7 +106,7 @@
             {
                 throw new Exception("Payment not found");
             }
-            var paymentForEdit = new EditPaymentView
+            var paymentForEdit = new EditPaymentViewModel
             {
                 Name = payment.Name + $" - edited",
                 Fee = payment.Fee,
