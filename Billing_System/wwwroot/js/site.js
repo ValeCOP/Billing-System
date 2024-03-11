@@ -64,7 +64,7 @@
 
 setTimeout(function () {
     $('#alert').fadeOut(200);
-}, 5000);
+}, 10000);
 
 function makeCardTechProblem(clientsISP) {
 
@@ -81,7 +81,6 @@ function makeCardTechProblem(clientsISP) {
     let clientName = document.getElementById("ClientNameId");
 
     clientName.value = findedClient.FullName;
-    debugger;
     if (findedClient) {
         presentationElement.removeAttribute("hidden");
         presentationElement.className = "card col-12";
@@ -168,45 +167,46 @@ $("#description-input").focusout(function () {
     }
 })
 
-$(document).ready(function () {
 
-    $("#showRandomRecord").click(function () {
-        fetch("https://localhost:7171/Api/Get")
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                let random = Math.floor(Math.random() * data.length);
-                let clientName = data[random].fullName;
-                let h4 = domCreator("h4", "Promotion : " + clientName + " win one mounth free", "", "", ["text-primary"]);
-                let randomRecord = document.getElementById("randomRecord");
-                randomRecord.innerHTML = "";
-                randomRecord.appendChild(h4);
+$("#showRandomRecord").click(function () {
+    fetch("https://localhost:7171/Api/Get")
+        .then(response => response.json())
+        .then(data => {
 
-                let clientId = data[random].clientId;
-                let token = document.querySelector('input[name="X-CSRF-TOKEN"]').value
-                debugger;
-                $.ajax({
-                    type: "POST",
-                    url: 'https://localhost:7171/Home/SetTempData?data=' + clientName + " WIN one mounth FREE!!!",
-                    headers: {
-                        "X-CSRF-TOKEN": token
-                    },
-                    success: function (r) {
-                        $.ajax({
-                            type: "POST",
-                            url: 'https://localhost:7171/Promotion/Add',
-                            headers: {
-                                "X-CSRF-TOKEN": token
-                            },
-                            data: { clientId: clientId },
-                            success: function (r) {
-                                debugger;
-                                window.location.href = "https://localhost:7171/Promotion/Index";
-                            }
-                        })
+            let random = Math.floor(Math.random() * data.length);
+            let clientName = data[random].fullName;
+            let h4 = domCreator("h4", "", "", "", ["text-primary"]);
+            let randomRecord = document.getElementById("randomRecord");
+            randomRecord.innerHTML = "";
+            randomRecord.appendChild(h4);
 
-                    }
-                });
-            })
-    });
+            let clientId = data[random].clientId;
+            let token = document.querySelector('input[name="X-CSRF-TOKEN"]').value
+
+            $.ajax({
+                type: "POST",
+                url: 'https://localhost:7171/Home/SetTempData?data=' + clientName + " WIN one mounth FREE!!! Payment",
+                headers: {
+                    "X-CSRF-TOKEN": token
+                },
+                success: function (r) {
+                    $.ajax({
+                        type: "POST",
+                        url: 'https://localhost:7171/Promotion/Add',
+                        headers: {
+                            "X-CSRF-TOKEN": token
+                        },
+                        data: { clientId: clientId },
+                        success: function (r) {
+                            h4.innerHTML = "";
+                            window.location.href = "https://localhost:7171/Clients/Details/" + clientId;
+                        },
+                        error: function (r) {
+                            h4.textContent = "Error:  " + JSON.stringify(r.status);
+                        }
+                    })
+
+                }
+            });
+        })
 });
