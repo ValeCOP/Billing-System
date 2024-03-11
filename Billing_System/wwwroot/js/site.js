@@ -169,7 +169,7 @@ $("#description-input").focusout(function () {
 
 
 $("#showRandomRecord").click(function () {
-    fetch("https://localhost:7171/Api/Get")
+    fetch("/Api/Get")
         .then(response => response.json())
         .then(data => {
 
@@ -185,21 +185,21 @@ $("#showRandomRecord").click(function () {
 
             $.ajax({
                 type: "POST",
-                url: 'https://localhost:7171/Home/SetTempData?data=' + clientName + " WIN one mounth FREE!!! Payment",
+                url: '/Home/SetTempData?data=' + clientName + " WIN one mounth FREE!!! Payment",
                 headers: {
                     "X-CSRF-TOKEN": token
                 },
                 success: function (r) {
                     $.ajax({
                         type: "POST",
-                        url: 'https://localhost:7171/Promotion/Add',
+                        url: '/Promotion/Add',
                         headers: {
                             "X-CSRF-TOKEN": token
                         },
                         data: { clientId: clientId },
                         success: function (r) {
                             h4.innerHTML = "";
-                            window.location.href = "https://localhost:7171/Clients/Details/" + clientId;
+                            window.location.href = "/Clients/Details/" + clientId;
                         },
                         error: function (r) {
                             h4.textContent = "Error:  " + JSON.stringify(r.status);
