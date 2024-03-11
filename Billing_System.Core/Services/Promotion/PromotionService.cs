@@ -6,8 +6,9 @@
     using System.Globalization;
     using System.Threading.Tasks;
     using Billing_System.Data;
+    using Microsoft.EntityFrameworkCore;
 
-    public class PromotionService : IPromotionServise
+    public class PromotionService : IPromotionService
     {
         private readonly BillingDbContext _context;
 
@@ -17,15 +18,25 @@
         }
         public async Task Add(Guid clientId)
         {
-           
+            var client = await _context.Clients.FindAsync(clientId);
+            if (client == null)
+            {
+                throw new Exception("Client not found");
+            }
+
             var promotion = new Promotion()
             {
                 Name = "Promotion_Month_FREE_" + CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(DateTime.Now.Month),
-                Mounth = DateTime.Now.Month,
-                ClientId = clientId
+                Month = DateTime.Now.Month,
+                ClientFullName = client.FullName
             };
             _context.Promotions.Add(promotion);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> PromotionIsAdded()
+        {
+           return await _context.Promotions.AnyAsync();
         }
     }
 }
