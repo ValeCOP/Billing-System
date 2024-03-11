@@ -44,7 +44,7 @@
             services.AddScoped<ITechnicalProblemService, TechnicalProblemService>();
             services.AddScoped<ISendMail, SendMail>();
             services.AddScoped<IExpenseService, ExpenseService>();
-            services.AddScoped<IPromotionServise, PromotionService>();
+            services.AddScoped<IPromotionService, PromotionService>();
 
             return services;
         }
