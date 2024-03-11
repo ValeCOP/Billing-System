@@ -164,10 +164,5 @@
             _context.SaveChanges();
         }
 
-        public async Task<int> GetTotalPages(int pageSize)
-        {
-            var data =  (int)Math.Ceiling( (double) await _context.Clients.CountAsync() / pageSize);
-            return data;
-        }
     }
 }
