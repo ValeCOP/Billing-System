@@ -1,14 +1,15 @@
 ﻿namespace Billing_System.CustomMiddlewares
 {
+    using System.Text;
+
     public class UsersTrackerMiddleware
     {
-        //write in file logged users with date and time
-        private readonly RequestDelegate next;
-        private readonly string filePath = "loggedUsers.txt";
+        private readonly RequestDelegate _next;
+        private readonly string filePath = "trackUsers.txt";
 
         public UsersTrackerMiddleware(RequestDelegate next)
         {
-            this.next = next;
+            _next = next;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -21,20 +22,19 @@
 
                 string username = context.User.Identity.Name;
 
-                string ipaddress = context.Connection.RemoteIpAddress.ToString();
+                string ipAddress = context.Connection.RemoteIpAddress.ToString();
 
                 string userAgent = context.Request.Headers["User-Agent"].ToString();
 
                 string replyUrl = context.Response.StatusCode.ToString();
 
-                string log = $"{username} - {logMessage} - {ipaddress} - {userAgent}{Environment.NewLine}" +
+                string log = $"{username} - {logMessage} - {ipAddress} - {userAgent}{Environment.NewLine}" +
                     $"{replyUrl}{Environment.NewLine}";
 
-                await File.AppendAllTextAsync(filePath, log);
+                await File.AppendAllTextAsync(filePath, log, Encoding.Unicode);
             }
 
-            await next(context);
+            await _next(context);
         }
-
     }
 }
