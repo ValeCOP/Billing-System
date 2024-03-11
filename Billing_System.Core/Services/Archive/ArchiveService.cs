@@ -14,7 +14,7 @@
     public class ArchiveService : IArchiveService
     {
         private readonly BillingDbContext _dbContext;
-        private  IConfiguration _config;
+        private IConfiguration _config;
 
         public ArchiveService(BillingDbContext dbContext, IConfiguration config)
         {
@@ -34,8 +34,9 @@
             string tablePaymentsName = $"Payments_{monthName}";
             string tableExpensesName = $"Expenses_{monthName}";
             string tableTechnicalProblemsName = $"TechnicalProblems_{monthName}";
+            string tablePromotionsName = $"Promotions_{monthName}";
 
-            string[] tablesNames = { tableClientsName, tablePaymentsName, tableExpensesName, tableTechnicalProblemsName };
+            string[] tablesNames = { tableClientsName, tablePaymentsName, tableExpensesName, tableTechnicalProblemsName, tablePromotionsName };
 
             foreach (var tableName in tablesNames)
             {
@@ -72,6 +73,11 @@
                         .ExecuteSqlRawAsync(
                         $"SELECT * INTO {tableTechnicalProblemsName} FROM TechnicalProblems");
 
+                    await _dbContext
+                        .Database
+                        .ExecuteSqlRawAsync(
+                        $"SELECT * INTO {tablePromotionsName} FROM Promotions");
+
 
                     var payments = await _dbContext
                         .Payments
@@ -97,6 +103,10 @@
                     await _dbContext
                         .Database
                         .ExecuteSqlRawAsync($"TRUNCATE TABLE TechnicalProblems");
+
+                    await _dbContext
+                        .Database
+                        .ExecuteSqlRawAsync($"TRUNCATE TABLE Promotions");
 
                     await transaction.CommitAsync();
                 }
@@ -134,13 +144,15 @@
                 var totalAmount = _dbContext.Payments.FromSqlRaw($"SELECT * FROM Payments_{monthName}").Sum(p => p.Fee);
                 var totalExpenses = _dbContext.Expenses.FromSqlRaw($"SELECT * FROM Expenses_{monthName}").Sum(e => e.Value);
                 var totalTechnicalProblems = _dbContext.TechnicalProblems.FromSqlRaw($"SELECT * FROM TechnicalProblems_{monthName}").Count();
+                var promoClientName = _dbContext.Promotions.FromSqlRaw($"SELECT * FROM Promotions_{monthName}").FirstOrDefaultAsync().Result!.ClientFullName!;
                 var archiveMonthDetails = new ArchiveMonthDetails
                 {
                     MonthName = monthName,
                     ClientsCount = clientsCount,
                     TotalAmount = totalAmount,
                     TotalExpenses = totalExpenses,
-                    TotalTechnicalProblems = totalTechnicalProblems
+                    TotalTechnicalProblems = totalTechnicalProblems,
+                    PromoClientName = promoClientName
                 };
                 archiveMonthsDetails.Add(archiveMonthDetails);
                 await sqlConnection.CloseAsync();
@@ -164,6 +176,7 @@
                     await _dbContext.Database.ExecuteSqlRawAsync($"DROP TABLE IF EXISTS Payments_{monthName};");
                     await _dbContext.Database.ExecuteSqlRawAsync($"DROP TABLE IF EXISTS Expenses_{monthName};");
                     await _dbContext.Database.ExecuteSqlRawAsync($"DROP TABLE IF EXISTS TechnicalProblems_{monthName};");
+                    await _dbContext.Database.ExecuteSqlRawAsync($"DROP TABLE IF EXISTS Promotions_{monthName};");
                     await transaction.CommitAsync();
                 }
                 catch (OperationCanceledException)
@@ -188,6 +201,6 @@
             }
         }
 
-
+       
     }
 }
