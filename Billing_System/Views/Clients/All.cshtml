@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<ActivatedClientsViewModel>
+@inject IPromotionService promotionService;
+@inject IClientsService clientsService; 
 @{
     ViewData["Title"] = "All";
+    var clientsCount =  clientsService.GetAllClientsAsync("", "").Result.Count();
 }
 <h2><i class="fa-solid fa-users"></i> All Client</h2>
 <div class="shadow-lg" style="padding: 30px">
@@ -13,7 +16,7 @@
         </div>
     }
     <div class="row shadow-lg">
-       
+
         <div class="shadow-lg p-3">
             <form class="row" asp-controller="Clients" asp-action="All" method="get">
                 <div class="col-md-1">
@@ -94,11 +97,24 @@
                     </tbody>
                 </table>
             </div>
-            <div class="shadow-lg p-3">
-                <div id="randomRecord"><button id="showRandomRecord" class="btn btn-outline-primary">Promotion</button></div>
-                
-            </div>
+            @if (User.IsAdmin() && clientsCount > 5)
+            {
+                @if (await promotionService.PromotionIsAdded())
+                {
+                    <div class="shadow-lg p-3">
+                        <div id="randomRecord"><h2 class="text-primary">No active promotion!</h2></div>
 
+                    </div>
+
+                }
+                else
+                {
+                    <div class="shadow-lg p-3">
+                        <div id="randomRecord"><button id="showRandomRecord" class="btn btn-outline-primary">Add a bonus month to a random client!</button></div>
+
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>
