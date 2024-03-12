@@ -150,6 +150,7 @@
                                    FullName = c.FullName,
                                    ActivationDate = c.ActivationDate.ToString("yyyy-MM-dd hh:mm:ss"),
                                    ExpiredDate = c.ExpiredDate.ToString("yyyy-MM-dd"),
+                                   Pending = c.Payments.Any(p => p.Pending)
                                }).ToListAsync();
             return clients;
         }
