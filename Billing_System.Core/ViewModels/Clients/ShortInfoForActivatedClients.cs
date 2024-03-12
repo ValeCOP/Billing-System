@@ -6,5 +6,6 @@
         public string FullName { get; set; } = null!;
         public string ActivationDate { get; set; } = null!;
         public string ExpiredDate { get; set; } = null!;
+        public  bool Pending { get; set; }
     }
 }
