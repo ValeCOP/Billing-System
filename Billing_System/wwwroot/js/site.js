@@ -174,6 +174,10 @@ $("#showRandomRecord").click(function () {
         .then(data => {
 
             let random = Math.floor(Math.random() * data.length);
+           
+            while (data[random].pending) {
+                random = Math.floor(Math.random() * data.length);
+            }
             let clientName = data[random].fullName;
             let h4 = domCreator("h4", "", "", "", ["text-primary"]);
             let randomRecord = document.getElementById("randomRecord");

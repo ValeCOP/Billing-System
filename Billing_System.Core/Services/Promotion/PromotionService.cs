@@ -34,6 +34,14 @@
             await _context.SaveChangesAsync();
         }
 
+        public async Task<string> GetProfitableClientAsync()
+        {
+            string? clientName  = await _context.Promotions
+                .Select(g => g.ClientFullName)
+                .FirstOrDefaultAsync();
+            return clientName!;
+        }
+
         public async Task<bool> PromotionIsAdded()
         {
            return await _context.Promotions.AnyAsync();
