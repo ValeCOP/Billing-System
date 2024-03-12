@@ -23,8 +23,8 @@
         }
         public async Task ArchiveClients(int month)
         {
-            int[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-            if (!months.Contains(month))
+            var currentMonth = DateTime.Now.Month;
+            if (month != currentMonth - 1)
             {
                 throw new DbUpdateException("Invalid month");
             }
@@ -52,11 +52,11 @@
                 try
                 {
                     await _dbContext
-                        .Database
-                        .ExecuteSqlRawAsync(
-                        $"SELECT c.* INTO {tableClientsName} FROM Clients AS c  " +
-                        $"LEFT JOIN Payments AS p" +
-                        $" ON c.Id = p.ClientId WHERE p.Pending = 0");
+                         .Database
+                         .ExecuteSqlRawAsync(
+                         $"SELECT c.* INTO {tableClientsName} FROM Clients AS c  " +
+                         $"LEFT JOIN Payments AS p" +
+                         $" ON c.Id = p.ClientId WHERE p.Pending = 0");
 
                     await _dbContext
                         .Database
@@ -126,25 +126,39 @@
             {
                 var monthName = CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i);
 
-                var sql = $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Clients_{monthName}'";
-                var sqlConnection = _dbContext.Database.GetDbConnection();
-                await sqlConnection.OpenAsync();
-                var command = sqlConnection.CreateCommand();
-                command.CommandText = sql;
-                var result = await command.ExecuteScalarAsync();
+                string tableClientsName = $"Clients_{monthName}";
+                string tablePaymentsName = $"Payments_{monthName}";
+                string tableExpensesName = $"Expenses_{monthName}";
+                string tableTechnicalProblemsName = $"TechnicalProblems_{monthName}";
+                string tablePromotionsName = $"Promotions_{monthName}";
 
-                if (result == null || (int)result == 0)
+                string[] tablesNames = { tableClientsName, tablePaymentsName, tableExpensesName, tableTechnicalProblemsName, tablePromotionsName };
+
+                bool tableExist = true;
+
+                foreach (var tableName in tablesNames)
                 {
-                    await sqlConnection.CloseAsync();
+                    var isExist = DoesTableExist(tableName);
+                    if (isExist)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        tableExist = false;
+                        break;
+                    }
+                }
+                if (!tableExist)
+                {
                     continue;
                 }
 
-
-                var clientsCount = _dbContext.Clients.FromSqlRaw($"SELECT * FROM Clients_{monthName}").Count();
+                var clientsCount = await _dbContext.Clients.FromSqlRaw($"SELECT * FROM Clients_{monthName}").CountAsync();
                 var totalAmount = _dbContext.Payments.FromSqlRaw($"SELECT * FROM Payments_{monthName}").Sum(p => p.Fee);
                 var totalExpenses = _dbContext.Expenses.FromSqlRaw($"SELECT * FROM Expenses_{monthName}").Sum(e => e.Value);
-                var totalTechnicalProblems = _dbContext.TechnicalProblems.FromSqlRaw($"SELECT * FROM TechnicalProblems_{monthName}").Count();
-                var promoClientName = _dbContext.Promotions.FromSqlRaw($"SELECT * FROM Promotions_{monthName}").FirstOrDefaultAsync().Result!.ClientFullName!;
+                var totalTechnicalProblems = await _dbContext.TechnicalProblems.FromSqlRaw($"SELECT * FROM TechnicalProblems_{monthName}").CountAsync();
+                var promoClientName = await _dbContext.Promotions.FromSqlRaw($"SELECT * FROM Promotions_{monthName}").FirstOrDefaultAsync();
                 var archiveMonthDetails = new ArchiveMonthDetails
                 {
                     MonthName = monthName,
@@ -152,10 +166,17 @@
                     TotalAmount = totalAmount,
                     TotalExpenses = totalExpenses,
                     TotalTechnicalProblems = totalTechnicalProblems,
-                    PromoClientName = promoClientName
+
                 };
+                if (promoClientName != null)
+                {
+                    archiveMonthDetails.PromoClientName = promoClientName.ClientFullName;
+                }
+                else
+                {
+                    archiveMonthDetails.PromoClientName = "No promotions";
+                }
                 archiveMonthsDetails.Add(archiveMonthDetails);
-                await sqlConnection.CloseAsync();
             }
             return archiveMonthsDetails;
 
@@ -201,6 +222,6 @@
             }
         }
 
-       
+
     }
 }
