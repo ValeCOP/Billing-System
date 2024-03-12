@@ -56,5 +56,19 @@
                 });
             }
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> GetProfitableClient()
+        {
+            try
+            {
+                var promotions = await _promotionService.GetProfitableClientAsync();
+                return Ok(promotions);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
     }
 }
