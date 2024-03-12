@@ -5,6 +5,7 @@
     public interface IPromotionService
     {
         Task Add(Guid clientId);
+        Task<string> GetProfitableClientAsync();
         Task<bool> PromotionIsAdded();
     }
 }
