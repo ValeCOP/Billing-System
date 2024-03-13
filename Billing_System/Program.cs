@@ -4,11 +4,11 @@ namespace Billing_System
     using Billing_System.Core.CustomExstensions;
     using Billing_System.CustomExtensions;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.FileProviders;
+    using System.Threading.Tasks;
 
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -70,7 +70,7 @@ namespace Billing_System
                 endpoints.MapRazorPages();
             });
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
