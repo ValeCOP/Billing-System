@@ -117,7 +117,7 @@
                 Id = Guid.NewGuid(),
                 Client = client,
                 Name = $"Initial payment",
-                Fee = model.Fee,
+                Fee = model.Fee * model.Months,
                 InstallationFee = model.InstallationFee,
                 Pending = model.Pending,
                 Receipt = model.Receipt,
