@@ -19,6 +19,7 @@
         public DbSet<Expense> Expenses { get; set; } = null!;
 
         public DbSet<Promotion> Promotions { get; set; } = null!;
+        public DbSet<Invoice> Invoices { get; set; } = null!;
 
         override protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
