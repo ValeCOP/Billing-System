@@ -1,0 +1,129 @@
+﻿@model PaymentForInvoiceViewModel
+@{
+    ViewData["Title"] = "Invoice";
+    decimal price = Model.Payment.Fee + Model.Payment.InstallationFee;
+}
+
+
+<h2><i class="fa-solid fa-file-invoice-dollar"></i> @ViewData["Title"]</h2>
+<div class="shadow-lg" style="padding: 30px">
+    <hr />
+    <div class="row shadow-lg text-lg-start">
+        <div class="container">
+            <form asp-action="Create">
+                <div class="row m-5">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <h2>Invoice</h2>
+                            </div>
+                            <div class="col-6 text-end">
+                                <h3>Order #: @Model.InvoiceNumber</h3>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <address>
+                                    <strong>Recipient:</strong><br>
+                                    <strong>Client Name: </strong>@Model.Client.FullName<br>
+                                    <strong>Address: </strong>@Model.Client.Address<br>
+                                    <strong>Ident #: <input type="text" id="ident" name="Ident"></strong><br>
+                                    <strong>VAT Ident #: <input type="text" id="vatident" name="vatident"></strong><br>
+                                    <strong>MOL: </strong>Snezjana Nikova<br>
+                                </address>
+                            </div>
+                            <div class="col-6">
+                                <address>
+                                    <strong>Supplier:</strong><br>
+                                    Инфоkаст Системс ЕООД<br>
+                                    София<br>
+                                    <br>
+                                    Адрес: Райово, 2017
+                                </address>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-6">
+                                <strong>Payment type:</strong><br>
+                                <input type="radio" id="banc" name="fav_language" value="bank">
+                                <label for="html">Bank</label><br>
+                                <input type="radio" id="cash" name="fav_language" value="Cash">
+                                <label for="cash">Cash</label><br>
+                            </div>
+                            <div class="col-6">
+                                <strong>Order Date:</strong><br>
+                                @DateTime.Now.ToString("D")<br><br>
+
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+
+                <div class="row m-5">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><strong>Order summary</strong></h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <td><strong>Internet Tax</strong></td>
+                                                <td class="text-center"><strong>Installation Tax</strong></td>
+                                                <td class="text-center"><strong>Monthly Tax</strong></td>
+                                                <td class="text-center"><strong>Time Span</strong></td>
+                                                <td class="text-right"><strong>Totals</strong></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>@Model.Payment.Name</td>
+                                                <td class="text-center">@Model.Payment.InstallationFee</td>
+                                                <td class="text-center">@Model.Payment.Fee</td>
+                                                <td class="text-center">@Model.Payment.FromDate - @Model.Payment.ToDate</td>
+                                                <td class="text-right">@price</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line text-right"><strong>Total</strong></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line text-right"><strong>@price</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="form-group">
+                                        <input type="submit" value="Create" class="btn btn-outline-primary mt-2" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
