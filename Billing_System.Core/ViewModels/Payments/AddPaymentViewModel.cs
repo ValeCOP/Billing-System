@@ -4,6 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using static Billing_System.Utilities.ValidationConstants.ValidationConstants.Payments;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.ActiveISPClientsForm;
 
     public class AddPaymentViewModel
     {
@@ -15,6 +16,11 @@
 
         [Range(ValueMinLength, ValueMaxLength)]
         public decimal Fee { get; set; }
+
+        [Required]
+        [Display(Name = "Months")]
+        [Range(MonthsMin, MonthsMax)]
+        public int Months { get; set; }
 
         [Required]
         public bool Pending { get; set; }

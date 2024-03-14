@@ -22,6 +22,11 @@
         public decimal Fee { get; set; }
 
         [Required]
+        [Display(Name = "Months")]
+        [Range(MonthsMin, MonthsMax)]
+        public int Months { get; set; }
+
+        [Required]
         public bool Pending { get; set; }
 
         [Required]
