@@ -12,5 +12,6 @@
         Task DeletePaymentAsync(Guid paymentId);
         Task<AddPaymentViewModel> Add(Guid clientId);
         Guid GetPaymentIdByClientId(Guid clientId);
+        Task<Payment> GetPaymentByIdAsync(Guid paymentId);
     }
 }

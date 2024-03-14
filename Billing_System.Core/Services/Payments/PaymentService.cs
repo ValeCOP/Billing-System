@@ -1,12 +1,9 @@
 ﻿namespace Billing_System.Core.Services.Payments
 {
-    using Billing_System.Core.Contracts.Home;
     using Billing_System.Core.Contracts.Payments;
-    using Billing_System.Core.Contracts.Receipt;
     using Billing_System.Core.ViewModels.Payments;
     using Billing_System.Data;
     using Billing_System.Data.Entities;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Threading.Tasks;
@@ -45,7 +42,7 @@
             {
                 Id = Guid.NewGuid(),
                 Name = payment.Name,
-                Fee = payment.Fee,
+                Fee = payment.Fee * payment.Months,
                 Pending = payment.Pending,
                 Receipt = payment.Receipt,
                 FromDate = DateTime.Parse(payment.FromDate),
@@ -160,6 +157,18 @@
                 throw new Exception("Payment not found");
             }
             return payment.Id;
+        }
+
+        public Task<Payment> GetPaymentByIdAsync(Guid paymentId)
+        {
+            var payment = _context.Payments
+                .Include(p => p.Client)
+                .FirstOrDefaultAsync(p => p.Id == paymentId);
+            if (payment == null)
+            {
+                throw new Exception("Payment not found");
+            }
+            return payment!;
         }
     }
 }
