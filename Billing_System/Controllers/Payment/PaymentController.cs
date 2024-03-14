@@ -46,6 +46,14 @@
                 ModelState.AddModelError(string.Empty, "Invalid Payment Details");
                 return View(model);
             }
+            if (model.Months < 1 || model.Months > 12)
+            {
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = "Invalid Month"
+                });
+            }
             DateTime activationDate;
             if (!DateTime.TryParseExact(model.FromDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out activationDate))
             {
