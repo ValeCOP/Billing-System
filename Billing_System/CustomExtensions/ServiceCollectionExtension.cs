@@ -4,6 +4,7 @@
     using Billing_System.Core.Contracts.Clients;
     using Billing_System.Core.Contracts.Expense;
     using Billing_System.Core.Contracts.Home;
+    using Billing_System.Core.Contracts.Invoice;
     using Billing_System.Core.Contracts.MailSender;
     using Billing_System.Core.Contracts.Payments;
     using Billing_System.Core.Contracts.Promotion;
@@ -15,6 +16,7 @@
     using Billing_System.Core.Services.Clients;
     using Billing_System.Core.Services.Expense;
     using Billing_System.Core.Services.Home;
+    using Billing_System.Core.Services.Invoice;
     using Billing_System.Core.Services.Payments;
     using Billing_System.Core.Services.Promotion;
     using Billing_System.Core.Services.Receipt;
@@ -45,6 +47,7 @@
             services.AddScoped<ISendMail, SendMail>();
             services.AddScoped<IExpenseService, ExpenseService>();
             services.AddScoped<IPromotionService, PromotionService>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
 
             return services;
         }
