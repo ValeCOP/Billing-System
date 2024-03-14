@@ -72,6 +72,9 @@
                             @Html.ActionLink("Edit", "Edit","Payment", new { id = item.Id }, new { @class = "btn btn-outline-primary btn-sm" })
                         
                             @Html.ActionLink("Delete", "Delete", "Payment", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-sm", onclick = $"return confirm('Are you sure you want to delete {item.Name}?');" })
+
+                            @Html.ActionLink("Invoice", "Index", "Invoice", new { id = item.Id }, new { @class = "btn btn-outline-primary btn-sm" })
+
                         </td>
                     </tr>
                 }

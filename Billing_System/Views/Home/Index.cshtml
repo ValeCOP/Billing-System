@@ -40,7 +40,7 @@
                     <input id="clientEmail" name="Email" hidden>
                     <input id="clientAddress" name="Address" hidden>
                     <div class="shadow-lg col-12" id="demo" hidden></div>
-                    <div class="form-group">
+                    <div class="form-group w-25">
                         <i class="fa-solid fa-dollar-sign"></i>
                         <label asp-for="InstallationFee" class="control-label"></label>
                         <select asp-for="InstallationFee" class="form-control">
@@ -54,7 +54,7 @@
                         </select>
                         <span asp-validation-for="InstallationFee" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group w-25">
                         <i class="fa-solid fa-dollar-sign"></i>
                         <label asp-for="Fee" class="control-label"></label>
                         <select asp-for="Fee" class="form-control">
@@ -62,6 +62,25 @@
                             <option value="50.00">50.00</option>
                         </select>
                         <span asp-validation-for="Fee" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-25" id="monthSelect" hidden>
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <label asp-for="Months" class="control-label"></label>
+                        <select asp-for="Months" id="month" class="form-control" onchange="editExpiredDate()">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <span asp-validation-for="Months" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <i class="fa-regular fa-calendar-days"></i>
@@ -72,7 +91,7 @@
                     <div class="form-group">
                         <i class="fa-regular fa-calendar-days"></i>
                         <label asp-for="ExpiredDate" class="control-label"></label>
-                        <input asp-for="ExpiredDate" name="ExpiredDate" class="form-control tcal" type="text" value="@DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)" />
+                        <input asp-for="ExpiredDate" name="ExpiredDate" class="form-control tcal" id="expiredDate" type="text" value="@DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)" />
                         <span asp-validation-for="ExpiredDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
