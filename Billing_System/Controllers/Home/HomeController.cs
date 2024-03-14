@@ -59,7 +59,12 @@
 
                 return View(model);
             }
-
+            if (model.Months < 1 || model.Months > 12)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Months; Must be between 1 and 12");
+                model = await _homeService.ImportISPRouterDataAsync();
+                return View(model);
+            }
             try
             {
                 string activationDate = model.ActivationDate.ToString(AppActivationDateFormat, CultureInfo.InvariantCulture);
