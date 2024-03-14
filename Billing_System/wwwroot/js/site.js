@@ -1,4 +1,6 @@
-﻿function getCurrentClientName(clientsISP) {
+﻿let expiredDateValue;
+function getCurrentClientName(clientsISP) {
+   
 
     let presentationElement = document.getElementById("demo");
 
@@ -15,7 +17,7 @@
         document.getElementById("clientEmail").value = findedClient.Email;
         document.getElementById("clientAddress").value = findedClient.Address;
 
-        let expiredDateValue = findedClient.ExpiredDate.split("T")[0];
+        expiredDateValue = findedClient.ExpiredDate.split("T")[0];
         let today = new Date().toISOString().split("T")[0];
 
         fetch("Api/Get")
@@ -41,6 +43,10 @@
                     });
                 }
                 else {
+                    let monthsToAdd = document.getElementById("monthSelect");
+
+                    monthsToAdd.removeAttribute("hidden");
+
                     presentationElement.removeAttribute("hidden");
                     let div = domCreator("div", "", presentationElement, "", ["border-primary"])
                     div.setAttribute("style", "padding:10px")
@@ -62,8 +68,15 @@
 
 }
 
+function editExpiredDate() {
+    let monthsToAdd = document.getElementById("month");
+    monthsToAdd.removeAttribute("hidden");
+    
+
+}
+
 setTimeout(function () {
-    $('#alert').fadeOut(200);
+    $('#alert').fadeOut(1000);
 }, 10000);
 
 function makeCardTechProblem(clientsISP) {
