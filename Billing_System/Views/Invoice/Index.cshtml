@@ -29,8 +29,8 @@
                                     <strong>Recipient:</strong><br>
                                     <strong>Client Name: </strong>@Model.Client.FullName<br>
                                     <strong>Address: </strong>@Model.Client.Address<br>
-                                    <strong>Ident #: <input type="text" id="ident" name="Ident"></strong><br>
-                                    <strong>VAT Ident #: <input type="text" id="vatident" name="vatident"></strong><br>
+                                    <strong>Ident #: <input class="w-50" type="text" id="ident" name="Ident"></strong><br>
+                                    <strong>VAT Ident #: <input class="w-50 end-0" type="text" id="vatident" name="vatident"></strong><br>
                                     <strong>MOL: </strong>Snezjana Nikova<br>
                                 </address>
                             </div>
@@ -65,12 +65,12 @@
 
                 <div class="row m-5">
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><strong>Order summary</strong></h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"><strong>Order summary</strong></h3>
+                                    </div>
                                     <table class="table table-condensed">
                                         <thead>
                                             <tr>
@@ -90,6 +90,13 @@
                                                 <td class="text-right">@price</td>
                                             </tr>
                                             <tr>
+                                                <td>чл.113, ал.9 от ЗДДС - Лицето не е регистрирано по ЗДДС</td>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
+                                                <td class="text-right">@price</td>
+                                            </tr>
+                                            <tr>
                                                 <td class="no-line"></td>
                                                 <td class="no-line"></td>
                                                 <td class="no-line"></td>
@@ -106,6 +113,20 @@
                                             </tr>
                                         </tbody>
                                     </table>
+
+                                    <div class="row m-2">
+                                        <div class="col-6">
+                                            <strong>Compiled:</strong><br>
+                                            <input class="form-control" type="text" id="compiled" name="Ident">
+                                        </div>
+                                        <div class="col-6">
+                                            <strong>Received</strong><br>
+                                            <input class="form-control" type="text" id="received" name="Ident">
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <h2 class="text-center"><em><i class="fa-solid fa-hand-holding-dollar"></i> INFOCAST SYSTEMS</em> - <strong><em>Billing</em></strong></h2>
+                                    <hr />
                                     <div class="form-group">
                                         <input type="submit" value="Create" class="btn btn-outline-primary mt-2" />
                                     </div>
