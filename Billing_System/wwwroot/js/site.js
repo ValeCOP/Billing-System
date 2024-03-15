@@ -1,7 +1,5 @@
 ﻿let expiredDateValue;
 function getCurrentClientName(clientsISP) {
-   
-
     let presentationElement = document.getElementById("demo");
 
     var clientId = document.getElementById("clientId").value;
@@ -43,8 +41,10 @@ function getCurrentClientName(clientsISP) {
                     });
                 }
                 else {
+                    $("#monthSelect option").prop("selected", function () {
+                        return this.defaultSelected;
+                    });
                     let monthsToAdd = document.getElementById("monthSelect");
-
                     monthsToAdd.removeAttribute("hidden");
 
                     presentationElement.removeAttribute("hidden");
@@ -70,9 +70,22 @@ function getCurrentClientName(clientsISP) {
 
 function editExpiredDate() {
     let monthsToAdd = document.getElementById("month");
-    monthsToAdd.removeAttribute("hidden");
-    
+    let date = new Date(expiredDateValue);
+    let newDate = date.setMonth(date.getMonth() + parseInt(monthsToAdd.value));
+    let finalDate = new Date(newDate).toISOString().split("T")[0];
+    let dateNow = new Date().toISOString().split("T")[0];
 
+    if (expiredDateValue > dateNow) {
+        document.getElementById("expiredDate").value = finalDate;
+    }
+}
+
+function printInvoice() {
+    let printContents = document.getElementById("containerId").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
 }
 
 setTimeout(function () {
@@ -187,7 +200,7 @@ $("#showRandomRecord").click(function () {
         .then(data => {
 
             let random = Math.floor(Math.random() * data.length);
-           
+
             while (data[random].pending) {
                 random = Math.floor(Math.random() * data.length);
             }
