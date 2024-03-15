@@ -63,6 +63,41 @@ a {
 
 
 /*//////////////////*/
+#containerId {
+    background-color: white;
+    width: 800px;
+    border: 1px solid black;
+}
+
+
+@media print {
+    div {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+    }
+    page hr {
+        border: 1px solid #000;
+    }
+
+    h2 {
+        font-size: 12px;
+    }
+
+        h2:nth-child(1) {
+            font-size: 18px;
+        }
+
+    @page {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+}
+.btn {
+    margin: 2px;
+}
+
+/*//////////////////*/
 
 .select2-container {
     box-sizing: border-box;
