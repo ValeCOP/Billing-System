@@ -63,10 +63,11 @@
                         </select>
                         <span asp-validation-for="Fee" class="text-danger"></span>
                     </div>
-                    <div class="form-group w-25" id="monthSelect" hidden>
+                    <div class="form-group w-50" id="monthSelect" hidden>
                         <i class="fa-solid fa-calendar-days"></i>
                         <label asp-for="Months" class="control-label"></label>
                         <select asp-for="Months" id="month" class="form-control" onchange="editExpiredDate()">
+                            <option value="">--Months--</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
