@@ -14,10 +14,10 @@ html {
 }
 
 @media print {
-    body * {
+   /* body * {
         visibility: hidden;
     }
-
+*/
     #containerId * {
         visibility: visible;
     }
@@ -111,7 +111,6 @@ a {
 #containerId {
     background-color: white;
     width: 800px;
-    border: 1px solid black;
 }
 
 
