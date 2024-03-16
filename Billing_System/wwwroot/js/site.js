@@ -81,11 +81,31 @@ function editExpiredDate() {
 }
 
 function printInvoice() {
-    let printContents = document.getElementById("containerId").innerHTML;
-    let originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
+ 
+
+    var formData = {};
+    var inputElements = document.querySelectorAll("input");
+    inputElements.forEach(function (inputElement) {
+        formData[inputElement.id] = inputElement.value;
+    });
+
+    var originalContents = document.body.innerHTML;
+
     window.print();
+
     document.body.innerHTML = originalContents;
+
+    for (var key in formData) {
+        if (formData.hasOwnProperty(key)) {
+            var inputElement = document.getElementById(key);
+            if (inputElement) {
+                inputElement.value = formData[key];
+            }
+        }
+    }
+
+
+
 }
 
 setTimeout(function () {
