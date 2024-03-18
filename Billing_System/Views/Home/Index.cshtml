@@ -1,4 +1,8 @@
-﻿@using System.Globalization
+﻿@inject IUserServices _userServices
+@{
+    var users = await _userServices.GetAllUserWithPayments();
+    var receiptIssued = users.Sum(u => u.Payments.Where(p => p.Receipt).Sum(p => p.Fee + p.InstallationFee));
+}
 @model ActiveISPClientsFormModel
 @{
     ViewData["Title"] = "Index";
@@ -110,7 +114,14 @@
                         </div>
                         <div class="form-group form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" asp-for="Receipt" checked /> @Html.DisplayNameFor(model => model.Receipt)
+                                @if (receiptIssued >= 1111)
+                                {
+                                    <input class="form-check-input" asp-for="Receipt"/> @Html.DisplayNameFor(model => model.Receipt)
+                                }
+                                else
+                                {
+                                    <input class="form-check-input" asp-for="Receipt" checked /> @Html.DisplayNameFor(model => model.Receipt)
+                                }
                             </label>
                         </div>
                     }

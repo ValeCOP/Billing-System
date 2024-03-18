@@ -53,18 +53,19 @@
     <div class="col-lg-6 shadow-lg p-3">
         @if (User.IsInRole("Administrator"))
         {
-        <h4>Monthly Report</h4>
-        <hr />
+            <h4>Monthly Report</h4>
+            <hr />
             <h5>Total SUM: @totalSum</h5>
             <hr />
             <h5>Pending SUM: @pendingSum</h5>
             <hr />
             <h5><i class="fa-regular fa-circle-right"></i> Available SUM: <span class="fw-bold">@availableSum</span></h5>
             <hr />
-            <h5 class="font-weight-bold"><i class="fa-regular fa-circle-xmark"></i> Expenses SUM: <span class="fw-bold">@expensesSum</span></h5>
+            <h5><i class="fa-regular fa-circle-xmark"></i> Expenses SUM: <span class="fw-bold">@expensesSum</span></h5>
             <hr />
-            <h5 class="font-weight-bold"><i class="fa-solid fa-sack-dollar"></i><span class="fw-bold"> Income: @profit BGN</span></h5>
+            <h5><i class="fa-solid fa-sack-dollar"></i><span class="fw-bold"> Income: @profit BGN</span></h5>
             <hr />
+            <h5><i class="fa-solid fa-receipt"></i> Receipt Issued: @receiptIssued</h5>
         }
         else
         {
