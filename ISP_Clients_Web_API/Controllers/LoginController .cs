@@ -21,19 +21,19 @@
         [HttpPost("login")]
         public IActionResult Login(User model)
         {
-            // Simulate user authentication (replace with actual authentication logic)
+            // Simulate user authentication
             if (model.Username == "admin" && model.Password == "admin")
             {
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-                var Sectoken = new JwtSecurityToken(_config["Jwt:Issuer"],
-                  _config["Jwt:Issuer"],
+                var secToken = new JwtSecurityToken(_config["Jwt:Issuer"],
+                  _config["Jwt:Audience"],
                   null,
                   expires: DateTime.Now.AddMinutes(120),
                   signingCredentials: credentials);
 
-                var token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
+                var token = new JwtSecurityTokenHandler().WriteToken(secToken);
 
                 return Ok(token);
             }
