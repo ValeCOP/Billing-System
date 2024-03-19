@@ -46,6 +46,10 @@ function getCurrentClientName(clientsISP) {
                     });
                     let monthsToAdd = document.getElementById("monthSelect");
                     monthsToAdd.removeAttribute("hidden");
+                    let hiddenElements = document.querySelectorAll(".hidden");
+                    hiddenElements.forEach(element => {
+                        element.removeAttribute("hidden");
+                    });
 
                     presentationElement.removeAttribute("hidden");
                     let div = domCreator("div", "", presentationElement, "", ["border-primary"])
@@ -81,7 +85,7 @@ function editExpiredDate() {
 }
 
 function printInvoice() {
- 
+
 
     var formData = {};
     var inputElements = document.querySelectorAll("input");
@@ -89,11 +93,9 @@ function printInvoice() {
         formData[inputElement.id] = inputElement.value;
     });
 
-    var originalContents = document.body.innerHTML;
 
     window.print();
 
-    document.body.innerHTML = originalContents;
 
     for (var key in formData) {
         if (formData.hasOwnProperty(key)) {
@@ -107,6 +109,17 @@ function printInvoice() {
 
 
 }
+
+function showElement() {
+    var element = document.getElementById("bancAccount");
+    if (element.style.display === "none" || element.style.display === "") {
+        element.style.display = "block";
+    } else {
+        element.style.display = "none";
+    }
+}
+
+
 
 setTimeout(function () {
     $('#alert').fadeOut(1000);
