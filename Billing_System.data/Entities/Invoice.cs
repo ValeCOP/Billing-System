@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.Invoice;
 
     public class Invoice
     {
@@ -9,15 +10,35 @@
         public Guid Id { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue)]
-        public int InvoiceNumber { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         [Required]
-        public DateTime CreatedOn { get; set; }
+        [MaxLength(MOLMaxLength)]
+        public string MOL { get; set; } = null!;
+
+        [Required]
+        [MaxLength(UINLength)]
+        public string UIN { get; set; } = null!;
+
+        [MaxLength(VATINLength)]
+        public string? VATIN { get; set; }
+
+        [Required]
+        [MaxLength(RecipientMaxLength)]
+        public string Recipient { get; set; } = null!;
+
+        [Required]
+        [MaxLength(CompilerMaxLength)]
+        public string Compiler { get; set; } = null!;
 
         [Required]
         [ForeignKey("Payment")]
         public Guid PaymentId { get; set; }
         public Payment Payment { get; set; } = null!;
+
+        [Required]
+        public bool BankTransfer { get; set; }
+        [Required]
+        public bool Cash { get; set; }
     }
 }
