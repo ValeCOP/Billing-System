@@ -1,5 +1,7 @@
 ﻿namespace Billing_System.Utilities.ValidationConstants
 {
+    using System.Runtime.CompilerServices;
+
     public static class ValidationConstants
     {
         public const string AppExpiredDateFormat = "yyyy-MM-dd";
@@ -74,6 +76,23 @@
             public const int NameMaxLength = 100;
             public const int NameMinLength = 3;
             public const string NameErrorMessage = "Name must be between {2} and {1} characters";
+        }
+
+        public static class Invoice
+        {
+            public const int MOLMaxLength = 200;
+            public const int MOLMinLength = 3;
+            public const int UINLength = 9;
+            public const int VATINLength = 11;
+            public const int RecipientMaxLength = 255;
+            public const int RecipientMinLength = 3;
+            public const int CompilerMaxLength = 255;
+            public const int CompilerMinLength = 3;
+            public const string CompilerErrorMessage = "Compiler must be between {2} and {1} characters";
+            public const string RecipientErrorMessage = "Recipient must be between {2} and {1} characters";
+            public const string MOLErrorMessage = "MOL must be between {2} and {1} characters";
+            public const string UINErrorMessage = "UIN must be {1} characters";
+            public const string VATINErrorMessage = "VATIN must be {1} characters";
         }
     }
 }
