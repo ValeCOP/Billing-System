@@ -4,8 +4,10 @@
     using Billing_System.Core.Contracts.Payments;
     using Billing_System.Core.ViewModels.Invoice;
     using Billing_System.Data.Entities;
+    using Billing_System.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Diagnostics;
 
     [Authorize]
     public class InvoiceController : Controller
@@ -31,6 +33,28 @@
                 Client = client
             };
             return View(paymentForInvoiceViewModel);
+        }
+        [HttpPost]
+        //crete invoice
+        public async Task<IActionResult> Create(CreateInvoiceViewModel model, Guid Id)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+
+                var errorMessages = new List<string>();
+                foreach (var error in errors)
+                {
+                    errorMessages.Add(error.ErrorMessage);
+                }
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = String.Join(", ", errorMessages)
+                });
+            }
+            await _invoiceService.CreateInvoiceAsync(model, Id);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
