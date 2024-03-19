@@ -14,10 +14,7 @@ html {
 }
 
 @media print {
-   /* body * {
-        visibility: hidden;
-    }
-*/
+   
     #containerId * {
         visibility: visible;
     }
@@ -49,13 +46,16 @@ html {
     }
 
     h2 {
-        font-size: 12px;
+        font-size: 14px;
     }
 
         h2:nth-child(1) {
             font-size: 18px;
         }
-
+    #bancAccount {
+        font-size: 12px;
+        border: 1px solid #000;
+    }
     @page {
         margin-top: 0px;
         margin-bottom: 0px;
@@ -118,7 +118,9 @@ a {
     width: 800px;
 }
 
-
+#bancAccount{
+    display: none;
+}
 
 
 
