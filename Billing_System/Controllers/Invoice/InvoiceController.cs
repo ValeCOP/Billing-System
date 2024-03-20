@@ -56,5 +56,11 @@
             await _invoiceService.CreateInvoiceAsync(model, Id);
             return RedirectToAction("Index", "Home");
         }
+        public async Task<IActionResult> All(FilteredInvoiceViewModel model)
+        {
+            var invoices = await _invoiceService.GetAllInvoicesAsync(model);
+            model.Invoices = invoices;
+            return View(model);
+        }
     }
 }
