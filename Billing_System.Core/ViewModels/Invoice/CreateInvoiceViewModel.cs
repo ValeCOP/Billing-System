@@ -27,8 +27,7 @@
 
         [Required]
         public bool BankTransfer { get; set; }
-        [Required]
-        public bool Cash { get; set; }
+
 
     }
 }
