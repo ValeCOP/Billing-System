@@ -4,22 +4,22 @@
 
 namespace Billing_System.Data.Migrations
 {
-    public partial class InvoiceEdited : Migration
+    public partial class addedInvoiceNumberInInvoice : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "Cash",
+            migrationBuilder.AddColumn<int>(
+                name: "InvoiceNumber",
                 table: "Invoices",
-                type: "bit",
+                type: "int",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Cash",
+                name: "InvoiceNumber",
                 table: "Invoices");
         }
     }

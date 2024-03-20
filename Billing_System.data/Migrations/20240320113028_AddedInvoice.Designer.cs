@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Billing_System.Data.Migrations
 {
     [DbContext(typeof(BillingDbContext))]
-    [Migration("20240305091735_edit_Archive")]
-    partial class edit_Archive
+    [Migration("20240320113028_AddedInvoice")]
+    partial class AddedInvoice
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -218,6 +218,55 @@ namespace Billing_System.Data.Migrations
                     b.ToTable("Expenses");
                 });
 
+            modelBuilder.Entity("Billing_System.Data.Entities.Invoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("BankTransfer")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Cash")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Compiler")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MOL")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Recipient")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("UIN")
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
+
+                    b.Property<string>("VATIN")
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("Invoices");
+                });
+
             modelBuilder.Entity("Billing_System.Data.Entities.Payment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -288,6 +337,29 @@ namespace Billing_System.Data.Migrations
                             ToDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("274ec2c5-ec55-42d5-aae7-619004eb964b")
                         });
+                });
+
+            modelBuilder.Entity("Billing_System.Data.Entities.Promotion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ClientFullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Promotions");
                 });
 
             modelBuilder.Entity("Billing_System.Data.Entities.TechnicalProblem", b =>
@@ -491,12 +563,23 @@ namespace Billing_System.Data.Migrations
             modelBuilder.Entity("Billing_System.Data.Entities.Expense", b =>
                 {
                     b.HasOne("Billing_System.Data.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("Expenses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Billing_System.Data.Entities.Invoice", b =>
+                {
+                    b.HasOne("Billing_System.Data.Entities.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("Billing_System.Data.Entities.Payment", b =>
@@ -590,6 +673,8 @@ namespace Billing_System.Data.Migrations
             modelBuilder.Entity("Billing_System.Data.Entities.ApplicationUser", b =>
                 {
                     b.Navigation("Clients");
+
+                    b.Navigation("Expenses");
 
                     b.Navigation("Payments");
 

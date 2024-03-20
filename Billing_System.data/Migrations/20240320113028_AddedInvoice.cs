@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Billing_System.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class AddedInvoice : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,6 +46,20 @@ namespace Billing_System.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Promotions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    ClientFullName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Promotions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,7 +202,7 @@ namespace Billing_System.Data.Migrations
                     Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    ReceiptUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReceiptUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -266,6 +280,32 @@ namespace Billing_System.Data.Migrations
                         principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Invoices",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MOL = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    UIN = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
+                    VATIN = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    Recipient = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Compiler = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BankTransfer = table.Column<bool>(type: "bit", nullable: false),
+                    Cash = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Invoices_Payments_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -348,6 +388,11 @@ namespace Billing_System.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Invoices_PaymentId",
+                table: "Invoices",
+                column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Payments_ClientId",
                 table: "Payments",
                 column: "ClientId");
@@ -389,13 +434,19 @@ namespace Billing_System.Data.Migrations
                 name: "Expenses");
 
             migrationBuilder.DropTable(
-                name: "Payments");
+                name: "Invoices");
+
+            migrationBuilder.DropTable(
+                name: "Promotions");
 
             migrationBuilder.DropTable(
                 name: "TechnicalProblems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "Clients");

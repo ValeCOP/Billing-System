@@ -236,6 +236,9 @@ namespace Billing_System.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("InvoiceNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("MOL")
                         .IsRequired()
                         .HasMaxLength(200)
