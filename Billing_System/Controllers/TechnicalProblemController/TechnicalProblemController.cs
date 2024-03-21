@@ -109,10 +109,7 @@
                     model.Solved,
                     model.Id,
                     Guid.Parse(_userManager.GetUserId(User)));
-                if (model.SendMail)
-                {
-                    _sendMail.SendEmail("Resolved Problem", model.Solution, model.ClientName);
-                }
+               
                 return RedirectToAction("All");
             }
             ModelState.AddModelError(string.Empty, "Invalid data!");
