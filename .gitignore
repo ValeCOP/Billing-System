@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 /Billing_System/wwwroot/expense
 /Billing_System/images/
+/Billing_System/appsettings.Production.json
+/Billing_System/ReceiptPrint.inp
+/Billing_System/trackUsers.txt
