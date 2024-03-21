@@ -9,6 +9,10 @@
         [Display(Name = "Description:")]
         public string Description { get; set; } = null!;
 
+        [Display(Name = "Solution:")]
+        [MinLength(20)]
+        public string Solution { get; set; } = null!;
+
         public bool Solved { get; set; }
 
         [Display(Name = "Registered On:")]
@@ -35,6 +39,5 @@
         [Display(Name = "User:")]
         public string RegisterProblemUserName { get; set; } = null!;
 
-        public ICollection<AllTechProblemViewModel> ResolvedTechnicalProblems { get; set; } = new List<AllTechProblemViewModel>();
     }
 }

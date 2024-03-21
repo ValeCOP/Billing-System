@@ -7,9 +7,11 @@
 
     public interface IInvoiceService
     {
-        Task CreateInvoiceAsync(CreateInvoiceViewModel model, Guid paymentId);
+        Task CreateInvoiceAsync(CreateInvoiceViewModel model, Guid paymentId, string userId);
+        Task DeleteInvoiceAsync(Guid id);
         Task<ICollection<AllInvoiceViewModel>> GetAllInvoicesAsync(FilteredInvoiceViewModel model);
-        Task<Invoice> GetInvoiceAsync(Guid id);
+        Task<Invoice> GetInvoiceByPaymentIdAsync(Guid id);
+        Task<AllInvoiceViewModel> GetInvoiceForPrintAsync(Guid id);
         int GetNextInvoiceNumber();
     }
 }

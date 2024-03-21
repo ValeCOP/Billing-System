@@ -35,13 +35,19 @@
         public string Compiler { get; set; } = null!;
 
         [Required]
+        public bool BankTransfer { get; set; }
+        [Required]
+        public bool Cash { get; set; }
+
+        [Required]
         [ForeignKey("Payment")]
         public Guid PaymentId { get; set; }
         public Payment Payment { get; set; } = null!;
 
         [Required]
-        public bool BankTransfer { get; set; }
-        [Required]
-        public bool Cash { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public Guid UserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; } = null!;
+
     }
 }

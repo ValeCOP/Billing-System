@@ -7,6 +7,10 @@
         public const string AppExpiredDateFormat = "yyyy-MM-dd";
         public const string AppActivationDateFormat = "dd-MM-yyyy HH:mm";
         public const int ActivatedClientsCount = 5;
+        public const string ApiUrl = "https://94.236.201.183:4231/Clients";
+        //public const string ApiUrl = "https://localhost:7231/Clients";
+        public const string LoginApiUrl = "https://94.236.201.183:4231/Login/Login";
+        //public const string LoginApiUrl = "https://localhost:7231/Login/Login";
         public static class Payments
         {
             public const int NameMaxLength = 200;

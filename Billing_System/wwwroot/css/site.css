@@ -14,9 +14,13 @@ html {
 }
 
 @media print {
-   
+
     #containerId * {
         visibility: visible;
+    }
+
+    #containerId .printBtn {
+        display: none;
     }
 
     #containerId input {
@@ -24,6 +28,7 @@ html {
         margin: 0px;
         border: none;
     }
+
     table {
         border-collapse: collapse;
         width: 100%;
@@ -52,10 +57,12 @@ html {
         h2:nth-child(1) {
             font-size: 18px;
         }
+
     #bancAccount {
         font-size: 12px;
         border: 1px solid #000;
     }
+
     @page {
         margin-top: 0px;
         margin-bottom: 0px;
@@ -71,7 +78,7 @@ html {
 
 body {
     margin-bottom: 60px;
-    background-color: antiquewhite;
+    background-color: bisque;
 }
 
 input {
@@ -118,7 +125,7 @@ a {
     width: 800px;
 }
 
-#bancAccount{
+#bancAccount {
     display: none;
 }
 

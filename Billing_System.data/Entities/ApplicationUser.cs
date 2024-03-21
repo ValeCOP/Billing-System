@@ -14,14 +14,11 @@
             set => base.UserName = value; 
         }
 
-        public virtual ICollection<Client> Clients { get; set; } = new List<Client>();
-
-        public virtual ICollection<TechnicalProblem> RegisteredTechnicalProblems { get; set; } = new List<TechnicalProblem>();
-
-        public virtual ICollection<TechnicalProblem> ResolvedTechnicalProblems { get; set; } = new List<TechnicalProblem>();
-
         public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
-        public virtual ICollection<Expense> Expenses { get; set; } = new LinkedList<Expense>();
+        public virtual ICollection<Expense> Expenses { get; set; } = new List<Expense>();
+        public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
+
+
     }
 }

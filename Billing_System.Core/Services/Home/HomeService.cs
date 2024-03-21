@@ -2,10 +2,9 @@
 {
     using Billing_System.Core.Contracts.Home;
     using Billing_System.Core.ViewModels.Clients;
-    using Billing_System.Core.ViewModels.Payments;
     using Billing_System.Data;
     using Billing_System.Data.Entities;
-    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Globalization;
@@ -21,13 +20,15 @@
     {
         private readonly BillingDbContext _context;
         private readonly IHttpClientFactory _clientFactory;
-        //private string clientsUrl = "https://localhost:7231/Clients";
-        private string clientsUrl = "https://94.236.201.183:4231/Clients";
-        //private string loginUrl = "https://localhost:7231/Login/Login";
-        private string loginUrl = "https://94.236.201.183:4231/Login/Login";
+        private readonly IConfiguration _configuration;
+        private readonly string clientsUrl = ApiUrl;
+        private readonly string loginUrl = LoginApiUrl;
 
-        public HomeService(BillingDbContext dbContext, IHttpClientFactory clientFactory)
+        public HomeService(BillingDbContext dbContext,
+            IHttpClientFactory clientFactory,
+            IConfiguration configuration)
         {
+            _configuration = configuration;
             _clientFactory = clientFactory;
             _context = dbContext;
         }
@@ -35,7 +36,6 @@
         public async Task<ActiveISPClientsFormModel> ImportISPRouterDataAsync()
         {
             var clients = new List<ClientsFromISPModel>();
-
             try
             {
                 var httpClient = _clientFactory.CreateClient("BillingServer");
@@ -165,10 +165,10 @@
 
             var loginModel = new
             {
-                //Username = _configuration.GetSection("JWTCredentials:Username").Value,
-                //Password = _configuration.GetSection("JWTCredentials:Password").Value,
-                Username = "admin",
-                Password = "admin",
+                Username = _configuration.GetSection("JWTCredentials:Username").Value,
+                Password = _configuration.GetSection("JWTCredentials:Password").Value,
+                //Username = "admin",
+                //Password = "admin",
             };
             var jsonContentOnPost = JsonConvert.SerializeObject(loginModel);
             var content = new StringContent(jsonContentOnPost, Encoding.UTF8, "application/json");

@@ -3,7 +3,7 @@
     public class ResolveTechProblemView
     {
         public Guid Id { get; set; }
-        public string Description { get; set; } = null!;
+        public string Solution { get; set; } = null!;
         public bool Solved { get; set; }
        
     }

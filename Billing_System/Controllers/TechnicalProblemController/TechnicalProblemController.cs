@@ -5,11 +5,9 @@
     using Billing_System.Core.ViewModels.TechnicalProblem;
     using Billing_System.Data.Entities;
     using Billing_System.ViewModels;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
-    using static Billing_System.Areas.Admin.Constants.AdminConstants;
 
 
     public class TechnicalProblemController : Controller
@@ -85,7 +83,6 @@
                 });
             }
         }
-        //resolve
         public async Task<IActionResult> Resolve(Guid id)
         {
             try
@@ -108,10 +105,14 @@
             if (ModelState.IsValid)
             {
                 await _technicalProblemService.ResolveTechnicalProblemAsync(
-                    model.Description,
+                    model.Solution,
                     model.Solved,
                     model.Id,
                     Guid.Parse(_userManager.GetUserId(User)));
+                if (model.SendMail)
+                {
+                    _sendMail.SendEmail("Resolved Problem", model.Solution, model.ClientName);
+                }
                 return RedirectToAction("All");
             }
             ModelState.AddModelError(string.Empty, "Invalid data!");

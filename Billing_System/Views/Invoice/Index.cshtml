@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Invoice";
     decimal price = Model.Payment.Fee + Model.Payment.InstallationFee;
-    int invoiceCount = Model.InvoiceNumber + 49;
 }
 <h2><i class="fa-solid fa-file-invoice-dollar"></i> @ViewData["Title"]</h2>
 <form asp-action="Create" asp-controller="Invoice" asp-route-id="@Model.Payment.Id" method="post">
@@ -21,7 +20,7 @@
                                     <h2 class="m-0 p-0">ФАКТУРА - ОРИГИНАЛ</h2>
                                 </div>
                                 <div class="col-6 text-end">
-                                    <h2 class="m-0 p-0">Фактура №: @invoiceCount</h2>
+                                    <h2 class="m-0 p-0">Фактура №: @Model.InvoiceNumber</h2>
                                 </div>
                             </div>
                         </div>
@@ -71,8 +70,7 @@
                             </div>
                             <div class="col-6">
                                 <strong>Дата на събитието:</strong><br>
-                                @DateTime.Now.ToString("D", CultureInfo.CurrentCulture)<br><br>
-
+                                @DateTime.Now.ToString("D", CultureInfo.CurrentCulture)<br>
                             </div>
                         </div>
                         <hr />

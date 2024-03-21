@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Billing_System.Data.Migrations
 {
-    public partial class AddedInvoice : Migration
+    public partial class Miidle : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -190,7 +190,7 @@ namespace Billing_System.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -241,13 +241,12 @@ namespace Billing_System.Data.Migrations
                         column: x => x.RegisterProblemUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TechnicalProblems_AspNetUsers_ResolvedProblemUserId",
                         column: x => x.ResolvedProblemUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -287,19 +286,27 @@ namespace Billing_System.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InvoiceNumber = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MOL = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UIN = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
                     VATIN = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
                     Recipient = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Compiler = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     BankTransfer = table.Column<bool>(type: "bit", nullable: false),
-                    Cash = table.Column<bool>(type: "bit", nullable: false)
+                    Cash = table.Column<bool>(type: "bit", nullable: false),
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Invoices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Invoices_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Invoices_Payments_PaymentId",
                         column: x => x.PaymentId,
@@ -321,12 +328,12 @@ namespace Billing_System.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Clients",
                 columns: new[] { "Id", "ActivationDate", "Address", "Comments", "Email", "ExpiredDate", "FullName", "Phone", "UserId" },
-                values: new object[] { new Guid("274ec2c5-ec55-42d5-aae7-619004eb964a"), new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Валентин Иванов Василев", null, new Guid("274ec2c5-ec55-42d5-aae7-619004eb964a") });
+                values: new object[] { new Guid("274ec2c5-ec55-42d5-aae7-619004eb964a"), new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ул. Цар Симеон 1", null, "test@gmail.com", new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Валентин Иванов Василев", "0888888888", new Guid("274ec2c5-ec55-42d5-aae7-619004eb964a") });
 
             migrationBuilder.InsertData(
                 table: "Clients",
                 columns: new[] { "Id", "ActivationDate", "Address", "Comments", "Email", "ExpiredDate", "FullName", "Phone", "UserId" },
-                values: new object[] { new Guid("274ec2c5-ec55-42d5-aae7-619004eb964d"), new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Авксентия Мариус Койнарска", null, new Guid("274ec2c5-ec55-42d5-aae7-619004eb964b") });
+                values: new object[] { new Guid("274ec2c5-ec55-42d5-aae7-619004eb964d"), new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ул. Цар Симеон 2", null, "test2@gmail.com", new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Авксентия Мариус Койнарска", "0888888889", new Guid("274ec2c5-ec55-42d5-aae7-619004eb964b") });
 
             migrationBuilder.InsertData(
                 table: "Payments",
@@ -391,6 +398,11 @@ namespace Billing_System.Data.Migrations
                 name: "IX_Invoices_PaymentId",
                 table: "Invoices",
                 column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_UserId",
+                table: "Invoices",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_ClientId",

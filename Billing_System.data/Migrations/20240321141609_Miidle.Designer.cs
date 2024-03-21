@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Billing_System.Data.Migrations
 {
     [DbContext(typeof(BillingDbContext))]
-    [Migration("20240320113028_AddedInvoice")]
-    partial class AddedInvoice
+    [Migration("20240321141609_Miidle")]
+    partial class Miidle
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -169,16 +169,22 @@ namespace Billing_System.Data.Migrations
                         {
                             Id = new Guid("274ec2c5-ec55-42d5-aae7-619004eb964a"),
                             ActivationDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Address = "ул. Цар Симеон 1",
+                            Email = "test@gmail.com",
                             ExpiredDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FullName = "Валентин Иванов Василев",
+                            Phone = "0888888888",
                             UserId = new Guid("274ec2c5-ec55-42d5-aae7-619004eb964a")
                         },
                         new
                         {
                             Id = new Guid("274ec2c5-ec55-42d5-aae7-619004eb964d"),
                             ActivationDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Address = "ул. Цар Симеон 2",
+                            Email = "test2@gmail.com",
                             ExpiredDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FullName = "Авксентия Мариус Койнарска",
+                            Phone = "0888888889",
                             UserId = new Guid("274ec2c5-ec55-42d5-aae7-619004eb964b")
                         });
                 });
@@ -238,6 +244,9 @@ namespace Billing_System.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("InvoiceNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("MOL")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -256,6 +265,9 @@ namespace Billing_System.Data.Migrations
                         .HasMaxLength(9)
                         .HasColumnType("nvarchar(9)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("VATIN")
                         .HasMaxLength(11)
                         .HasColumnType("nvarchar(11)");
@@ -263,6 +275,8 @@ namespace Billing_System.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PaymentId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Invoices");
                 });
@@ -552,9 +566,9 @@ namespace Billing_System.Data.Migrations
             modelBuilder.Entity("Billing_System.Data.Entities.Client", b =>
                 {
                     b.HasOne("Billing_System.Data.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany("Clients")
+                        .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
@@ -578,6 +592,14 @@ namespace Billing_System.Data.Migrations
                         .HasForeignKey("PaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Billing_System.Data.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("Invoices")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Payment");
                 });
@@ -604,15 +626,14 @@ namespace Billing_System.Data.Migrations
             modelBuilder.Entity("Billing_System.Data.Entities.TechnicalProblem", b =>
                 {
                     b.HasOne("Billing_System.Data.Entities.ApplicationUser", "RegisterProblemUser")
-                        .WithMany("RegisteredTechnicalProblems")
+                        .WithMany()
                         .HasForeignKey("RegisterProblemUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Billing_System.Data.Entities.ApplicationUser", "ResolvedProblemUser")
-                        .WithMany("ResolvedTechnicalProblems")
-                        .HasForeignKey("ResolvedProblemUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("ResolvedProblemUserId");
 
                     b.Navigation("RegisterProblemUser");
 
@@ -672,15 +693,11 @@ namespace Billing_System.Data.Migrations
 
             modelBuilder.Entity("Billing_System.Data.Entities.ApplicationUser", b =>
                 {
-                    b.Navigation("Clients");
-
                     b.Navigation("Expenses");
 
+                    b.Navigation("Invoices");
+
                     b.Navigation("Payments");
-
-                    b.Navigation("RegisteredTechnicalProblems");
-
-                    b.Navigation("ResolvedTechnicalProblems");
                 });
 
             modelBuilder.Entity("Billing_System.Data.Entities.Client", b =>

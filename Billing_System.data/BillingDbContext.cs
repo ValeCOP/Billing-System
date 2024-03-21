@@ -33,36 +33,18 @@
             builder.ApplyConfiguration(new ClientsConfig());
             builder.ApplyConfiguration(new PaymentsConfig());
 
-            builder.Entity<Client>()
-                .HasOne(a => a.ApplicationUser)
-                .WithMany(u => u.Clients)
-                .HasForeignKey(a => a.UserId)
+            builder.Entity<Payment>()
+                .HasOne(p => p.Client)
+                .WithMany(c => c!.Payments)
+                .HasForeignKey(p => p.ClientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Payment>()
                 .HasOne(p => p.ApplicationUser)
-                .WithMany(u => u.Payments)
+                .WithMany(u => u!.Payments)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Payment>()
-                .HasOne(p => p.Client)
-                .WithMany(a => a.Payments)
-                .HasForeignKey(p => p.ClientId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<TechnicalProblem>()
-                .HasOne(t => t.RegisterProblemUser)
-                .WithMany(u => u.RegisteredTechnicalProblems)
-                .HasForeignKey(t => t.RegisterProblemUserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<TechnicalProblem>()
-                .HasOne(t => t.ResolvedProblemUser)
-                .WithMany(u => u.ResolvedTechnicalProblems)
-                .HasForeignKey(t => t.ResolvedProblemUserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
+           
             builder.Entity<Expense>()
                 .Property(e => e.Value)
                 .HasColumnType("decimal(18,2)");

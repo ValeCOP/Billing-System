@@ -1,10 +1,11 @@
-﻿@model IEnumerable<PaymentsDetailsView>
+﻿@using Billing_System.Core.Contracts.Invoice
+@model IEnumerable<PaymentsDetailsView>
+@inject IInvoiceService invoiceService;
 @if (TempData["Error"] != null)
 {
     <div class="alert alert-danger" role="alert">
         @TempData["Error"]
     </div>
-
 }
 <div class="p-2">
     <div class="table-responsive">
@@ -43,6 +44,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
+                    var hasInvoice = await invoiceService.GetInvoiceByPaymentIdAsync(item.Id);
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Name)
@@ -69,12 +71,21 @@
                             @Html.DisplayFor(modelItem => item.ApplicationUser)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit","Payment", new { id = item.Id }, new { @class = "btn btn-outline-primary btn-sm" })
-                        
-                            @Html.ActionLink("Delete", "Delete", "Payment", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-sm", onclick = $"return confirm('Are you sure you want to delete {item.Name}?');" })
+                            @Html.ActionLink("Edit", "Edit","Payment", new { id = item.Id }, new { @class = "btn btn-outline-primary btn-sm" })<br>
 
-                            @Html.ActionLink("Invoice", "Index", "Invoice", new { id = item.Id }, new { @class = "btn btn-outline-primary btn-sm" })
+                            @Html.ActionLink("Delete", "Delete", "Payment", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-sm", onclick = $"return confirm('Are you sure you want to delete {item.Name}?');" })<br>
+                            @if (hasInvoice != null)
+                            {
+                                <a asp-controller="Invoice" asp-action="Print" asp-route-id="@hasInvoice.Id" class="btn btn-outline-success btn-sm">Print Invoice</a>
 
+                                <br>
+                            }
+                            else
+                            {
+                                <a asp-controller="Invoice" asp-action="Index" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Create Invoice</a>
+
+                                <br>
+                            }
                         </td>
                     </tr>
                 }

@@ -6,6 +6,7 @@
     using Billing_System.Core.ViewModels.TechnicalProblem;
     using Billing_System.Data;
     using Billing_System.Data.Entities;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
     using System.Collections.Generic;
@@ -20,6 +21,7 @@
         private readonly BillingDbContext _context;
         private readonly IHomeService _homeService;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IConfiguration _configuration;
         private string clientsUrl = "https://94.236.201.183:4231/Clients";
 
         public TechnicalProblemService(IHttpClientFactory clientFactory, BillingDbContext dbContext, IHomeService homeService)

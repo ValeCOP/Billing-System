@@ -154,7 +154,7 @@ function makeCardTechProblem(clientsISP) {
     let demoDesk = document.getElementById("demoDesc");
     demoDesk.removeAttribute("hidden");
     demoDesk.innerHTML = "";
-    let h5 = domCreator("h5", "", demoDesk, "", ["card", "col-12"]);
+    let h5 = domCreator("h5", "", demoDesk, "", ["card", "col-12", "p-3"]);
     commentElement.addEventListener("input", function () {
         h5.innerHTML = commentElement.value;
     });

@@ -2,6 +2,7 @@
 {
     using Billing_System.Core.Contracts.Invoice;
     using Billing_System.Core.Contracts.Payments;
+    using Billing_System.Core.CustomExtensions;
     using Billing_System.Core.ViewModels.Invoice;
     using Billing_System.Data.Entities;
     using Billing_System.ViewModels;
@@ -34,33 +35,46 @@
             };
             return View(paymentForInvoiceViewModel);
         }
+
         [HttpPost]
-        //crete invoice
         public async Task<IActionResult> Create(CreateInvoiceViewModel model, Guid Id)
         {
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-
-                var errorMessages = new List<string>();
-                foreach (var error in errors)
-                {
-                    errorMessages.Add(error.ErrorMessage);
-                }
-                return View("Error", new ErrorViewModel
-                {
-                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
-                    Message = String.Join(", ", errorMessages)
-                });
+                ModelState.AddModelError(string.Empty, "Invalid input data!");
+                return View("Index", model);
             }
-            await _invoiceService.CreateInvoiceAsync(model, Id);
-            return RedirectToAction("Index", "Home");
+            var userId = User.GetId();
+            await _invoiceService.CreateInvoiceAsync(model, Id, userId);
+            TempData["message"] = $"Invoice created successfully!";
+            return RedirectToAction("All", "Invoice");
         }
         public async Task<IActionResult> All(FilteredInvoiceViewModel model)
         {
             var invoices = await _invoiceService.GetAllInvoicesAsync(model);
             model.Invoices = invoices;
             return View(model);
+        }
+        public async Task<IActionResult> Print(Guid Id)
+        {
+            AllInvoiceViewModel invoice = await _invoiceService.GetInvoiceForPrintAsync(Id);
+            return View(invoice);
+        }
+        public async Task<IActionResult> Delete(Guid Id)
+        {
+            try
+            {
+                await _invoiceService.DeleteInvoiceAsync(Id);
+                return RedirectToAction("All");
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = ex.Message
+                });
+            }
         }
     }
 }

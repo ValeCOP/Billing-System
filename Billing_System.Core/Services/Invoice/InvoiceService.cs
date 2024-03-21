@@ -17,7 +17,7 @@
             _context = context;
         }
 
-        public async Task CreateInvoiceAsync(CreateInvoiceViewModel model, Guid paymentId)
+        public async Task CreateInvoiceAsync(CreateInvoiceViewModel model, Guid paymentId, string userId)
         {
             var invoice = new Invoice
             {
@@ -28,7 +28,8 @@
                 Recipient = model.Recipient,
                 Compiler = model.Compiler,
                 PaymentId = paymentId,
-                CreatedOn = DateTime.Now
+                CreatedOn = DateTime.Now,
+                UserId = Guid.Parse(userId)
             };
             if (model.BankTransfer)
             {
@@ -42,16 +43,29 @@
             await _context.SaveChangesAsync();
         }
 
-        public Task<ICollection<AllInvoiceViewModel>> GetAllInvoicesAsync(FilteredInvoiceViewModel model)
+        public Task DeleteInvoiceAsync(Guid id)
         {
-            var allInvoicesQueryable = _context.Invoices
+            var invoice = _context.Invoices.FirstOrDefault(i => i.Id == id);
+            _context.Invoices.Remove(invoice);
+            return _context.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<AllInvoiceViewModel>> GetAllInvoicesAsync(FilteredInvoiceViewModel model)
+        {
+            var allInvoicesQueryable =  _context.Invoices
                 .Include(i => i.Payment)
                 .ThenInclude(p => p.Client)
+                .OrderByDescending(i => i.CreatedOn)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(model.Filter))
             {
-                allInvoicesQueryable = allInvoicesQueryable.Where(i => i.MOL.Contains(model.Filter) || i.UIN.Contains(model.Filter) || i.VATIN.Contains(model.Filter) || i.Recipient.Contains(model.Filter) || i.Compiler.Contains(model.Filter));
+                allInvoicesQueryable = allInvoicesQueryable.Where(
+                    i => i.Payment.Client.FullName.Contains(model.Filter) ||
+                    i.UIN.Contains(model.Filter) ||
+                    i.VATIN.Contains(model.Filter) ||
+                    i.Recipient.Contains(model.Filter) ||
+                    i.Compiler.Contains(model.Filter));
             }
             if (!string.IsNullOrEmpty(model.OrderBy))
             {
@@ -64,10 +78,11 @@
                 };
             }
 
-            model.InvoicesCount = allInvoicesQueryable.Count();
             allInvoicesQueryable = allInvoicesQueryable.Skip((model.CurrentPage - 1) * 2).Take(2);
-            model.Invoices = allInvoicesQueryable.Select(i => new AllInvoiceViewModel
+            model.InvoicesCount = allInvoicesQueryable.Count();
+            model.Invoices = await allInvoicesQueryable.Select(i => new AllInvoiceViewModel
             {
+                Id = i.Id,
                 InvoiceNumber = i.InvoiceNumber,
                 MOL = i.MOL,
                 UIN = i.UIN,
@@ -80,11 +95,11 @@
                 Payment = i.Payment,
                 BankTransfer = i.BankTransfer,
                 Cash = i.Cash
-            }).ToList();
-            return Task.FromResult(model.Invoices);
+            }).ToListAsync();
+            return model.Invoices;
         }
 
-        public async Task<Invoice> GetInvoiceAsync(Guid id)
+        public async Task<Invoice> GetInvoiceByPaymentIdAsync(Guid id)
         {
             var invoice = await _context.Invoices
                 .Include(i => i.Payment)
@@ -92,6 +107,31 @@
                 .FirstOrDefaultAsync(i => i.PaymentId == id);
 
             return  invoice;
+        }
+
+        public async Task<AllInvoiceViewModel> GetInvoiceForPrintAsync(Guid id)
+        {
+            var invoice = await _context.Invoices
+                .Include(i => i.Payment)
+                .ThenInclude(p => p.Client)
+                .FirstOrDefaultAsync(i => i.Id == id);
+            return new AllInvoiceViewModel
+            {
+                Id = invoice.Id,
+                InvoiceNumber = invoice.InvoiceNumber,
+                MOL = invoice.MOL,
+                UIN = invoice.UIN,
+                VATIN = invoice.VATIN,
+                Recipient = invoice.Recipient,
+                Issuer = invoice.Compiler,
+                CreatedOn = invoice.CreatedOn,
+                ClientFullName = invoice.Payment.Client.FullName,
+                ClientAddress = invoice.Payment.Client.Address,
+                Payment = invoice.Payment,
+                BankTransfer = invoice.BankTransfer,
+                Cash = invoice.Cash
+            };
+
         }
 
         public int GetNextInvoiceNumber()
