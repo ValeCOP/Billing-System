@@ -1,10 +1,9 @@
-﻿namespace Billing_Systems_Tests
+﻿namespace Billing_Systems_Tests.ClientServTests
 {
     using Billing_System.Core.Contracts.Clients;
     using Billing_System.Core.Services.Clients;
     using Billing_System.Data;
     using Microsoft.EntityFrameworkCore;
-    using static Billing_Systems_Tests.Seed.DatabaseSeeder;
 
 
     [TestFixture]
@@ -85,6 +84,15 @@
             // Assert
             Assert.That(clientDetails.ClientId, Is.EqualTo(client.Id));
             Assert.That(clientDetails.FullName, Is.EqualTo(client.FullName));
+        }
+
+        [Test]
+        public void GetClientShort_Test_06()
+        {
+            // Act
+            var clients = _clientService.GetClientShortAsync().GetAwaiter().GetResult();
+            // Assert
+            Assert.That(clients.Count, Is.EqualTo(2));
         }
     }
 }

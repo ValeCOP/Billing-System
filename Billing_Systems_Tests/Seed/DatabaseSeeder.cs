@@ -20,8 +20,9 @@ namespace Billing_Systems_Tests.Seed
                 TwoFactorEnabled = false,
             };
 
-            var client = new Client()
+            var client1 = new Client()
             {
+                Id = new Guid("1d315603-14bc-4f70-a832-ddcafdd4df21"),
                 FullName = "Pesho Peshov",
                 ActivationDate = new DateTime(2022, 1, 1),
                 ExpiredDate = new DateTime(2023, 1, 1),
@@ -48,7 +49,19 @@ namespace Billing_Systems_Tests.Seed
                 ExpiredDate = new DateTime(2023, 1, 1),
                 ApplicationUser = user
             };
-            dbContext.Clients.Add(client);
+            var payment = new Payment
+            {
+                Name = "Initial",
+                Fee = 100,
+                Pending = false,
+                Receipt = false,
+                FromDate = new DateTime(2022, 1, 1),
+                ToDate = new DateTime(2023, 1, 1),
+                ClientId = new Guid("1d315603-14bc-4f70-a832-ddcafdd4df21"),
+                Client = client1
+            };
+            dbContext.Payments.Add(payment);
+            dbContext.Clients.Add(client1);
             dbContext.Clients.Add(client2);
             dbContext.Clients.Add(client3);
             dbContext.Clients.Add(client4);
