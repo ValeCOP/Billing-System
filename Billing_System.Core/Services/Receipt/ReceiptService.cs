@@ -2,6 +2,7 @@
 {
     using Billing_System.Core.Contracts.Receipt;
     using Billing_System.Data;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Text;
     using System.Threading.Tasks;
@@ -16,7 +17,9 @@
         }
         public async Task CreateReceiptAsync(Guid paymentId)
         {
-            var payment = await _context.Payments.FindAsync(paymentId);
+            var payment = await _context.Payments
+                .Include(p => p.Client)
+                .FirstOrDefaultAsync(p => p.Id == paymentId);
             if (payment == null)
             {
                 throw new Exception("Payment not found");
