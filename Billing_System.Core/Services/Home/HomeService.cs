@@ -4,6 +4,7 @@
     using Billing_System.Core.ViewModels.Clients;
     using Billing_System.Data;
     using Billing_System.Data.Entities;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
     using System.Collections.Generic;
