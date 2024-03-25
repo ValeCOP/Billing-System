@@ -109,7 +109,8 @@
                 };
             }
             allExpenses = allExpenses.Skip((modelGetForm.CurrentPage - 1) * 6).Take(6);
-            return await allExpenses.Select(e => new AllExpenseViewModel
+            modelGetForm.ExpensesCount = allExpenses.Count();
+            modelGetForm.Expenses = await allExpenses.Select(e => new AllExpenseViewModel
             {
                 Id = e.Id,
                 Name = e.Name,
@@ -119,6 +120,7 @@
                 ReceiptUrl = e.ReceiptUrl,
                 UserName = e.ApplicationUser.UserName
             }).ToListAsync();
+            return modelGetForm.Expenses;
         }
 
         private bool IsJpeg(IFormFile file)
