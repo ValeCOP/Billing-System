@@ -21,7 +21,7 @@
         {
             var invoice = new Invoice
             {
-                InvoiceNumber = GetNextInvoiceNumber(),
+                InvoiceNumber = GetNextInvoiceNumber().ToString(),
                 MOL = model.MOL,
                 UIN = model.UIN,
                 VATIN = model.VATIN,
