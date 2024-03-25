@@ -85,11 +85,6 @@
             _context.Payments.Update(payment);
             await _context.SaveChangesAsync();
         }
-        {
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(c => c.Id == clientId);
-            return client;
-        }
         public async Task<EditPaymentViewModel> GetPaymentForEditAsync(Guid Id)
         {
             var payment = await _context.Payments
