@@ -5,7 +5,7 @@
     public class AllInvoiceViewModel
     {
         public Guid Id { get; set; }
-        public int InvoiceNumber { get; set; }
+        public string InvoiceNumber { get; set; } = null!;
         public string MOL { get; set; } = null!;
         public string UIN { get; set; } = null!;
         public string? VATIN { get; set; }
