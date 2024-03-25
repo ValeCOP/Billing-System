@@ -10,7 +10,7 @@
         public Guid Id { get; set; }
 
         [Required]
-        public int InvoiceNumber { get; set; }
+        public string InvoiceNumber { get; set; }
 
         [Required]
         public DateTime CreatedOn { get; set; }
