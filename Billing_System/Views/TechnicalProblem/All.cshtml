@@ -30,7 +30,7 @@
                     <input class="form-control" name="Filter" placeholder="Search By Client">
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control" name="OrderBy">
+                    <select class="form-control" asp-for="OrderBy">
                         <option value="">Order By</option>
                         <option value="FullName">FullName</option>
                         <option value="FullNameDesc">FullName (Desc)</option>
@@ -40,6 +40,14 @@
                         <option value="ResolvedOnDesc">Resolved Date (Desc)</option>
                         <option value="ApplicationUser">User</option>
                         <option value="ApplicationUserDesc">User (Desc)</option>
+
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" asp-for="Resolved">
+                        <option value="false">Not Resolved</option>
+                        <option value="true">Resolved</option>
+
 
                     </select>
                 </div>
@@ -59,6 +67,7 @@
                            asp-action="All"
                            asp-route-orderBy="@Model.OrderBy"
                            asp-route-filter="@Model.Filter"
+                           asp-route-Resolved="@Model.Resolved"
                            asp-route-CurrentPage="@previousPage">
                             <<
                         </a>
@@ -75,6 +84,7 @@
                            asp-action="All"
                            asp-route-orderBy="@Model.OrderBy"
                            asp-route-filter="@Model.Filter"
+                           asp-route-Resolved="@Model.Resolved"
                            asp-route-CurrentPage="@(Model.CurrentPage + 1)">
                             >>
                         </a>
@@ -83,7 +93,7 @@
             </div>
             @foreach (var item in Model.TechnicalProblems)
             {
-                <div class="col-md-4 shadow-lg p-3">
+                <div class="col-md-4 shadow-lg p-3 mb-3">
                     @if (item.Solved)
                     {
                         <h5 class="alert-success p-3">Resolved</h5>
@@ -94,24 +104,24 @@
                     }
                     <h4 class="card-title mt-1">@item.ClientName</h4>
                     <hr />
-                    <h6 class="card-title mt-1"><strong>Tel</strong>: @item.ClientPhone</h6>
-                    <h6 class="card-title mt-1"><strong>Address: </strong> @item.ClientAddress</h6>
-                    <h6 class="card-title mt-1"><strong>Email: </strong> @item.ClientEmail</h6>
+                    <p class="card-title mt-1"><strong>Tel</strong>: @item.ClientPhone</p>
+                    <p class="card-title mt-1"><strong>Address: </strong> @item.ClientAddress</p>
+                    <p class="card-title mt-1"><strong>Email: </strong> @item.ClientEmail</p>
 
-                    <h6 class="card-title mt-1"><strong><i class="fa-regular fa-clock"></i> Registered: </strong><br> @item.RegisteredOn.ToString("R")</h6>
+                    <p class="card-title mt-1"><strong><i class="fa-regular fa-clock"></i> Registered: </strong><br> @item.RegisteredOn.ToString("R")</p>
                     <hr />
                     @if (!item.Solved)
                     {
-                        <h5><span class="fw-bold">Description: </span>@item.Description</h5>
+                        <p><span class="fw-bold">Description: </span>@item.Description</p>
                         <hr />
-                        <h5 class="card-title mt-1">User: @item.RegisterProblemUserName</h5>
+                        <p class="card-title mt-1">User: @item.RegisterProblemUserName</p>
                         <a class="btn btn-outline-danger btn-sm mt-2" asp-controller="TechnicalProblem" asp-action="Resolve" asp-route-id="@item.Id"> Resolve</a>
                     }
                     else
                     {
-                        <h6><span class="fw-bold"><i class="fa-regular fa-clock"></i> Resolved: </span>@item.ResolvedOn?.ToString("R")</h6>
-                        <h6><span class="fw-bold">Resolved by: </span>@item.ResolvedProblemUserName</h6>
-                        <h5><span class="fw-bold">Solution: </span>@item.Solution</h5>
+                        <p><span class="fw-bold"><i class="fa-regular fa-clock"></i> Resolved: </span>@item.ResolvedOn?.ToString("R")</p>
+                        <p><span class="fw-bold">Resolved by: </span>@item.ResolvedProblemUserName</p>
+                        <p><span class="fw-bold">Solution: </span>@item.Solution</p>
                         @if (User.IsInRole("Administrator"))
                         {
                             <a class="btn btn-outline-danger btn-sm mt-2" asp-controller="TechnicalProblem" asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete this problem?');">Delete</a>
@@ -120,7 +130,7 @@
 
                 </div>
             }
-          
+
         </div>
     </div>
 </div>
@@ -129,4 +139,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    }
+}
