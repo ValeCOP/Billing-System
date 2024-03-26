@@ -10,6 +10,7 @@
         [StringLength(NameMaxLength, MinimumLength = NameMinLength, ErrorMessage = NameErrorMessage)]
         public string Name { get; set; } = null!;
         [Required]
+        [Display(Name = "Price")]
         [Range(typeof(decimal), ValueMinLength, ValueMaxLength)]
         public decimal Value { get; set; }
 
