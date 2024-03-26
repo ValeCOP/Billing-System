@@ -194,7 +194,7 @@ $(function () {
 $(function () {
     $("#ClientId").select2();
 });
-var loadFile = function (event) {
+function loadFile(event) {
     var output = document.getElementById('output');
     output.src = URL.createObjectURL(event.target.files[0]);
     output.onload = function () {
