@@ -36,23 +36,6 @@
                     </select>
                 </div>
             </form>
-
-            @foreach (var item in Model.Expenses)
-            {
-                <div class="col-lg-2 shadow-lg p-3 ">
-                    <h4 class="card-title mt-1">@item.Name</h4>
-                    <hr />
-                    <h5 class="card-title mt-1">Price: @item.Value BGN</h5>
-                    <h5 class="card-title mt-1">Date: @item.Date.ToString("D", CultureInfo.InvariantCulture)</h5>
-                    <p class="card-title mt-1">Description: @item.Description</p>
-                    <h5 class="card-title mt-1">User: <strong>@item.UserName</strong></h5>
-                    <hr />
-                    <a href="@item.ReceiptUrl" target="_blank"><img src="@item.ReceiptUrl" alt="Document Image" class="rounded player-image w-100" /></a>
-                    <div>
-                        <a class="btn btn-outline-danger mt-3" asp-controller="Expense" asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete this expense?');">Delete</a>
-                    </div>
-                </div>
-            }
             <div class="row mt-3">
                 <div class="row mb-5">
                     @{
@@ -90,6 +73,23 @@
                     </div>
                 </div>
             </div>
+            @foreach (var item in Model.Expenses)
+            {
+                <div class="col-lg-2 shadow-lg p-3 ">
+                    <h4 class="card-title mt-1">@item.Name</h4>
+                    <hr />
+                    <h5 class="card-title mt-1">Price: @item.Value BGN</h5>
+                    <h5 class="card-title mt-1">Date: @item.Date.ToString("D", CultureInfo.InvariantCulture)</h5>
+                    <p class="card-title mt-1">Description: @item.Description</p>
+                    <h5 class="card-title mt-1">User: <strong>@item.UserName</strong></h5>
+                    <hr />
+                    <a href="@item.ReceiptUrl" target="_blank"><img src="@item.ReceiptUrl" alt="Document Image" class="rounded player-image w-100" /></a>
+                    <div>
+                        <a class="btn btn-outline-danger mt-3" asp-controller="Expense" asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete this expense?');">Delete</a>
+                    </div>
+                </div>
+            }
+           
         </div>
     </div>
 </div>
