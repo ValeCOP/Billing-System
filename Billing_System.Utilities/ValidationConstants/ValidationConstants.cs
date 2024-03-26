@@ -4,6 +4,9 @@
 
     public static class ValidationConstants
     {
+
+        public const string TechnicalTeemsEmails = "359888719126@sms.mtel.net,adminraiovo@gmail.com,359883339303@sms.mtel.net";
+
         public const string AppExpiredDateFormat = "yyyy-MM-dd";
         public const string AppActivationDateFormat = "dd-MM-yyyy HH:mm";
         public const int ActivatedClientsCount = 5;
@@ -16,7 +19,7 @@
             public const int NameMaxLength = 200;
             public const int NameMinLength = 3;
             public const int ValueMinLength = 0;
-            public const int ValueMaxLength = 150;
+            public const int ValueMaxLength = 264;
             public const int InstallationFeeMinLength = 0;
             public const int InstallationFeeMaxLength = 150;
         }
@@ -33,6 +36,13 @@
             public const int DescriptionMaxLength = 1000;
             public const int DescriptionMinLength = 20;
             public const string DescriptionErrorMessage = "Description must be between {2} and {1} characters";
+        }
+        //ResolveTechProblem
+        public static class ResolveTechProblemConstants
+        {
+            public const int SolutionMinLength = 20;
+            public const int SolutionMaxLength = 200;
+            public const string SolutionErrorMessage = "Please describe the problem in detail! Solution must be at least {2} characters";
         }
 
         public static class ApplicationUsers
@@ -54,7 +64,7 @@
             public const string InstallationFeeMin = "0";
             public const string InstallationFeeMax = "150";
             public const string  FeeMin = "22";
-            public const string FeeMax = "50";
+            public const string FeeMax = "264";
             public const string FeeErrorMessage = "Invalid Fee; Maximum Two Decimal Points.";
             public const string InstallationFeeErrorMessage = "Invalid Installation Fee; Maximum Two Decimal Points.";
             public const string DateComparisonErrorMessage = "Expired Date must be after Activation Date";
