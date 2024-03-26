@@ -106,6 +106,11 @@
                 .Include(c => c.Payments)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
+            if (client == null)
+            {
+                throw new ArgumentNullException("Client not found");
+            }
+
             var model = new ActivatedClientsViewModel
             {
                 ClientId = client!.Id,
