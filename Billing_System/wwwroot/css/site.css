@@ -73,12 +73,18 @@ html {
 html {
     position: relative;
     min-height: 100%;
-    background-color: #000;
+    background-image: url("../images/bg2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    
 }
 
 body {
     margin-bottom: 60px;
-    background-color: bisque;
+    background-image: url("../images/bg.jpg");
+    font-size: 1.2rem;
 }
 
 input {
@@ -89,9 +95,11 @@ select {
     margin-bottom: 10px;
 }
 
+
 header {
-    background-color: #EEF5FF;
-    color: white;
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+
 }
 
 .player-image {
