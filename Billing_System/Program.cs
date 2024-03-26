@@ -38,7 +38,7 @@ namespace Billing_System
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
+                app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
