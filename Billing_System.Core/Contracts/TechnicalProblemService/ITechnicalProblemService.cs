@@ -11,7 +11,7 @@
         Task<ICollection<AllTechProblemViewModel>> GetTechnicalProblemsAsync(FilteredTechProblemsViewModel modelGetForm);
         Task<ICollection<ClientsInfoModel>> GetClientsAsync();
         Task<ResolveTechProblem> GetTechnicalProblemByIdAsync(Guid id);
-        Task ResolveTechnicalProblemAsync(string desc,bool solved,Guid tpId, Guid userId);
+        Task ResolveTechnicalProblemAsync(ResolveTechProblemView model, Guid userId);
         Task<int> GetTechnicalCountAsync();
         Task DeleteTechnicalProblemAsync(Guid id);
     }
