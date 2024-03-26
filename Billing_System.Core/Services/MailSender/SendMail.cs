@@ -13,7 +13,8 @@
         {
             _configuration = configuration;
         }
-        public void SendEmail(string subject,string body, string clientName)
+
+        public void SendEmail(string subject,string body, string clientName, string mailTo)
         {
             var smtpServer = _configuration["EmailSettings:SmtpServer"];
             var smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]);
@@ -24,7 +25,7 @@
 
             MailMessage email = new();
             email.From = from;
-            email.To.Add("359888719126@sms.mtel.net,adminraiovo@gmail.com,359883339303@sms.mtel.net");
+            email.To.Add(mailTo);
             email.Subject = subject;
             email.Body = $"Client: {clientName} {Environment.NewLine}Description: {body}";
 
