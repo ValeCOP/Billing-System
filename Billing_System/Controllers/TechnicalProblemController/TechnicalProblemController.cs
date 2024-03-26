@@ -2,12 +2,14 @@
 {
     using Billing_System.Core.Contracts.MailSender;
     using Billing_System.Core.Contracts.TechnicalProblemService;
+    using Billing_System.Core.CustomExtensions;
     using Billing_System.Core.ViewModels.TechnicalProblem;
     using Billing_System.Data.Entities;
     using Billing_System.ViewModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants;
 
 
     public class TechnicalProblemController : Controller
@@ -59,7 +61,7 @@
                     {
                         try
                         {
-                            _sendMail.SendEmail("Technical Problem", model.Description, model.ClientName);
+                            _sendMail.SendEmail("Technical Problem", model.Description, model.ClientName, TechnicalTeemsEmails);
                         }
                         catch (Exception)
                         {
@@ -83,6 +85,7 @@
                 });
             }
         }
+
         public async Task<IActionResult> Resolve(Guid id)
         {
             try
@@ -90,7 +93,7 @@
                 ResolveTechProblem model = await _technicalProblemService.GetTechnicalProblemByIdAsync(id);
                 return View(model);
             }
-            catch (Exception ex)
+            catch (ArgumentNullException ex)
             {
                 return View("Error", new ErrorViewModel
                 {
@@ -99,16 +102,27 @@
                 });
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> Resolve(ResolveTechProblemView model)
         {
             if (ModelState.IsValid)
             {
-                await _technicalProblemService.ResolveTechnicalProblemAsync(
-                    model.Solution,
-                    model.Solved,
-                    model.Id,
-                    Guid.Parse(_userManager.GetUserId(User)));
+                var userId = Guid.Parse(User.GetId());
+                await _technicalProblemService.ResolveTechnicalProblemAsync(model, userId);
+                if (model.SendMailToClient)
+                {
+                    try
+                    {
+                        _sendMail.SendEmail("Resolved Problem", model.Solution,
+                            model.ClientName, model.ClientEmail + "," + TechnicalTeemsEmails);
+                    }
+                    catch (Exception)
+                    {
+                        TempData["message"] = "Email not sent!";
+                        RedirectToAction("All");
+                    }
+                }
                
                 return RedirectToAction("All");
             }
@@ -128,6 +142,9 @@
                 };
                 model.ProblemsCount = model.TechnicalProblems.Count;
                 model.CurrentPage = modelGetForm.CurrentPage;
+                model.Resolved = modelGetForm.Resolved;
+                model.Filter = modelGetForm.Filter;
+                model.OrderBy = modelGetForm.OrderBy;
                 return View(model);
             }
             catch (Exception ex)

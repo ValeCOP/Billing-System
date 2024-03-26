@@ -1,6 +1,8 @@
 ﻿namespace Billing_System.Core.ViewModels.TechnicalProblem
 {
     using System.ComponentModel.DataAnnotations;
+    using System.Net.Mail;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.ResolveTechProblemConstants;
 
     public class ResolveTechProblem
     {
@@ -10,9 +12,10 @@
         public string Description { get; set; } = null!;
 
         [Display(Name = "Solution:")]
-        [MinLength(20)]
+        [StringLength(SolutionMaxLength,MinimumLength = SolutionMinLength, ErrorMessage = SolutionErrorMessage)]
         public string Solution { get; set; } = null!;
-
+        [Display(Name = "Send Mail to Client:")]
+        public bool SendMailToClient { get; set; }
         public bool Solved { get; set; }
 
         [Display(Name = "Registered On:")]
