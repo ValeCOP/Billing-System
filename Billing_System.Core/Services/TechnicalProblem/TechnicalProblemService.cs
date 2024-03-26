@@ -7,6 +7,7 @@
     using Billing_System.Data;
     using Billing_System.Data.Entities;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
     using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Globalization;
@@ -16,7 +17,7 @@
 
     public class TechnicalProblemService : ITechnicalProblemService
     {
-       
+
         private readonly BillingDbContext _context;
         private readonly IHomeService _homeService;
         private readonly IHttpClientFactory _clientFactory;
@@ -53,6 +54,14 @@
                 .OrderByDescending(t => !t.Solved)
                 .ThenBy(t => t.RegisteredOn)
                 .AsQueryable();
+            if (modelGetForm.Resolved)
+            {
+                allTechProblems = allTechProblems.Where(t => t.Solved);
+            }
+            if (!modelGetForm.Resolved)
+            {
+                allTechProblems = allTechProblems.Where(t => !t.Solved);
+            }
             if (!string.IsNullOrEmpty(modelGetForm.Filter))
             {
                 allTechProblems = allTechProblems.Where(t => t.ClientName.ToLower().Contains(modelGetForm.Filter.ToLower()));
@@ -73,6 +82,7 @@
                 };
             }
             allTechProblems = allTechProblems.Skip((modelGetForm.CurrentPage - 1) * 3).Take(3);
+            modelGetForm.ProblemsCount = await allTechProblems.CountAsync();
             return await allTechProblems.Select(t => new AllTechProblemViewModel
             {
                 Id = t.Id,
@@ -86,7 +96,8 @@
                 ClientAddress = t.ClientAddress,
                 ClientEmail = t.ClientEmail,
                 RegisterProblemUserName = t.RegisterProblemUser.UserName,
-                ResolvedProblemUserName = t.ResolvedProblemUser.UserName
+                ResolvedProblemUserName = t.ResolvedProblemUser.UserName,
+                
             }).ToListAsync();
         }
 
@@ -158,16 +169,22 @@
                     ClientEmail = t.ClientEmail,
                     RegisterProblemUserName = t.RegisterProblemUser.UserName,
                 }).FirstOrDefaultAsync();
-            return technicalProblem!;
+
+            if (technicalProblem == null)
+            {
+                throw new ArgumentNullException("Technical problem not found");
+            }
+
+            return technicalProblem;
         }
 
-        public async Task ResolveTechnicalProblemAsync(string description, bool solved, Guid tpId, Guid userId)
+        public async Task ResolveTechnicalProblemAsync(ResolveTechProblemView model, Guid userId)
         {
-            var technicalProblem = await _context.TechnicalProblems.FindAsync(tpId);
-            technicalProblem!.Solved = solved;
+            var technicalProblem = await _context.TechnicalProblems.FindAsync(model.Id);
+            technicalProblem!.Solved = model.Solved;
             technicalProblem.ResolvedOn = DateTime.Now;
             technicalProblem.ResolvedProblemUserId = userId;
-            technicalProblem.Solution = description;
+            technicalProblem.Solution = model.Solution;
             _context.TechnicalProblems.Update(technicalProblem);
             await _context.SaveChangesAsync();
         }
