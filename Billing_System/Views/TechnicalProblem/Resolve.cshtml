@@ -18,6 +18,25 @@
                     <textarea asp-for="Solution" class="form-control" id="Description"></textarea>
                     <span asp-validation-for="Solution" class="text-danger"></span>
                 </div>
+                @if(Model.ClientEmail != null || Model.ClientEmail != string.Empty)
+                {
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <label asp-for="SendMailToClient" class="form-check-label"></label>
+                        <input class="form-check-input" asp-for="SendMailToClient"  />
+                    </label>
+                </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="ClientEmail" hidden />
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="ClientName" hidden />
+                        </label>
+                    </div>
+                }
                 <div class="form-group form-check">
                     <label class="form-check-label">
                         <input class="form-check-input" asp-for="Solved" checked hidden />
