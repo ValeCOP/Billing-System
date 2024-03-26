@@ -27,8 +27,7 @@
                     <p>
                         <i class="fa-regular fa-circle-right"></i>
                         Available SUM: <span class="fw-bold">@user.Payments.Where(u => !u.Pending).Sum(p => p.Fee + p.InstallationFee)</span>
-                    </p>
-                    <p>
+                        <br>
                         <i class="fa-regular fa-circle-right"></i>
                         Expenses SUM: <span class="fw-bold">@user.Expenses.Sum(e => e.Value)</span>
                     </p>
@@ -55,22 +54,26 @@
         {
             <h4>Monthly Report</h4>
             <hr />
-            <h5>Total SUM: @totalSum</h5>
+            <p>
+                <i class="fa-regular fa-circle-check"></i> Total SUM: @totalSum
+                <br>
+                <i class="fa-regular fa-circle-xmark"></i> Pending SUM: @pendingSum
+            </p>
             <hr />
-            <h5>Pending SUM: @pendingSum</h5>
+            <p>
+                <i class="fa-regular fa-circle-check"></i> Available SUM: <span class="fw-bold">@availableSum</span>
+                <br>
+                <i class="fa-regular fa-circle-xmark"></i> Expenses SUM: <span class="fw-bold">@expensesSum</span>
+            </p>
             <hr />
-            <h5><i class="fa-regular fa-circle-right"></i> Available SUM: <span class="fw-bold">@availableSum</span></h5>
+            <p><i class="fa-solid fa-sack-dollar"></i><span class="fw-bold"> Income: @profit BGN</span>
             <hr />
-            <h5><i class="fa-regular fa-circle-xmark"></i> Expenses SUM: <span class="fw-bold">@expensesSum</span></h5>
-            <hr />
-            <h5><i class="fa-solid fa-sack-dollar"></i><span class="fw-bold"> Income: @profit BGN</span></h5>
-            <hr />
-            <h5><i class="fa-solid fa-receipt"></i> Receipt Issued: @receiptIssued</h5>
+            <i class="fa-solid fa-receipt"></i> Receipt Issued: @receiptIssued</p>
         }
         else
         {
             <div class=" col-md-12 p-3">
-                <h3 class="shadow-lg p-3 text-center text-muted"><em><i class="fa-solid fa-hand-holding-dollar"></i> INFOCAST SYSTEMS</em> - <strong><em>Billing</em></strong></h3>
+                <p class="shadow-lg p-3 text-center text-muted"><em><i class="fa-solid fa-hand-holding-dollar"></i> INFOCAST SYSTEMS</em> - <strong><em>Billing</em></strong></p>
             </div>
         }
     </div>
