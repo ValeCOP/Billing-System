@@ -1,6 +1,7 @@
 ﻿namespace Billing_System.Controllers.Clients
 {
     using Billing_System.Core.Contracts.Clients;
+    using Billing_System.Core.ViewModels.Clients;
     using Billing_System.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,20 @@
         {
             _clientService = clientsInterface;
         }
-        public async Task<IActionResult> All([FromQuery] string orderBy, string searchString)
+        public async Task<IActionResult> All(FilteredClientsViewModel model)
         {
             try
             {
-                var model = await _clientService.GetAllClientsAsync(orderBy, searchString);
-                return View(model);
+                FilteredClientsViewModel filteredClientsViewModel = new FilteredClientsViewModel
+                {
+                    Clients = await _clientService.GetAllClientsAsync(model),
+                    Filter = model.Filter,
+                    OrderBy = model.OrderBy,
+                    Pending = model.Pending,
+                    ClientsCount = model.ClientsCount,
+                    CurrentPage = model.CurrentPage,
+                };
+                return View(filteredClientsViewModel);
             }
             catch (Exception ex)
             {

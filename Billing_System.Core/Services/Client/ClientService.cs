@@ -5,6 +5,7 @@
     using Billing_System.Core.ViewModels.Payments;
     using Billing_System.Data;
     using Microsoft.EntityFrameworkCore;
+    using Newtonsoft.Json.Linq;
     using System;
     using System.Threading.Tasks;
 
@@ -16,71 +17,40 @@
             _context = context;
         }
 
-        public async Task<ICollection<ActivatedClientsViewModel>> GetAllClientsAsync(string orderBy, string searchString)
+        public async Task<ICollection<ActivatedClientsViewModel>> GetAllClientsAsync(FilteredClientsViewModel model)
         {
             var clients = _context.Clients
                 .Include(c => c.Payments)
                 .AsQueryable();
-            if (!string.IsNullOrEmpty(searchString))
+
+            if (!string.IsNullOrEmpty(model.Filter))
             {
-                clients = clients.Where(c => c.FullName.ToLower().Contains(searchString.ToLower()));
+                clients = clients.Where(c => c.FullName.ToLower().Contains(model.Filter.ToLower()));
             }
-            switch (orderBy)
+            if (!string.IsNullOrEmpty(model.OrderBy))
             {
-                case "FullName":
-                    {
-                        clients = clients.OrderBy(c => c.FullName);
-                        break;
-                    }
-                case "FullNameDesc":
-                    {
-                        clients = clients.OrderByDescending(c => c.FullName);
-                        break;
-                    }
-
-
-                case "ActivationDate":
-                    {
-                        clients = clients.OrderBy(c => c.ActivationDate);
-                        break;
-                    }
-                case "ActivationDateDesc":
-                    {
-                        clients = clients.OrderByDescending(c => c.ActivationDate);
-                        break;
-                    }
-
-                case "ExpiredDate":
-                    {
-                        clients = clients.OrderBy(c => c.ExpiredDate);
-                        break;
-                    }
-                case "ExpiredDateDesc":
-                    {
-                        clients = clients.OrderByDescending(c => c.ExpiredDate);
-                        break;
-                    }
-
-                case "ApplicationUser":
-                    {
-                        clients = clients.OrderBy(c => c.ApplicationUser.UserName);
-                        break;
-                    }
-                case "ApplicationUserDesk":
-                    {
-                        clients = clients.OrderByDescending(c => c.ApplicationUser.UserName);
-                        break;
-                    }
-
-
-                default:
-                    {
-                        clients = clients.OrderByDescending(c => c.ActivationDate);
-                        break;
-                    }
+                clients = model.OrderBy switch
+                {
+                    "FullName" => clients.OrderBy(c => c.FullName),
+                    "FullNameDesc" => clients.OrderByDescending(c => c.FullName),
+                    "ActivationDate" => clients.OrderBy(c => c.ActivationDate),
+                    "ActivationDateDesc" => clients.OrderByDescending(c => c.ActivationDate),
+                    "ExpiredDate" => clients.OrderBy(c => c.ExpiredDate),
+                    "ExpiredDateDesc" => clients.OrderByDescending(c => c.ExpiredDate),
+                    "ApplicationUser" => clients.OrderBy(c => c.ApplicationUser.UserName),
+                    "ApplicationUserDesc" => clients.OrderByDescending(c => c.ApplicationUser.UserName),
+                    _ => clients.OrderByDescending(c => c.ActivationDate),
+                };
+            }
+            if (model.Pending)
+            {
+                clients = clients.Where(c => c.Payments.Any(p => p.Pending));
             }
 
-            var model = await clients.Select(c => new ActivatedClientsViewModel
+            clients = clients.Skip((model.CurrentPage - 1) * 8).Take(8);
+            model.ClientsCount = await clients.CountAsync();
+
+            var allClients = await clients.Select(c => new ActivatedClientsViewModel
             {
                 ClientId = c.Id,
                 FullName = c.FullName,
@@ -95,7 +65,7 @@
                 }).ToList(),
 
             }).ToListAsync();
-            return model;
+            return allClients;
 
         }
 

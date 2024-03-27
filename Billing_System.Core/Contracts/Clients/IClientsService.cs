@@ -7,7 +7,7 @@
     public interface IClientsService
     {
         Task DeleteClientAsync(Guid id);
-        Task<ICollection<ActivatedClientsViewModel>> GetAllClientsAsync(string orderBy, string searchString);
+        Task<ICollection<ActivatedClientsViewModel>> GetAllClientsAsync(FilteredClientsViewModel model);
         Task<ActivatedClientsViewModel> GetClientDetailsAsync(Guid id);
         Task<ICollection<ShortInfoForActivatedClients>> GetClientShortAsync();
        
