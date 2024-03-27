@@ -84,7 +84,7 @@ html {
 body {
     margin-bottom: 60px;
     background-image: url("../images/bg.jpg");
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 input {
@@ -97,9 +97,8 @@ select {
 
 
 header {
-    font-size: 18px;
+    font-size: 1rem;
     font-family: Arial, sans-serif;
-
 }
 
 .player-image {
