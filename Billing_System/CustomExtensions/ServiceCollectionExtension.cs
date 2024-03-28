@@ -1,5 +1,6 @@
 ﻿namespace Billing_System.CustomExtensions
 {
+    using Billing_System.ActionFilters;
     using Billing_System.Core.Contracts.Archive;
     using Billing_System.Core.Contracts.Clients;
     using Billing_System.Core.Contracts.Expense;
@@ -48,6 +49,7 @@
             services.AddScoped<IExpenseService, ExpenseService>();
             services.AddScoped<IPromotionService, PromotionService>();
             services.AddScoped<IInvoiceService, InvoiceService>();
+            services.AddScoped<LogActionFilter>();
 
             return services;
         }

@@ -28,8 +28,8 @@
                         <option value="NameDesc">Name (Desc)</option>
                         <option value="Date">Oldest</option>
                         <option value="DateDesc">Latest</option>
-                        <option value="Value">Value</option>
-                        <option value="ValueDesc">Value (Desc)</option>
+                        <option value="Value">Price</option>
+                        <option value="ValueDesc">Price (Desc)</option>
                         <option value="ApplicationUser">User</option>
                         <option value="ApplicationUserDesc">User (Desc)</option>
 
@@ -58,7 +58,7 @@
                     </div>
 
                     @{
-                        var shouldButtonBeDisabled = Model.ExpensesCount < 6;
+                        var shouldButtonBeDisabled = Model.ExpensesCount < 3;
                     }
 
                     <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
@@ -75,13 +75,17 @@
             </div>
             @foreach (var item in Model.Expenses)
             {
-                <div class="col-lg-2 shadow-lg p-3 ">
+                <div class="col-lg-4 shadow-lg p-3 mb-2 ">
                     <h4 class="card-title mt-1">@item.Name</h4>
                     <hr />
-                    <h5 class="card-title mt-1">Price: @item.Value BGN</h5>
-                    <h5 class="card-title mt-1">Date: @item.Date.ToString("D", CultureInfo.InvariantCulture)</h5>
-                    <p class="card-title mt-1">Description: @item.Description</p>
-                    <h5 class="card-title mt-1">User: <strong>@item.UserName</strong></h5>
+                    <p class="card-body ">
+                        <strong>Price:</strong> @item.Value BGN
+                        <br>
+                        <strong>Date:</strong> @item.Date.ToString("D", CultureInfo.InvariantCulture)
+                        <br>
+                        <strong>Description:</strong> @item.Description
+                    </p>
+                    User: <strong>@item.UserName</strong>
                     <hr />
                     <a href="@item.ReceiptUrl" target="_blank"><img src="@item.ReceiptUrl" alt="Document Image" class="rounded player-image w-100" /></a>
                     <div>
@@ -89,7 +93,7 @@
                     </div>
                 </div>
             }
-           
+
         </div>
     </div>
 </div>

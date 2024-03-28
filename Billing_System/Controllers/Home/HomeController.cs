@@ -5,6 +5,7 @@
     using Billing_System.Core.Contracts.Receipt;
     using Billing_System.Core.CustomExtensions;
     using Billing_System.Core.ViewModels.Clients;
+    using Billing_System.ActionFilters;
     using Billing_System.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@
     using static Utilities.ValidationConstants.ValidationConstants.ActiveISPClientsForm;
 
     [Authorize]
+    [ServiceFilter(typeof(LogActionFilter))]
     public class HomeController : Controller
     {
         private readonly IHomeService _homeService;
