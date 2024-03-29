@@ -8,10 +8,10 @@
     [ApiController]
     public class ApiController : ControllerBase
     {
-        private readonly IClientsService _clientsInterface;
-        public ApiController(IClientsService clientsInterface)
+        private readonly IClientsService _clientsService;
+        public ApiController(IClientsService clientsService)
         {
-            _clientsInterface = clientsInterface;
+            _clientsService = clientsService;
         }
         [HttpGet]
         [Produces("application/json")]
@@ -21,7 +21,7 @@
         {
             try
             {
-                var clients = await _clientsInterface.GetClientShortAsync();
+                var clients = await _clientsService.GetClientShortAsync();
                 return Ok(clients);
             }
             catch (Exception ex)
