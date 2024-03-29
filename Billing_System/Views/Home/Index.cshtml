@@ -20,9 +20,9 @@
     }
     <div class="row shadow-lg proba">
         <div class="col-md-4 shadow-lg p-3">
-            <h4>Activate Client</h4>
-            <hr />
-            <div class="col-md-12 shadow-lg p-2">
+            <div class="col-md-12 shadow-lg p-3">
+                <h4>Activate Client</h4>
+                <hr />
                 <form asp-action="Index">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
@@ -44,7 +44,7 @@
                     <input id="clientEmail" name="Email" hidden>
                     <input id="clientAddress" name="Address" hidden>
                     <div class="shadow-lg col-12" id="demo" hidden></div>
-                    <div class="form-group w-25" >
+                    <div class="form-group w-50 hidden" hidden>
                         <i class="fa-solid fa-dollar-sign"></i>
                         <label asp-for="InstallationFee" class="control-label"></label>
                         <select asp-for="InstallationFee" class="form-control">
@@ -58,7 +58,7 @@
                         </select>
                         <span asp-validation-for="InstallationFee" class="text-danger"></span>
                     </div>
-                    <div class="form-group w-25 ">
+                    <div class="form-group w-50 hidden" hidden>
                         <i class="fa-solid fa-dollar-sign"></i>
                         <label asp-for="Fee" class="control-label"></label>
                         <select asp-for="Fee" class="form-control">
@@ -87,19 +87,19 @@
                         </select>
                         <span asp-validation-for="Months" class="text-danger"></span>
                     </div>
-                    <div class="form-group" >
+                    <div class="form-group mt-3">
                         <i class="fa-regular fa-calendar-days"></i>
                         <label asp-for="ActivationDate" class="control-label"></label>
                         <input asp-for="ActivationDate" name="ActivationDate" class="form-control" type="test" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)" readonly />
                         <span asp-validation-for="ActivationDate" class="text-danger"></span>
                     </div>
-                    <div class="form-group" >
+                    <div class="form-group">
                         <i class="fa-regular fa-calendar-days"></i>
                         <label asp-for="ExpiredDate" class="control-label"></label>
                         <input asp-for="ExpiredDate" name="ExpiredDate" class="form-control tcal" id="expiredDate" type="text" value="@DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)" />
                         <span asp-validation-for="ExpiredDate" class="text-danger"></span>
                     </div>
-                    <div class="form-group " >
+                    <div class="form-group ">
                         <i class="fa-regular fa-comment-dots"></i>
                         <label asp-for="Comments" class="control-label"></label>
                         <textarea asp-for="Comments" class="form-control"></textarea>
@@ -107,14 +107,14 @@
                     </div>
                     @if (User.IsInRole("Administrator"))
                     {
-                        <div class="form-group form-check ">
+                        <div class="form-group form-check  hidden" hidden>
                             <label class="form-check-label">
                                 <input class="form-check-input" asp-for="Pending" /> @Html.DisplayNameFor(model => model.Pending)
                             </label>
                         </div>
-                       
+
                     }
-                    <div class="form-group form-check">
+                    <div class="form-group form-check hidden" hidden>
                         <label class="form-check-label">
                             @if (receiptIssued >= 1111)
                             {

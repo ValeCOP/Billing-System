@@ -25,20 +25,31 @@ function getCurrentClientName(clientsISP) {
                 if (data.find(x => x.clientId === clientId)) {
 
                     let token = document.querySelector('input[name="X-CSRF-TOKEN"]').value
-
+                    
                     let message = "The Client: " + findedClient.FullName +
                         "is already exist in the database. You can add a payment to it."
 
-                    $.ajax({
-                        type: "POST",
-                        url: 'Home/SetTempData?data=' + message,
+                    //$.ajax({
+                    //    type: "POST",
+                    //    url: 'Home/SetTempData?data=' + message,
+                    //    headers: {
+                    //        "X-CSRF-TOKEN": token
+                    //    },
+                    //    success: function (r) {
+                    //        window.location.href = "Clients/Details/" + clientId;
+                    //    }
+                    //});
+
+                    fetch('Home/SetTempData?data=' + message, {
+                        method: 'POST',
                         headers: {
                             "X-CSRF-TOKEN": token
-                        },
-                        success: function (r) {
+                        }
+                    }).then(response => {
+                        if (response.ok) {
                             window.location.href = "Clients/Details/" + clientId;
                         }
-                    });
+                    })
                 }
                 else {
                     $("#monthSelect option").prop("selected", function () {
@@ -52,18 +63,17 @@ function getCurrentClientName(clientsISP) {
                     });
 
                     presentationElement.removeAttribute("hidden");
-                    let div = domCreator("div", "", presentationElement, "", ["border-primary"])
-                    div.setAttribute("style", "padding:10px")
-                    domCreator("h6", "Replay from ISP Router: ", div, "", ["font-weight-bold"])
+                    let div = domCreator("div", "", presentationElement, "", ["card", "p-3"])
+                    domCreator("span", "Replay from ISP Router: ", div, "", ["font-weight-bold"])
                     domCreator("hr", "", div);
-                    domCreator("h6", "Activated: " + findedClient.ActivationDate.split("T")[0], div, "", ["fw-bold"])
+                    domCreator("span", "Activated: " + findedClient.ActivationDate.split("T")[0], div, "", ["fw-bold"])
                     if (today > expiredDateValue) {
-                        domCreator("h6", "Expired on: " + findedClient.ExpiredDate.split("T")[0], div, "", ["text-danger", "fw-bold"], { style: "padding-top: 1px" })
+                        domCreator("span", "Expired on: " + findedClient.ExpiredDate.split("T")[0], div, "", ["text-danger", "fw-bold"], { style: "padding-top: 1px" })
                     }
                     else {
-                        domCreator("h6", "Expires: " + findedClient.ExpiredDate.split("T")[0], div, "", ["text-success", "fw-bold"], { style: "padding-top: 1px" })
+                        domCreator("span", "Expires: " + findedClient.ExpiredDate.split("T")[0], div, "", ["text-success", "fw-bold"], { style: "padding-top: 1px" })
                     }
-                    domCreator("h6", "Tel: " + findedClient.Phone, div, "", ["card-title"]);
+                    domCreator("span", "Tel: " + findedClient.Phone, div, "", ["card-title"]);
                     domCreator("hr", "", div);
                 }
             })
@@ -118,8 +128,6 @@ function showElement() {
         element.style.display = "none";
     }
 }
-
-
 
 setTimeout(function () {
     $('#alert').fadeOut(1000);
@@ -202,6 +210,7 @@ function loadFile(event) {
     }
 };
 
+
 $("#name-input").focusout(function () {
     let name = $("#name-input").val();
 
@@ -209,7 +218,6 @@ $("#name-input").focusout(function () {
         $('#output-name').text("Expense for: " + name);
     }
 })
-
 $("#value-input").focusout(function () {
     let value = $("#value-input").val();
 
@@ -217,7 +225,6 @@ $("#value-input").focusout(function () {
         $('#output-value').text("Price: " + value);
     }
 })
-
 $("#description-input").focusout(function () {
     let description = $("#description-input").val();
 
@@ -225,8 +232,6 @@ $("#description-input").focusout(function () {
         $('#output-description').text("Description: " + description);
     }
 })
-
-
 $("#showRandomRecord").click(function () {
     fetch("/Api/Get")
         .then(response => response.json())
