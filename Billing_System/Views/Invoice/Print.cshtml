@@ -35,14 +35,7 @@
                             </address>
                         </div>
                         <div class="col-6 alert alert-success d-block p-1 mb-0">
-                            <address>
-                                <strong class="alert alert-success d-block p-1 mb-0 text-center">Издател:</strong><br>
-                                <strong>Инфокаст системс</strong><br>
-                                <strong>Адрес: </strong>София, Саmоков, с.Райово, 2017<br>
-                                <strong>ЕИК: </strong>203231847<br>
-                                <strong>ИН по ДДС: </strong><br>
-                                <strong>МОЛ: </strong>Снежана Г. Никова
-                            </address>
+                            @await Component.InvokeAsync("Company")
                         </div>
                     </div>
                     <hr />
@@ -53,9 +46,7 @@
                             {
                                 <label>Банков път</label>
                                 <div class="alert">
-                                    <strong>Сметка:</strong> BG08UNCR70001522871893<br>
-                                    <strong>Банка:</strong> Булбанк<br>
-                                    <strong>BIC:</strong> BUIBGSF<br>
+                                    @await Component.InvokeAsync("BankDetails")
                                 </div>
                             }
                             else
