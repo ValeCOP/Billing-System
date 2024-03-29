@@ -2,7 +2,7 @@
 {
     using Billing_System.Data.Entities;
     using System.ComponentModel.DataAnnotations;
-    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.Invoice;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.Invoices;
 
     public class PaymentForInvoiceViewModel
     {

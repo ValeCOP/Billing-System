@@ -1,7 +1,7 @@
 ﻿namespace Billing_System.Core.ViewModels.Invoice
 {
     using System.ComponentModel.DataAnnotations;
-    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.Invoice;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.Invoices;
 
     public class CreateInvoiceViewModel
     {
@@ -15,7 +15,6 @@
 
         [StringLength(VATINLength, MinimumLength = VATINLength, ErrorMessage = VATINErrorMessage)]
         public string? VATIN { get; set; }
-       
 
         [Required]
         [StringLength(RecipientMaxLength, MinimumLength = RecipientMinLength, ErrorMessage = RecipientErrorMessage)]
