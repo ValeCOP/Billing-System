@@ -182,7 +182,7 @@
 
             Assert.AreEqual(2, models.Count);
 
-            filter.Filter = "Initial2";
+            filter.Filter = "Initial4";
             models = await _invoiceService.GetAllInvoicesAsync(filter);
             Assert.AreEqual(1, models.Count);
 

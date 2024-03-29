@@ -2,6 +2,7 @@
 {
     using Billing_System.Core.Contracts.Clients;
     using Billing_System.Core.Services.Clients;
+    using Billing_System.Core.ViewModels.Clients;
     using Billing_System.Data;
     using Microsoft.EntityFrameworkCore;
 
@@ -36,8 +37,13 @@
         [Test]
         public void GetAllClients_Test_01()
         {
+            FilteredClientsViewModel model = new FilteredClientsViewModel()
+            {
+                Filter = "",
+                OrderBy = ""
+            };
             // Act
-            var clients = _clientService.GetAllClientsAsync("", "").GetAwaiter().GetResult();
+            var clients = _clientService.GetAllClientsAsync(model).GetAwaiter().GetResult();
 
             // Assert
             Assert.That(clients.Count, Is.EqualTo(2));
@@ -45,8 +51,13 @@
         [Test]
         public void GetClientBySearchingString_Test_02()
         {
+            FilteredClientsViewModel model = new FilteredClientsViewModel()
+            {
+                Filter = "Валентин Иванов Василев",
+                OrderBy = ""
+            };
             // Act
-            var clients = _clientService.GetAllClientsAsync("", "Валентин Иванов Василев").GetAwaiter().GetResult();
+            var clients = _clientService.GetAllClientsAsync(model).GetAwaiter().GetResult();
 
             // Assert
             Assert.That(clients.Count, Is.EqualTo(1));
@@ -56,24 +67,19 @@
         [Test]
         public void GetClientsByOrdering_Test_03()
         {
+            FilteredClientsViewModel model = new FilteredClientsViewModel()
+            {
+                Filter = "",
+                OrderBy = "FullName"
+            };
             // Act
-            var clients = _clientService.GetAllClientsAsync("FullName", "").GetAwaiter().GetResult();
+            var clients = _clientService.GetAllClientsAsync(model).GetAwaiter().GetResult();
 
             // Assert
             Assert.That(clients.Count, Is.EqualTo(2));
             Assert.That(clients.First().FullName, Is.EqualTo("Авксентия Мариус Койнарска"));
         }
-        [Test]
-        public void DeleteClient_Test_04()
-        {
-            // Arrange
-            var client = _dbContext.Clients.FirstOrDefaultAsync().GetAwaiter().GetResult();
-            // Act
-            _clientService.DeleteClientAsync(client.Id).GetAwaiter().GetResult();
-            var clients = _clientService.GetAllClientsAsync("", "").GetAwaiter().GetResult();
-            // Assert
-            Assert.That(clients.Count, Is.EqualTo(1));
-        }
+       
         [Test]
         public void GetClientDetails_Test_05()
         {

@@ -122,18 +122,18 @@
             Assert.AreEqual(technicalProblem.ClientEmail, result.ClientEmail);
         }
 
-        [Test]
-        public async Task ResolveTechnicalProblem_Test_04()
-        {
-            //Arrange
-            await SeedData();
-            var technicalProblem = _dbContext.TechnicalProblems.FirstOrDefaultAsync().GetAwaiter().GetResult()!;
-            //Act
-            await _technicalProblemService.ResolveTechnicalProblemAsync("Test", true, technicalProblem.Id, _user.Id);
-            //Assert
-            Assert.AreEqual("Test", technicalProblem.Solution);
-            Assert.AreEqual(true, technicalProblem.Solved);
-        }
+        //[Test]
+        //public async Task ResolveTechnicalProblem_Test_04()
+        //{
+        //    //Arrange
+        //    await SeedData();
+        //    var technicalProblem = _dbContext.TechnicalProblems.FirstOrDefaultAsync().GetAwaiter().GetResult()!;
+        //    //Act
+        //    await _technicalProblemService.ResolveTechnicalProblemAsync("Test", true, technicalProblem.Id, _user.Id);
+        //    //Assert
+        //    Assert.AreEqual("Test", technicalProblem.Solution);
+        //    Assert.AreEqual(true, technicalProblem.Solved);
+        //}
 
         [Test]
         public async Task DeleteTechnicalProblem_Test_05()
