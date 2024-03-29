@@ -41,7 +41,7 @@
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
             var sanitizedFileName = WebUtility.HtmlEncode(fileNameWithoutExtension) + fileExtension;
 
-            string path = Path.Combine(Environment.CurrentDirectory, "wwwroot", "expense", sanitizedFileName);
+            string path = Path.Combine("wwwroot", "expense", sanitizedFileName);
             try
             {
                 using (var stream = new FileStream(path, FileMode.Create))
