@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.Invoice;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.Invoices;
 
     public class Invoice
     {
@@ -10,7 +10,7 @@
         public Guid Id { get; set; }
 
         [Required]
-        public string InvoiceNumber { get; set; }
+        public string InvoiceNumber { get; set; } = null!;
 
         [Required]
         public DateTime CreatedOn { get; set; }

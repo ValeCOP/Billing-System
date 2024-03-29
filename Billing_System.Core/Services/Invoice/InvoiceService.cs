@@ -61,11 +61,13 @@
             if (!string.IsNullOrEmpty(model.Filter))
             {
                 allInvoicesQueryable = allInvoicesQueryable.Where(
-                    i => i.Payment.Client.FullName.Contains(model.Filter) ||
-                    i.UIN.Contains(model.Filter) ||
-                    i.VATIN.Contains(model.Filter) ||
-                    i.Recipient.Contains(model.Filter) ||
-                    i.Compiler.Contains(model.Filter));
+                    i => i.Payment.Client.FullName.ToUpper().Contains(model.Filter.ToUpper()) ||
+                    i.UIN.ToUpper().Contains(model.Filter.ToUpper()) ||
+                    i.VATIN.ToUpper().Contains(model.Filter.ToUpper()) ||
+                    i.Recipient.ToUpper().Contains(model.Filter.ToUpper()) ||
+                    i.Compiler.ToUpper().Contains(model.Filter.ToUpper()) ||
+                    i.MOL.ToUpper().Contains(model.Filter.ToUpper()) ||
+                    i.InvoiceNumber.ToUpper().Contains(model.Filter.ToUpper()));
             }
             if (!string.IsNullOrEmpty(model.OrderBy))
             {
