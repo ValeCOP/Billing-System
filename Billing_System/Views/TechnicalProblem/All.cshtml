@@ -4,93 +4,91 @@
 }
 
 <h2><i class="fa-solid fa-triangle-exclamation"></i> All TechProblem</h2>
-<div class="shadow-lg" style="padding: 30px">
-    <hr />
-    <div class="row shadow-lg">
-        <div class="row shadow-lg">
-            <h4 class="mt-5">All problems</h4>
-
-            @if (TempData["message"] != null)
-            {
-                <div class="alert alert-danger" id="alert">
-                    <label>✖</label>
-                    @TempData["message"]
-                </div>
-            }
-
-            <div class="col-md-2 mb-3">
-                <a class="btn btn-danger mt-2" asp-controller="TechnicalProblem" asp-action="Add">Add new</a>
+<hr />
+<div class="row shadow-lg p-3">
+    <div class="shadow-lg p-3">
+        <h4 class="mt-5">All problems</h4>
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-info" id="alert">
+                <label>✔</label>
+                @TempData["message"]
             </div>
-            <hr />
-            <form class="row" asp-controller="TechnicalProblem" asp-action="All" method="get">
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-outline-primary"> Search </button>
-                </div>
-                <div class="col-md-2">
-                    <input class="form-control" name="Filter" placeholder="Search By Client">
-                </div>
-                <div class="col-md-2">
-                    <select class="form-control" asp-for="OrderBy">
-                        <option value="">Order By</option>
-                        <option value="FullName">FullName</option>
-                        <option value="FullNameDesc">FullName (Desc)</option>
-                        <option value="RegisteredOn">Oldest</option>
-                        <option value="RegisteredOnDesc">Latest</option>
-                        <option value="ResolvedOn">Resolved Date</option>
-                        <option value="ResolvedOnDesc">Resolved Date (Desc)</option>
-                        <option value="ApplicationUser">User</option>
-                        <option value="ApplicationUserDesc">User (Desc)</option>
+        }
+        <div class="col-md-2 mb-3">
+            <a class="btn btn-danger mt-2" asp-controller="TechnicalProblem" asp-action="Add">Add new</a>
+        </div>
+        <hr />
+        <form class="row" asp-controller="TechnicalProblem" asp-action="All" method="get">
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-outline-primary"> Search </button>
+            </div>
+            <div class="col-md-2">
+                <input class="form-control" name="Filter" placeholder="Search By Client">
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" asp-for="OrderBy">
+                    <option value="">Order By</option>
+                    <option value="FullName">FullName</option>
+                    <option value="FullNameDesc">FullName (Desc)</option>
+                    <option value="RegisteredOn">Oldest</option>
+                    <option value="RegisteredOnDesc">Latest</option>
+                    <option value="ResolvedOn">Resolved Date</option>
+                    <option value="ResolvedOnDesc">Resolved Date (Desc)</option>
+                    <option value="ApplicationUser">User</option>
+                    <option value="ApplicationUserDesc">User (Desc)</option>
 
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <select class="form-control" asp-for="Resolved">
-                        <option value="false">Not Resolved</option>
-                        <option value="true">Resolved</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" asp-for="Resolved">
+                    <option value="false">Not Resolved</option>
+                    <option value="true">Resolved</option>
 
 
-                    </select>
-                </div>
-            </form>
-            <div class="row mt-3">
-                <div class="row mb-5">
-                    @{
-                        var previousPage = Model.CurrentPage - 1;
-                        if (previousPage < 1)
-                        {
-                            previousPage = 1;
-                        }
+                </select>
+            </div>
+        </form>
+        <div class="row mt-3">
+            <div class="row mb-5">
+                @{
+                    var previousPage = Model.CurrentPage - 1;
+                    if (previousPage < 1)
+                    {
+                        previousPage = 1;
                     }
-                    <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
-                        <a class="btn btn-outline-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
-                           asp-controller="TechnicalProblem"
-                           asp-action="All"
-                           asp-route-orderBy="@Model.OrderBy"
-                           asp-route-filter="@Model.Filter"
-                           asp-route-Resolved="@Model.Resolved"
-                           asp-route-CurrentPage="@previousPage">
-                            <<
-                        </a>
+                }
+                <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+                    <a class="btn btn-outline-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+                       asp-controller="TechnicalProblem"
+                       asp-action="All"
+                       asp-route-orderBy="@Model.OrderBy"
+                       asp-route-filter="@Model.Filter"
+                       asp-route-Resolved="@Model.Resolved"
+                       asp-route-CurrentPage="@previousPage">
+                        <<
+                    </a>
 
-                    </div>
+                </div>
 
-                    @{
-                        var shouldButtonBeDisabled = Model.ProblemsCount < 3;
-                    }
+                @{
+                    var shouldButtonBeDisabled = Model.ProblemsCount < 3;
+                }
 
-                    <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a class="btn btn-outline-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
-                           asp-controller="TechnicalProblem"
-                           asp-action="All"
-                           asp-route-orderBy="@Model.OrderBy"
-                           asp-route-filter="@Model.Filter"
-                           asp-route-Resolved="@Model.Resolved"
-                           asp-route-CurrentPage="@(Model.CurrentPage + 1)">
-                            >>
-                        </a>
-                    </div>
+                <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a class="btn btn-outline-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+                       asp-controller="TechnicalProblem"
+                       asp-action="All"
+                       asp-route-orderBy="@Model.OrderBy"
+                       asp-route-filter="@Model.Filter"
+                       asp-route-Resolved="@Model.Resolved"
+                       asp-route-CurrentPage="@(Model.CurrentPage + 1)">
+                        >>
+                    </a>
                 </div>
             </div>
+        </div>
+        <div class="row">
             @foreach (var item in Model.TechnicalProblems)
             {
                 <div class="col-md-4 shadow-lg p-3 mb-3">
@@ -139,7 +137,6 @@
 
                 </div>
             }
-
         </div>
     </div>
 </div>

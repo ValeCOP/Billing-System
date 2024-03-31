@@ -5,11 +5,16 @@
 }
 
 <h2><i class="fa-solid fa-triangle-exclamation"></i> Solve TechProblem</h2>
-<div class="shadow-lg" style="padding: 30px">
     <hr />
-    <div class="row shadow-lg">
+<div class="row shadow-lg p-3">
         <div class="shadow-lg col-md-4 p-3">
-            <h4>Solve problem</h4>
+        <h4>Solve problem</h4>@if (TempData["message"] != null)
+        {
+            <div class="alert alert-success" id="alert">
+                <label>✔</label>
+                @TempData["message"]
+            </div>
+        }
             <hr />
             <form asp-action="Resolve">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -99,7 +104,6 @@
             </div>
         </div>
     </div>
-</div>
 
 @section Scripts {
     @{

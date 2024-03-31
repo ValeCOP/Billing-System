@@ -1,10 +1,12 @@
 ﻿@model Billing_System.Core.ViewModels.Users.RegisterViewModel
+@{
+    ViewData["Title"] = "Create new user";
 
+}
 <h2><i class="fa-solid fa-user-plus"></i> Register New USER</h2>
 <hr />
-<div class="shadow-lg " style="padding: 30px">
+<div class="shadow-lg p-3">
 
-    <div class="row">
         <div class="col-md-4">
             <form asp-action="Register">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -44,7 +46,6 @@
             </form>
         </div>
     </div>
-</div>
 <div>
 </div>
 
