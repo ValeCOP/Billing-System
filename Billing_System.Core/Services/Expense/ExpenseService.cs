@@ -108,7 +108,7 @@
                     _ => allExpenses.OrderByDescending(e => e.Date)
                 };
             }
-            allExpenses = allExpenses.Skip((modelGetForm.CurrentPage - 1) * 6).Take(6);
+            allExpenses = allExpenses.Skip((modelGetForm.CurrentPage - 1) * 3).Take(3);
             modelGetForm.ExpensesCount = allExpenses.Count();
             modelGetForm.Expenses = await allExpenses.Select(e => new AllExpenseViewModel
             {

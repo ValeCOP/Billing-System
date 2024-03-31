@@ -52,9 +52,9 @@
         [HttpPost]
         public async Task<IActionResult> Add(AddTechProblemView model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                try
                 {
                     await _technicalProblemService.AddTechnicalProblemAsync(model);
                     if (model.SendMail)
@@ -62,28 +62,30 @@
                         try
                         {
                             _sendMail.SendEmail("Technical Problem", model.Description, model.ClientName, TechnicalTeemsEmails);
+                            TempData["message"] = "Registered technical problem. Email sent!";
+                            return RedirectToAction("All");
                         }
                         catch (Exception)
                         {
-                            TempData["message"] = "Email not sent!";
+                            TempData["message"] = "Registered technical problem. Email not sent!";
                             RedirectToAction("All");
                         }
                     }
+                    TempData["message"] = "Registered technical problem! Email not sent!";
                     return RedirectToAction("All");
                 }
-
-                model.ClientsFromISPRouter = await _technicalProblemService.GetClientsAsync();
-
-                return View(model);
-            }
-            catch (Exception ex)
-            {
-                return View("Error", new ErrorViewModel
+                catch (Exception ex)
                 {
-                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
-                    Message = ex.Message
-                });
+                    return View("Error", new ErrorViewModel
+                    {
+                        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                        Message = ex.Message
+                    });
+                }
             }
+            model.ClientsFromISPRouter = await _technicalProblemService.GetClientsAsync();
+
+            return View(model);
         }
 
         public async Task<IActionResult> Resolve(Guid id)
@@ -108,23 +110,36 @@
         {
             if (ModelState.IsValid)
             {
-                var userId = Guid.Parse(User.GetId());
-                await _technicalProblemService.ResolveTechnicalProblemAsync(model, userId);
-                if (model.SendMailToClient)
+                try
                 {
-                    try
+                    var userId = Guid.Parse(User.GetId());
+                    await _technicalProblemService.ResolveTechnicalProblemAsync(model, userId);
+                    if (model.SendMailToClient)
                     {
-                        _sendMail.SendEmail("Resolved Problem", model.Solution,
-                            model.ClientName, model.ClientEmail + "," + TechnicalTeemsEmails);
+                        try
+                        {
+                            _sendMail.SendEmail("Resolved Problem", model.Solution,
+                                model.ClientName, model.ClientEmail + "," + TechnicalTeemsEmails);
+                            TempData["message"] = "Technical problem resolved. Email sent!";
+                            return RedirectToAction("All");
+                        }
+                        catch (Exception)
+                        {
+                            TempData["message"] = "Technical problem resolved. Email not sent!";
+                            RedirectToAction("All");
+                        }
                     }
-                    catch (Exception)
-                    {
-                        TempData["message"] = "Email not sent!";
-                        RedirectToAction("All");
-                    }
+                    TempData["message"] = "Technical problem resolved! Email not sent!";
+                    return RedirectToAction("All");
                 }
-               
-                return RedirectToAction("All");
+                catch (Exception ex)
+                {
+                    return View("Error", new ErrorViewModel
+                    {
+                        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                        Message = ex.Message
+                    });
+                }   
             }
             ModelState.AddModelError(string.Empty, "Invalid data!");
             return View(model);

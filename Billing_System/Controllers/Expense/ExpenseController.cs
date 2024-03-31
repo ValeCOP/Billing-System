@@ -41,7 +41,8 @@
 
             try
             {
-               await _expenseService.AddExpenseAsync(model);
+                await _expenseService.AddExpenseAsync(model);
+                TempData["message"] = $"Expense for {model.Name} added successfully";
             }
             catch (Exception e)
             {
@@ -91,6 +92,6 @@
             }
             return RedirectToAction("All");
         }
-       
+
     }
 }
