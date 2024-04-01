@@ -89,8 +89,10 @@
                 if (payment.Receipt)
                 {
                     await _receiptService.CreateReceiptAsync(payment!.Id);
+                    TempData["message"] = "Payment and Receipt created successfully";
+                    RedirectToAction("Details", "Clients", new { id = payment.ClientId });
                 }
-
+                TempData["message"] = "Payment created successfully";
                 return RedirectToAction("Details", "Clients", new { id = model.ClId });
             }
             catch (Exception ex)
@@ -150,6 +152,7 @@
 
                 await _homeService.UpdateISPRouterDataAsync(model.ClId);
 
+                TempData["message"] = "Payment updated successfully";
                 return RedirectToAction("Details", "Clients", new { id = model.ClId });
             }
             catch (Exception ex)
