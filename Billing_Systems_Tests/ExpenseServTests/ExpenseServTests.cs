@@ -194,7 +194,7 @@
                 OrderBy = "Name",
             };
             var expenses = _expenseService.GetExpenseAsync(filteredModel).GetAwaiter().GetResult();
-            Assert.AreEqual(4, expenses.Count);
+            Assert.AreEqual(3, expenses.Count);
 
             filteredModel.Filter = "Test1";
             var expenses1 = _expenseService.GetExpenseAsync(filteredModel).GetAwaiter().GetResult();

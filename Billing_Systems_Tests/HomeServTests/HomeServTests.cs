@@ -127,7 +127,6 @@
             Assert.That(model.Clients.FirstOrDefault().FullName, Is.EqualTo("Александър Димитров Белчински"));
         }
 
-       
         [Test]
         public async Task UpdateISPRouterDataAsyncTest_04()
         {

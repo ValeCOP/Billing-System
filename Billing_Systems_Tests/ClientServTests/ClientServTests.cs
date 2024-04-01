@@ -100,5 +100,16 @@
             // Assert
             Assert.That(clients.Count, Is.EqualTo(2));
         }
+
+        [Test]
+        public void DeleteClient_Test_07()
+        {
+            // Arrange
+            var client = _dbContext.Clients.FirstOrDefaultAsync().GetAwaiter().GetResult();
+            // Act
+            _clientService.DeleteClientAsync(client.Id).GetAwaiter().GetResult();
+            // Assert
+            Assert.That(_dbContext.Clients.Count(), Is.EqualTo(1));
+        }
     }
 }
