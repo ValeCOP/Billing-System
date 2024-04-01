@@ -141,7 +141,6 @@
             _context.Payments.Remove(payment);
             await _context.SaveChangesAsync();
         }
-
         public Guid GetPaymentIdByClientId(Guid clientId)
         {
             var payment = _context.Payments
@@ -152,7 +151,6 @@
             }
             return payment.Id;
         }
-
         public Task<Payment> GetPaymentByIdAsync(Guid paymentId)
         {
             var payment = _context.Payments
