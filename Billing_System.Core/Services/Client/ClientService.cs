@@ -21,6 +21,7 @@
         {
             var clients = _context.Clients
                 .Include(c => c.Payments)
+                .OrderByDescending(c => c.ActivationDate)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(model.Filter))
