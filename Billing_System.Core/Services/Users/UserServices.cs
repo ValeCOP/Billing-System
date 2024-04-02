@@ -88,6 +88,9 @@
             {
                 throw new System.Exception("User not found!");
             }
+            _context.UserRoles.RemoveRange(_context.UserRoles.Where(ur => ur.UserId == user.Id));
+            _context.Expenses.RemoveRange(_context.Expenses.Where(e => e.UserId == user.Id));
+            _context.Payments.RemoveRange(_context.Payments.Where(p => p.UserId == user.Id));
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
         }

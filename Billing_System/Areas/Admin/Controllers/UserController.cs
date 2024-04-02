@@ -39,6 +39,11 @@
 
         public async Task<IActionResult> Delete(string id)
         {
+            var user = await userServices.GetUserById(id);
+            if (user.Email == "admin@infocastsystems.eu")
+            {
+                return BadRequest("You can't delete the admin user!");
+            }
             await userServices.DeleteUser(id);
             return RedirectToAction("All");
         }

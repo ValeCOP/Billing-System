@@ -47,8 +47,7 @@
                             </label>
                         </td>
                         <td>
-                            @if (user.Email != "admin@infocastsystems.eu" &&
-                           user.Email != "user@infocastsystems.eu")
+                            @if (user.Email != "admin@infocastsystems.eu")
                             {
                                 @Html.ActionLink("Delete", "Delete", new { id = user.Id }, new { @class = "btn btn-outline-danger btn-sm", onclick = $"return confirm('Are you sure you want to delete {user.UserName}?');" })
 
