@@ -3,11 +3,13 @@
     using Billing_System.Core.Contracts.MailSender;
     using Billing_System.Core.Contracts.TechnicalProblemService;
     using Billing_System.Core.CustomExtensions;
+    using Billing_System.Core.ViewModels.Clients;
     using Billing_System.Core.ViewModels.TechnicalProblem;
     using Billing_System.Data.Entities;
     using Billing_System.ViewModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
     using System.Diagnostics;
     using static Billing_System.Utilities.ValidationConstants.ValidationConstants;
 
@@ -17,25 +19,37 @@
         private readonly ITechnicalProblemService _technicalProblemService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ISendMail _sendMail;
+        private readonly IMemoryCache _cache;
 
         public TechnicalProblemController(ITechnicalProblemService technicalProblemService,
             UserManager<ApplicationUser> userManager,
-            ISendMail sendMail)
+            ISendMail sendMail,
+            IMemoryCache cache)
         {
             _userManager = userManager;
             _technicalProblemService = technicalProblemService;
             _sendMail = sendMail;
+            _cache = cache;
         }
 
         public async Task<IActionResult> Add()
         {
             try
             {
+                ICollection<ClientsInfoModel> clientsInfoModel;
+                if (!_cache.TryGetValue("ClientsFromISPRouter", out clientsInfoModel))
+                {
+                    clientsInfoModel = await _technicalProblemService.GetClientsAsync();
+                    _cache.Set("ClientsFromISPRouter", clientsInfoModel, new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+                    });
+                }
                 AddTechProblemView model = new()
                 {
                     RegisterProblemUserId = Guid.Parse(_userManager.GetUserId(User)),
-                    ClientsFromISPRouter = await _technicalProblemService.GetClientsAsync()
-                };
+                    ClientsFromISPRouter = clientsInfoModel
+                 };
                 return View(model);
 
             }

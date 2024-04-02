@@ -15,6 +15,7 @@ namespace Billing_System
             builder.Services.AddApplicationServices();
             builder.Services.AddApplicationIdentity();
             builder.Services.AddApplicationDbContext(builder.Configuration);
+            builder.Services.AddMemoryCache();
            
             builder.Services.AddControllersWithViews()
                 .AddMvcOptions(options =>

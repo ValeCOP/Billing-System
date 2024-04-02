@@ -13,6 +13,7 @@
     using System.Globalization;
     using static Utilities.ValidationConstants.ValidationConstants;
     using static Utilities.ValidationConstants.ValidationConstants.ActiveISPClientsForm;
+    using Microsoft.Extensions.Caching.Memory;
 
     [Authorize]
     [ServiceFilter(typeof(LogActionFilter))]
@@ -21,22 +22,32 @@
         private readonly IHomeService _homeService;
         private readonly IReceiptService _receiptInterface;
         private readonly IPaymentsService _paymentsService;
+        private readonly IMemoryCache _cache;
 
 
         public HomeController(IHomeService homeInterface,
                    IReceiptService receiptInterface,
-                   IPaymentsService paymentsService)
+                   IPaymentsService paymentsService,
+                   IMemoryCache cache)
         {
             _paymentsService = paymentsService;
             _homeService = homeInterface;
             _receiptInterface = receiptInterface;
+            _cache = cache;
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                ActiveISPClientsFormModel model = await _homeService.ImportISPRouterDataAsync();
+                if (!_cache.TryGetValue("ActiveISPClientsFormModel", out ActiveISPClientsFormModel model))
+                {
+                    model = await _homeService.ImportISPRouterDataAsync();
+                    _cache.Set("ActiveISPClientsFormModel", model, new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+                    });
+                }
                 return View(model);
             }
             catch (Exception ex)
