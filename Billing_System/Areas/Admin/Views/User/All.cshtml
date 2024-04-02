@@ -1,6 +1,8 @@
 ﻿@using Billing_System.Core.ViewModels.Users
 @using Billing_System.CustomMiddleware
+@using Microsoft.Extensions.Caching.Memory
 @model IEnumerable<AllUsersViewModel>
+@inject IMemoryCache cache
 @{
     ViewBag.Title = "Users";
 }
@@ -25,7 +27,7 @@
                         <td><label>@user.UserName</label></td>
                         <td><label>@user.Email</label></td>
                         <td>
-                            @if (OnlineUsersMiddleware.CheckIfUserIsOnline(user.Id))
+                            @if (OnlineUsersMiddleware.CheckIfUserIsOnline(Guid.Parse(user.Id), cache))
                             {
                                 <label>✔</label>
                             }

@@ -1,89 +1,70 @@
-﻿using Billing_System.Core.CustomExtensions;
-
-namespace Billing_System.CustomMiddleware
+﻿namespace Billing_System.CustomMiddleware
 {
+    using Billing_System.Data.Entities;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Caching.Memory;
-    using System.Collections.Concurrent;
 
     public class OnlineUsersMiddleware
     {
-        private readonly RequestDelegate next;
-        private readonly string cookieName;
-        private readonly int lastActivityMinutes;
+        private readonly RequestDelegate _next;
+        private readonly IMemoryCache _memoryCache;
 
-        private static readonly ConcurrentDictionary<string, bool> AllKeys =
-            new ConcurrentDictionary<string, bool>();
-
-        public OnlineUsersMiddleware(RequestDelegate next,
-            string cookieName = "OnlineUsersCookieName",
-            int lastActivityMinutes = 5)
+        public OnlineUsersMiddleware(RequestDelegate next, IMemoryCache memoryCache)
         {
-            this.next = next;
-            this.cookieName = cookieName;
-            this.lastActivityMinutes = lastActivityMinutes;
+            _memoryCache = memoryCache;
+            _next = next;
         }
 
-        public Task InvokeAsync(HttpContext context, IMemoryCache memoryCache)
+        public async Task InvokeAsync(HttpContext context, UserManager<ApplicationUser> userManager)
         {
-            if (context.User.Identity?.IsAuthenticated ?? false)
+            var user = await userManager.GetUserAsync(context.User);
+            if (user != null)
             {
-                if (!context.Request.Cookies.TryGetValue(cookieName, out string userId))
+                var userOnline = new UserOnline
                 {
-                    // First login after being offline
-                    userId = context.User.GetId()!;
-
-                    context.Response.Cookies.Append(cookieName, userId, new CookieOptions() { HttpOnly = true, MaxAge = TimeSpan.FromDays(30) });
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    LastSeen = DateTime.UtcNow
+                };
+                var userOnlineList = new List<UserOnline>();
+                if (_memoryCache.TryGetValue("OnlineUsers", out List<UserOnline> users))
+                {
+                    userOnlineList = users;
                 }
-
-                memoryCache.GetOrCreate(userId, cacheEntry =>
+                userOnlineList.Add(userOnline);
+                _memoryCache.Set("OnlineUsers", userOnlineList, new MemoryCacheEntryOptions
                 {
-                    if (!AllKeys.TryAdd(userId, true))
-                    {
-                        // Adding key failed to the concurrent dictionary so we have an error
-                        cacheEntry.AbsoluteExpiration = DateTimeOffset.MinValue;
-                    }
-                    else
-                    {
-                        cacheEntry.SlidingExpiration = TimeSpan.FromMinutes(lastActivityMinutes);
-                        cacheEntry.RegisterPostEvictionCallback(RemoveKeyWhenExpired);
-                    }
+                    SlidingExpiration = TimeSpan.FromSeconds(30)
 
-                    return string.Empty;
                 });
-            }
-            else
-            {
-                // User has just logged out
-                if (context.Request.Cookies.TryGetValue(cookieName, out string userId))
+                if (userOnlineList.Count > 0)
                 {
-                    if (!AllKeys.TryRemove(userId, out _))
+                    var usersToRemove = userOnlineList.Where(x => x.LastSeen < DateTime.UtcNow.AddSeconds(-30)).ToList();
+                    foreach (var userToRemove in usersToRemove)
                     {
-                        AllKeys.TryUpdate(userId, false, true);
+                        userOnlineList.Remove(userToRemove);
                     }
-
-                    context.Response.Cookies.Delete(cookieName);
+                    _memoryCache.Set("OnlineUsers", userOnlineList, new MemoryCacheEntryOptions
+                    {
+                        SlidingExpiration = TimeSpan.FromSeconds(30)
+                    });
                 }
             }
-
-            return next(context);
+            await _next(context);
         }
 
-        public static bool CheckIfUserIsOnline(string userId)
+        public static bool CheckIfUserIsOnline(Guid userId, IMemoryCache memoryCache)
         {
-            bool valueTaken = AllKeys.TryGetValue(userId.ToLower(), out bool success);
-
-            return success && valueTaken;
-        }
-
-        private void RemoveKeyWhenExpired(object key, object value, EvictionReason reason, object state)
-        {
-            string keyStr = (string)key; //UserId
-
-            if (!AllKeys.TryRemove(keyStr, out _))
+            if (memoryCache.TryGetValue("OnlineUsers", out List<UserOnline> users))
             {
-                AllKeys.TryUpdate(keyStr, false, true);
+                var user = users.FirstOrDefault(x => x.UserId == userId);
+                if (user != null)
+                {
+                    return true;
+                }
             }
+            return false;
         }
     }
 }
