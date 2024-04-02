@@ -11,6 +11,17 @@ html {
         margin-right: 0px;
         margin-left: 0px;
     }
+    #createInvoice{
+        width:100%;
+
+    }
+
+}
+@media (max-width: 1200px) {
+  
+    #createInvoice {
+        width: 80%;
+    }
 }
 
 @media print {
