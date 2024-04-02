@@ -86,7 +86,7 @@
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new Exception("Error reading ISP router info!");
             }
