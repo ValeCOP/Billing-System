@@ -8,6 +8,7 @@
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Net;
+    using System.Reflection;
     using System.Threading.Tasks;
 
     public class ExpenseService : IExpenseService
@@ -41,7 +42,9 @@
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
             var sanitizedFileName = WebUtility.HtmlEncode(fileNameWithoutExtension) + fileExtension;
 
-            string path = Path.Combine("wwwroot", "expense", sanitizedFileName);
+            var currentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            string path = Path.Combine(currentDirectory,"..\\..\\..\\","wwwroot", "images", "expense", sanitizedFileName);
             try
             {
                 using (var stream = new FileStream(path, FileMode.Create))
@@ -55,7 +58,7 @@
                     Value = model.Value,
                     Date = DateTime.Now,
                     Description = model.Description,
-                    ReceiptUrl = @"/expense/" + model.File!.FileName
+                    ReceiptUrl = @"/images/expense/" + model.File!.FileName
                 };
                 await _context.Expenses.AddAsync(expense);
                 await _context.SaveChangesAsync();
@@ -75,7 +78,9 @@
                 throw new Exception("Expense not found");
             }
             _context.Expenses.Remove(expense);
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "expense", expense.ReceiptUrl!.Split("/")[2]);  
+
+            var currentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var path = Path.Combine(currentDirectory, "..\\..\\..\\", "wwwroot","images","expense", expense.ReceiptUrl!.Split("/")[3]);  
 
             if (File.Exists(path))
             {
