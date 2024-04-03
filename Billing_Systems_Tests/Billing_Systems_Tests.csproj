@@ -38,4 +38,9 @@
     <ProjectReference Include="..\Billing_System.Utilities\Billing_System.Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\images\expense\" />
+  </ItemGroup>
+
 </Project>

@@ -1,11 +1,11 @@
 ﻿namespace Billing_Systems_Tests.ReceiptServTests
 {
     using Billing_System.Core.Contracts.Receipt;
-    using Billing_System.Core.Services.Payments;
     using Billing_System.Core.Services.Receipt;
     using Billing_System.Data;
     using Billing_System.Data.Entities;
     using Microsoft.EntityFrameworkCore;
+    using System.Text;
 
     [TestFixture]
     public class ReceiptServTests
@@ -29,6 +29,10 @@
         {
             _dbContext.Database.EnsureDeleted();
             _dbContext.ChangeTracker.Clear();
+
+            string filePath = Directory.GetCurrentDirectory();
+            File.Delete(filePath + @"\ReceiptPrint.inp");
+
         }
         //CreateReceiptAsync
         [Test]
@@ -36,24 +40,26 @@
         {
             // Arrange
             await SeedData();
-            var payment = await _dbContext.Payments.FirstOrDefaultAsync();
+            var payment = await _dbContext.Payments
+                .FirstOrDefaultAsync(p => p.Id == Guid.Parse("274ec2c5-ec55-42d5-aae7-619004eb964a"));
             // Act
             await _receiptService.CreateReceiptAsync(payment.Id);
             // Assert
             string filePath = Directory.GetCurrentDirectory();
             Assert.IsTrue(File.Exists(filePath + @"\ReceiptPrint.inp"));
             string[] lines = File.ReadAllLines(filePath + @"\ReceiptPrint.inp");
-            var expected = new string[]
-            {
-                "P,1,______,_,__;Клиент:;",
-                "P,1,______,_,__;Валентин Иванов Василев;",
-                "P,1,______,_,__;Пуснат до:;",
-                "P,1,______,_,__;1.2.2024 г. 0:00:00;",
-                "S,1,______,_,__;;22;1.000;1;1;2;0;0;",
-                "T,1,______,_,__;",
-                ""
+            
 
-            };
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("P,1,______,_,__;Клиент:;");
+            stringBuilder.AppendLine("P,1,______,_,__;Вал Вас;");
+            stringBuilder.AppendLine("P,1,______,_,__;Пуснат до:;");
+            stringBuilder.AppendLine($"P,1,______,_,__;{payment.ToDate};");
+            stringBuilder.AppendLine("S,1,______,_,__;;22;1.000;1;1;2;0;0;");
+            stringBuilder.AppendLine("T,1,______,_,__;");
+
+            string[] expected = stringBuilder.ToString().Split(Environment.NewLine);
+
             Assert.AreEqual(expected, lines);
 
             File.Delete(filePath + @"\ReceiptPrint.inp");

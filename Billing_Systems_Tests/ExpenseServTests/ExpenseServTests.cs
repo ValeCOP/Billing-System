@@ -80,7 +80,7 @@
                 Value = model.Value,
                 Date = DateTime.Now,
                 Description = model.Description,
-                ReceiptUrl = @"/expense/" + model.File.FileName
+                ReceiptUrl = @"/images/expense/" + model.File.FileName
             };
             _dbContext.Expenses.Add(expense);
             _dbContext.SaveChanges();
@@ -92,7 +92,7 @@
             Assert.AreEqual(Guid.Parse("274ec2c5-ec55-42d5-aae7-619004eb964a"), expense1.UserId);
             Assert.AreEqual(100, expense1.Value);
             Assert.AreEqual("Test", expense1.Description);
-            Assert.AreEqual(@"/expense/45.jpg", expense1.ReceiptUrl);
+            Assert.AreEqual(@"/images/expense/45.jpg", expense1.ReceiptUrl);
         }
 
         [Test]
@@ -115,7 +115,7 @@
                 Value = model.Value,
                 Date = DateTime.Now,
                 Description = model.Description,
-                ReceiptUrl = @"/expense/" + model.File.FileName
+                ReceiptUrl = @"/images/expense/" + model.File.FileName
             };
             _dbContext.Expenses.Add(expense);
             _dbContext.SaveChanges();
