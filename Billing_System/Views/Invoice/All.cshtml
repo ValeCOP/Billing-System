@@ -68,137 +68,139 @@
                 </div>
             </div>
         </div>
-        @foreach (var item in Model.Invoices)
-        {
-            decimal price = item.Payment.Fee + item.Payment.InstallationFee;
+        <div class="row">
+            @foreach (var item in Model.Invoices)
+            {
+                decimal price = item.Payment.Fee + item.Payment.InstallationFee;
 
-            <div class="card @item.InvoiceNumber shadow-lg col-lg-6">
-                <page class="row m-2">
-                    <div class="col-12 m-2">
-                        <div class="row m-2">
-
-                            <div class="alert alert-success">
-                                <h4><em><i class="fa-solid fa-hand-holding-dollar"></i> INFOCAST SYSTEMS</em> - <strong><em>Billing</em></strong></h4>
-                            </div>
-                            <div class="alert row">
-                                <div class="col-6">
-                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                    <h5 class="m-0 p-0">ФАКТУРА - ОРИГИНАЛ</h5>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <h5 class="m-0 p-0">Фактура №: @item.InvoiceNumber</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row m-2">
-                            <div class="col-6 alert alert-success d-block p-1 mb-0 ">
-                                <address>
-                                    <strong class="alert alert-success d-block p-1 mb-0 text-center">Получател:</strong><br>
-                                    <strong>Клиент: </strong>@item.Payment.Client.FullName<br>
-                                    <strong>Адрес: </strong>@item.Payment.Client.Address<br>
-                                    <strong>ЕИК: </strong>@item.UIN<br>
-                                    <strong>ИН по ДДС: </strong>@item.VATIN<br>
-                                    <strong>МОЛ: </strong>@item.MOL
-                                </address>
-                            </div>
-                            <div class="col-6 alert alert-success d-block p-1 mb-0">
-                                @await Component.InvokeAsync("Company")
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row m-2">
-                            <div class="col-6">
-                                <strong>Начин на плащане:</strong>
-                                @if (item.BankTransfer)
-                                {
-                                    <div class="form-control">
-                                        @await Component.InvokeAsync("BankDetails")
-                                    </div>
-
-                                }
-                                else
-                                {
-                                    <div class="form-control">
-                                        <strong>Cach</strong><br>
-                                        <br>
-                                        <br>
-                                    </div>
-                                }
-
-                            </div>
-                            <div class="col-6">
-                                <strong>Дата на събитието:</strong><br>
-                                @item.CreatedOn<br>
-
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row m-2">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <td class="col-3"><strong>Такса за Интернет</strong></td>
-                                            <td class="text-center"><strong>Инсталационна такса</strong></td>
-                                            <td class="text-center"><strong>Месечна такса</strong></td>
-                                            <td class="text-center"><strong>Период</strong></td>
-                                            <td class="text-right"><strong>Общо</strong></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="col-3">@item.Payment.Name</td>
-                                            <td class="text-center">@item.Payment.InstallationFee</td>
-                                            <td class="text-center">@item.Payment.Fee</td>
-                                            <td class="text-center">@item.Payment.FromDate.ToString("D", CultureInfo.CurrentCulture) - @item.Payment.ToDate.ToString("D", CultureInfo.CurrentCulture)</td>
-                                            <td class="text-right">@price</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-3">чл.113, ал.9 от ЗДДС<br>Лицето не е регистрирано по ЗДДС</td>
-                                            <td class="text-center"></td>
-                                            <td class="text-center"></td>
-                                            <td class="text-end">ДДС</td>
-                                            <td class="text-right">0.00%</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no-line"></td>
-                                            <td class="no-line"></td>
-                                            <td class="no-line"></td>
-                                            <td class="no-line"></td>
-                                            <td class="no-line text-right"><strong>Общо</strong></td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="no-line"></td>
-                                            <td class="no-line"></td>
-                                            <td class="no-line"></td>
-                                            <td class="no-line"></td>
-                                            <td class="no-line text-right"><strong>@price</strong></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                <div class="card @item.InvoiceNumber shadow-lg col-lg-6">
+                    <page class="row m-2">
+                        <div class="col-12 m-2">
                             <div class="row m-2">
-                                <div class="col-6">
-                                    <strong>Съставил</strong><br>
-                                    @item.Issuer
+
+                                <div class="alert alert-success">
+                                    <h4><em><i class="fa-solid fa-hand-holding-dollar"></i> INFOCAST SYSTEMS</em> - <strong><em>Billing</em></strong></h4>
                                 </div>
-                                <div class="col-6">
-                                    <strong>Получил</strong><br>
-                                    @item.Recipient
+                                <div class="alert row">
+                                    <div class="col-6">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <h5 class="m-0 p-0">ФАКТУРА - ОРИГИНАЛ</h5>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <h5 class="m-0 p-0">Фактура №: @item.InvoiceNumber</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row m-2">
+                                <div class="col-6 alert alert-success d-block p-1 mb-0 ">
+                                    <address>
+                                        <strong class="alert alert-success d-block p-1 mb-0 text-center">Получател:</strong><br>
+                                        <strong>Клиент: </strong>@item.Payment.Client.FullName<br>
+                                        <strong>Адрес: </strong>@item.Payment.Client.Address<br>
+                                        <strong>ЕИК: </strong>@item.UIN<br>
+                                        <strong>ИН по ДДС: </strong>@item.VATIN<br>
+                                        <strong>МОЛ: </strong>@item.MOL
+                                    </address>
+                                </div>
+                                <div class="col-6 alert alert-success d-block p-1 mb-0">
+                                    @await Component.InvokeAsync("Company")
                                 </div>
                             </div>
                             <hr />
+                            <div class="row m-2">
+                                <div class="col-6">
+                                    <strong>Начин на плащане:</strong>
+                                    @if (item.BankTransfer)
+                                    {
+                                        <div class="form-control">
+                                            @await Component.InvokeAsync("BankDetails")
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <div class="form-control">
+                                            <strong>Cach</strong><br>
+                                            <br>
+                                            <br>
+                                        </div>
+                                    }
+
+                                </div>
+                                <div class="col-6">
+                                    <strong>Дата на събитието:</strong><br>
+                                    @item.CreatedOn<br>
+
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row m-2">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td class="col-3"><strong>Такса за Интернет</strong></td>
+                                                <td class="text-center"><strong>Инсталационна такса</strong></td>
+                                                <td class="text-center"><strong>Месечна такса</strong></td>
+                                                <td class="text-center"><strong>Период</strong></td>
+                                                <td class="text-right"><strong>Общо</strong></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-3">@item.Payment.Name</td>
+                                                <td class="text-center">@item.Payment.InstallationFee</td>
+                                                <td class="text-center">@item.Payment.Fee</td>
+                                                <td class="text-center">@item.Payment.FromDate.ToString("D", CultureInfo.CurrentCulture) - @item.Payment.ToDate.ToString("D", CultureInfo.CurrentCulture)</td>
+                                                <td class="text-right">@price</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-3">чл.113, ал.9 от ЗДДС<br>Лицето не е регистрирано по ЗДДС</td>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
+                                                <td class="text-end">ДДС</td>
+                                                <td class="text-right">0.00%</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line text-right"><strong>Общо</strong></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line text-right"><strong>@price</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-6">
+                                        <strong>Съставил</strong><br>
+                                        @item.Issuer
+                                    </div>
+                                    <div class="col-6">
+                                        <strong>Получил</strong><br>
+                                        @item.Recipient
+                                    </div>
+                                </div>
+                                <hr />
+                            </div>
                         </div>
+                    </page>
+                    <div>
+                        <a class="btn btn-outline-primary btn-sm mb-3" asp-action="Print" asp-controller="Invoice" asp-route-id="@item.Id">Print Mode</a>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-sm mb-3", onclick = $"return confirm('Are you sure you want to delete invoice: {item.InvoiceNumber}?');" })
                     </div>
-                </page>
-                <div>
-                    <a class="btn btn-outline-primary btn-sm mb-3" asp-action="Print" asp-controller="Invoice" asp-route-id="@item.Id">Print Mode</a>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-sm mb-3", onclick = $"return confirm('Are you sure you want to delete invoice: {item.InvoiceNumber}?');" })
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 </div>
 
