@@ -32,6 +32,7 @@
             builder.ApplyConfiguration(new ApplicationUserConfig());
             builder.ApplyConfiguration(new ClientsConfig());
             builder.ApplyConfiguration(new PaymentsConfig());
+            builder.ApplyConfiguration(new InvoiceConfig());
 
             builder.Entity<Payment>()
                 .HasOne(p => p.Client)
