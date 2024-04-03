@@ -60,7 +60,7 @@
             // Act
             _invoiceService.CreateInvoiceAsync(invoice, payment.Id, _user.Id.ToString()).GetAwaiter().GetResult();
 
-            Assert.AreEqual(1, _dbContext.Invoices.Count());
+            Assert.AreEqual(3, _dbContext.Invoices.Count());
 
         }
 

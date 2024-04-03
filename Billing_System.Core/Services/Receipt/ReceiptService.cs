@@ -30,7 +30,7 @@
             sb.AppendLine($"P,1,______,_,__;Клиент:;");
             sb.AppendLine($"P,1,______,_,__;{payment.Client!.FullName};");
             sb.AppendLine($"P,1,______,_,__;Пуснат до:;");
-            sb.AppendLine($"P,1,______,_,__;{payment.ToDate};");
+            sb.AppendLine($"P,1,______,_,__;{payment.ToDate.ToString("s")};");
             sb.AppendLine($"S,1,______,_,__;;{payment.Fee + payment.InstallationFee};1.000;1;1;2;0;0;");
             sb.AppendLine($"T,1,______,_,__;");
 
