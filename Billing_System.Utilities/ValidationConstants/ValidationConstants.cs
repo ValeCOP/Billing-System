@@ -111,5 +111,14 @@
             public const string UINErrorMessage = "UIN must be {1} characters";
             public const string VATINErrorMessage = "VATIN must be {1} characters";
         }
+
+        public static class RolesConstants
+        {
+            public const string AreaName = "Admin";
+            public const string AdministratorRoleName = "Administrator";
+            public const string CashierRoleName = "Cashier";
+            public const string TechnicianRoleName = "Technician";
+            public const string AdminEmail = "admin@infocastsystems.eu";
+        }
     }
 }
