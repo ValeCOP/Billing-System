@@ -56,7 +56,7 @@ namespace Billing_System
 
             app.EnableUsersTracker();
 
-            app.SeedAdmin();
+            await app.SeedAdmin();
 
             app.UseEndpoints(endpoints =>
             {
