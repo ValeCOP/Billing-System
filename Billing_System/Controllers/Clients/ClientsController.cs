@@ -6,8 +6,10 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.RolesConstants;
 
-    [Authorize]
+
+    [Authorize(Roles = CashierRoleName)]
     [AutoValidateAntiforgeryToken]
     public class ClientsController : Controller
     {

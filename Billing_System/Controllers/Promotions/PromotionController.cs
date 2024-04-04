@@ -6,9 +6,12 @@
     using Billing_System.Core.CustomExtensions;
     using Billing_System.Core.ViewModels.Payments;
     using Billing_System.ViewModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.RolesConstants;
 
+    [Authorize(Roles = AdministratorRoleName)]
     public class PromotionController : Controller
     {
         private readonly IPromotionService _promotionService;

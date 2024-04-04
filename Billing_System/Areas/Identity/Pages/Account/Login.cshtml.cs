@@ -110,6 +110,13 @@ namespace Billing_System.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    var user = await _signInManager.UserManager.FindByNameAsync(Input.UserName);
+                    var roles = await _signInManager.UserManager.GetRolesAsync(user);
+                    if (roles.Contains("Technician"))
+                    {
+                        return RedirectToAction("All", "TechnicalProblem", new { area = "" });
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

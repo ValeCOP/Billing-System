@@ -12,8 +12,10 @@
     using System.Diagnostics;
     using System.Globalization;
     using System.Security.Claims;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.RolesConstants;
 
-    [Authorize]
+
+    [Authorize(Roles = CashierRoleName)]
     [AutoValidateAntiforgeryToken]
     public class PaymentController : Controller
     {

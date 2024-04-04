@@ -7,13 +7,16 @@
     using Billing_System.Core.ViewModels.TechnicalProblem;
     using Billing_System.Data.Entities;
     using Billing_System.ViewModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
     using System.Diagnostics;
     using static Billing_System.Utilities.ValidationConstants.ValidationConstants;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.RolesConstants;
 
 
+    [Authorize(Roles = TechnicianRoleName)]
     public class TechnicalProblemController : Controller
     {
         private readonly ITechnicalProblemService _technicalProblemService;
@@ -186,6 +189,7 @@
             }
         }
         //delete
+        [Authorize(Roles = AdministratorRoleName)]
         public async Task<IActionResult> Delete(Guid id)
         {
             try

@@ -1,21 +1,23 @@
 ﻿namespace Billing_System.Controllers.Home
 {
+    using Billing_System.ActionFilters;
     using Billing_System.Core.Contracts.Home;
     using Billing_System.Core.Contracts.Payments;
     using Billing_System.Core.Contracts.Receipt;
     using Billing_System.Core.CustomExtensions;
     using Billing_System.Core.ViewModels.Clients;
-    using Billing_System.ActionFilters;
     using Billing_System.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
     using System.Diagnostics;
     using System.Globalization;
     using static Utilities.ValidationConstants.ValidationConstants;
     using static Utilities.ValidationConstants.ValidationConstants.ActiveISPClientsForm;
-    using Microsoft.Extensions.Caching.Memory;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.RolesConstants;
 
-    [Authorize]
+
+    [Authorize(Roles = CashierRoleName)]
     [ServiceFilter(typeof(LogActionFilter))]
     public class HomeController : Controller
     {

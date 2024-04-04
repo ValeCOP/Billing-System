@@ -7,35 +7,58 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
 
-    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.ApplicationUsers;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.RolesConstants;
+
 
     public static class ApplicationBuilderExtension
     {
-        public static IApplicationBuilder SeedAdmin(this IApplicationBuilder app)
+        public static async Task SeedAdmin(this IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices.CreateScope();
             IServiceProvider services = serviceScope.ServiceProvider;
             UserManager<ApplicationUser> userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
             RoleManager<IdentityRole<Guid>> roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
-            Task.Run(async () =>
-            {
-                ApplicationUser admin = await userManager.FindByEmailAsync(AdminEmail);
+            ApplicationUser admin = await userManager.FindByEmailAsync(AdminEmail);
 
-                var roleExist = await roleManager.RoleExistsAsync(AdminRoleName);
-                if (roleExist)
-                {
-                    IdentityRole<Guid> role = await roleManager.FindByNameAsync(AdminRoleName);
-                    await userManager.AddToRoleAsync(admin, role.Name);
-                    return;
-                }
-                IdentityRole<Guid> newRole = new IdentityRole<Guid>(AdminRoleName);
+            var roleAdminExist = await roleManager.RoleExistsAsync(AdministratorRoleName);
+            var roleCashierExist = await roleManager.RoleExistsAsync(CashierRoleName);
+            var roleUserExist = await roleManager.RoleExistsAsync(TechnicianRoleName);
+
+            if (roleAdminExist )
+            {
+                IdentityRole<Guid> role = await roleManager.FindByNameAsync(AdministratorRoleName);
+                await userManager.AddToRoleAsync(admin, role.Name);
+            }
+            else
+            {
+                IdentityRole<Guid> newRole = new IdentityRole<Guid>(AdministratorRoleName);
                 await roleManager.CreateAsync(newRole);
                 await userManager.AddToRoleAsync(admin, newRole.Name);
+            }
+            if (roleCashierExist)
+            {
+                IdentityRole<Guid> role = await roleManager.FindByNameAsync(CashierRoleName);
+                await userManager.AddToRoleAsync(admin, role.Name);
+            }
+            else
+            {
+                IdentityRole<Guid> newRole = new IdentityRole<Guid>(CashierRoleName);
+                await roleManager.CreateAsync(newRole);
+                await userManager.AddToRoleAsync(admin, newRole.Name);
+            }
+            if (roleUserExist)
+            {
+                IdentityRole<Guid> role = await roleManager.FindByNameAsync(TechnicianRoleName);
+                await userManager.AddToRoleAsync(admin, role.Name);
+            }
+            else
+            {
+                IdentityRole<Guid> newRole = new IdentityRole<Guid>(TechnicianRoleName);
+                await roleManager.CreateAsync(newRole);
+                await userManager.AddToRoleAsync(admin, newRole.Name);
+            }
 
-
-            }).GetAwaiter().GetResult();
-            return app;
         }
         public static IApplicationBuilder EnableOnlineUsersCheck(this IApplicationBuilder app)
         {

@@ -8,7 +8,7 @@
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.RolesConstants;
     public class UserServices : IUserServices
     {
         private readonly BillingDbContext _context;
@@ -56,29 +56,7 @@
                 throw new System.Exception("Error creating user!");
             }
 
-            if (model.UserRole == "Administrator")
-            {
-                var roleExist = await _roleManager.RoleExistsAsync("Administrator");
-                if (!roleExist)
-                {
-                    await _roleManager.CreateAsync(new IdentityRole<Guid>("Administrator"));
-                }
-                await _userManager.AddToRoleAsync(user, "Administrator");
-            }
-            else if (model.UserRole == "User")
-            {
-                var roleExist = await _roleManager.RoleExistsAsync("User");
-                if (!roleExist)
-                {
-                    await _roleManager.CreateAsync(new IdentityRole<Guid>("User"));
-                }
-                await _userManager.AddToRoleAsync(user, "User");
-            }
-            else
-            {
-                throw new System.Exception("Invalid user role!");
-            }
-
+            await AddUserToRole(model, user);
         }
 
         public async Task DeleteUser(string id)
@@ -109,34 +87,11 @@
 
             await _context.SaveChangesAsync();
 
-            if (model.UserRole == "Administrator")
-            {
-                var roleExist = await _roleManager.RoleExistsAsync("Administrator");
-                if (!roleExist)
-                {
-                    await _roleManager.CreateAsync(new IdentityRole<Guid>("Administrator"));
-                    await _userManager.AddToRoleAsync(user, "Administrator");
-                }
-                await _userManager.AddToRoleAsync(user, "Administrator");
-            }
-            else if (model.UserRole == "User")
-            {
-                var roleExist = await _roleManager.RoleExistsAsync("User");
-                if (!roleExist)
-                {
-                    await _roleManager.CreateAsync(new IdentityRole<Guid>("User"));
-                    await _userManager.AddToRoleAsync(user, "User");
-                }
-                await _userManager.AddToRoleAsync(user, "User");
-            }
-            else
-            {
-                throw new System.Exception("Invalid user role!");
-            }
+            await AddUserToRole(model, user);
+
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
-
         public async Task<ApplicationUser> GetUserById(string id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == id);
@@ -147,19 +102,81 @@
             return user;
 
         }
-
         public async Task<ICollection<UsersViewWithPayments>> GetAllUserWithPayments()
         {
-            return await _context.Users
+            var users = await _userManager.Users
+                .OrderBy(u => u.UserName)
                 .Include(u => u.Payments)
                 .Include(u => u.Expenses)
-                .Select(u => new UsersViewWithPayments
+                .ToListAsync();
+            var allUsers = new List<UsersViewWithPayments>();
+            foreach (var user in users)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Contains(TechnicianRoleName) && userRoles.Count == 1)
                 {
-                    Id = u.Id,
-                    UserName = u.UserName,
-                    Payments = u.Payments,
-                    Expenses = u.Expenses,
-                }).ToListAsync();
+                    continue;
+                }
+                var userViewModel = new UsersViewWithPayments()
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Payments = user.Payments,
+                    Expenses = user.Expenses
+                };
+                allUsers.Add(userViewModel);
+            }
+
+            return allUsers;
+        }
+        private async Task AddUserToRole(RegisterViewModel model, ApplicationUser user)
+        {
+            if (model.UserRole == AdministratorRoleName)
+            {
+                var roleExist = await _roleManager.RoleExistsAsync(AdministratorRoleName);
+                if (!roleExist)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole<Guid>(AdministratorRoleName));
+                }
+                await _userManager.AddToRoleAsync(user, AdministratorRoleName);
+
+                var roleCashierExist = await _roleManager.RoleExistsAsync(CashierRoleName);
+                if (!roleCashierExist)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole<Guid>(CashierRoleName));
+                }
+                await _userManager.AddToRoleAsync(user, CashierRoleName);
+
+                var roleTechnicianExist = await _roleManager.RoleExistsAsync(TechnicianRoleName);
+                if (!roleTechnicianExist)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole<Guid>(TechnicianRoleName));
+                }
+                await _userManager.AddToRoleAsync(user, TechnicianRoleName);
+
+            }
+            else if (model.UserRole == CashierRoleName)
+            {
+                var roleExist = await _roleManager.RoleExistsAsync(CashierRoleName);
+                if (!roleExist)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole<Guid>(CashierRoleName));
+                }
+                await _userManager.AddToRoleAsync(user, CashierRoleName);
+            }
+            else if (model.UserRole == TechnicianRoleName)
+            {
+                var roleExist = await _roleManager.RoleExistsAsync(TechnicianRoleName);
+                if (!roleExist)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole<Guid>(TechnicianRoleName));
+                }
+                await _userManager.AddToRoleAsync(user, TechnicianRoleName);
+            }
+            else
+            {
+                throw new System.Exception("Invalid user role!");
+            }
         }
     }
 }

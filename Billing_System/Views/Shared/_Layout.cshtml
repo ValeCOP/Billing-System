@@ -25,29 +25,45 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity!.IsAuthenticated)
                         {
-                            <li class="nav-item">
-
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="All">Activated Clients</a>
-                            </li>
-                            if (User.IsInRole("Administrator"))
+                            if (User.IsInRole("Administrator") && User.IsInRole("Cashier") && User.IsInRole("Technician"))
                             {
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="All">Activated Clients</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Expense" asp-action="All">Expenses</a>
                                 </li>
-                            }
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="TechnicalProblem" asp-action="All">Technical Problems</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Invoice" asp-action="All">Invoices</a>
-                            </li>
-                            if (User.IsInRole("Administrator"))
-                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="TechnicalProblem" asp-action="All">Technical Problems</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Invoice" asp-action="All">Invoices</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="Admin" asp-controller="User" asp-action="All">Admin Panel</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Cashier"))
+                            {
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="All">Activated Clients</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Invoice" asp-action="All">Invoices</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Technician"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="TechnicalProblem" asp-action="All">Technical Problems</a>
                                 </li>
                             }
                         }

@@ -7,8 +7,10 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.RolesConstants;
 
-    [Authorize(Roles = "Administrator")]
+
+    [Authorize(Roles = AdministratorRoleName)]
     public class ExpenseController : Controller
     {
         private readonly IExpenseService _expenseService;
