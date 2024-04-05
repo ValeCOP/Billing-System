@@ -13,6 +13,7 @@
     using System.Globalization;
     using System.Security.Claims;
     using static Billing_System.Utilities.ValidationConstants.ValidationConstants.RolesConstants;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants;
 
 
     [Authorize(Roles = CashierRoleName)]
@@ -57,7 +58,7 @@
                 });
             }
             DateTime activationDate;
-            if (!DateTime.TryParseExact(model.FromDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out activationDate))
+            if (!DateTime.TryParseExact(model.FromDate, AppActivationDateFormatForDb, CultureInfo.InvariantCulture, DateTimeStyles.None, out activationDate))
             {
                 return View("Error", new ErrorViewModel
                 {
@@ -66,7 +67,7 @@
                 });
             }
             DateTime expiriedDate;
-            if (!DateTime.TryParseExact(model.ToDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out expiriedDate))
+            if (!DateTime.TryParseExact(model.ToDate, AppExpiredDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out expiriedDate))
             {
                 return View("Error", new ErrorViewModel
                 {

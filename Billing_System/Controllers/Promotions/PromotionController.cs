@@ -18,7 +18,10 @@
         private readonly IPaymentsService _paymentsService;
         private readonly IHomeService _homeService;
 
-        public PromotionController(IPromotionService promotionService, IPaymentsService paymentsService,IHomeService homeService)
+        public PromotionController(
+            IPromotionService promotionService,
+            IPaymentsService paymentsService,
+            IHomeService homeService)
         {
             _homeService = homeService;
             _paymentsService = paymentsService;

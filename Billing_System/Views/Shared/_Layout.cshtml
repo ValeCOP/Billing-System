@@ -25,7 +25,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity!.IsAuthenticated)
                         {
-                            if (User.IsInRole(AdministratorRoleName) && User.IsInRole(CashierRoleName) && User.IsInRole(TechnicianRoleName))
+                            if (User.IsInRole(AdministratorRoleName))
                             {
                                 <li class="nav-item">
 

@@ -14,7 +14,7 @@
     using System.Globalization;
     using static Utilities.ValidationConstants.ValidationConstants;
     using static Utilities.ValidationConstants.ValidationConstants.ActiveISPClientsForm;
-    using static Billing_System.Utilities.ValidationConstants.ValidationConstants.RolesConstants;
+    using static Utilities.ValidationConstants.ValidationConstants.RolesConstants;
 
 
     [Authorize(Roles = CashierRoleName)]
