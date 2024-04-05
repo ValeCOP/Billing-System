@@ -7,6 +7,7 @@
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Threading.Tasks;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants;
 
     public class PaymentService : IPaymentsService
     {
@@ -124,8 +125,8 @@
                 InstallationFee = payment.InstallationFee,
                 Pending = payment.Pending,
                 Receipt = payment.Receipt,
-                FromDate = payment.FromDate.ToString("yyyy-MM-dd hh:mm:ss"),
-                ToDate = payment.ToDate.ToString("yyyy-MM-dd"),
+                FromDate = payment.FromDate.ToString(AppActivationDateFormatForDb),
+                ToDate = payment.ToDate.ToString(AppExpiredDateFormat),
                 ApplicationUser = payment.ApplicationUser.UserName
             };
             return paymentDetails;

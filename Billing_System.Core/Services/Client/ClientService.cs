@@ -55,8 +55,8 @@
             {
                 ClientId = c.Id,
                 FullName = c.FullName,
-                ActivationDate = c.ActivationDate.ToString("yyyy-MM-dd hh:mm:ss"),
-                ExpiredDate = c.ExpiredDate.ToString("yyyy-MM-dd"),
+                ActivationDate = c.ActivationDate.ToString(AppActivationDateFormatForDb),
+                ExpiredDate = c.ExpiredDate.ToString(AppExpiredDateFormat),
                 Comments = c.Comments,
                 Address = c.Address,
                 ApplicationUser = c.ApplicationUser.UserName,
@@ -86,8 +86,8 @@
             {
                 ClientId = client!.Id,
                 FullName = client.FullName,
-                ActivationDate = client.ActivationDate.ToString("yyyy-MM-dd hh:mm:ss"),
-                ExpiredDate = client.ExpiredDate.ToString("yyyy-MM-dd"),
+                ActivationDate = client.ActivationDate.ToString(AppActivationDateFormatForDb),
+                ExpiredDate = client.ExpiredDate.ToString(AppExpiredDateFormat),
                 Comments = client.Comments,
                 Address = client.Address,
                 Email = client.Email,
@@ -106,8 +106,8 @@
                     InstallationFee = p.InstallationFee,
                     Pending = p.Pending,
                     Receipt = p.Receipt,
-                    FromDate = p.FromDate.ToString("yyyy-MM-dd hh:mm:ss"),
-                    ToDate = p.ToDate.ToString("yyyy-MM-dd"),
+                    FromDate = p.FromDate.ToString(AppActivationDateFormatForDb),
+                    ToDate = p.ToDate.ToString(AppExpiredDateFormat),
                     ApplicationUser = p.ApplicationUser.UserName,
                     ClientId = p.ClientId,
                 }).ToListAsync();
@@ -124,8 +124,8 @@
                                {
                                    ClientId = c.Id,
                                    FullName = c.FullName,
-                                   ActivationDate = c.ActivationDate.ToString("yyyy-MM-dd hh:mm:ss"),
-                                   ExpiredDate = c.ExpiredDate.ToString("yyyy-MM-dd"),
+                                   ActivationDate = c.ActivationDate.ToString(AppActivationDateFormatForDb),
+                                   ExpiredDate = c.ExpiredDate.ToString(AppExpiredDateFormat),
                                    Pending = c.Payments.Any(p => p.Pending)
                                }).ToListAsync();
             return clients;

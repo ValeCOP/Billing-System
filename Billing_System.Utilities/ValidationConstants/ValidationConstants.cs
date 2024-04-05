@@ -9,6 +9,7 @@
 
         public const string AppExpiredDateFormat = "yyyy-MM-dd";
         public const string AppActivationDateFormat = "dd-MM-yyyy HH:mm";
+        public const string AppActivationDateFormatForDb = "yyyy-MM-dd HH:mm:ss";   
         public const int ActivatedClientsCount = 5;
 
         public const string ApiUrl = "https://94.236.201.183:4231/Clients";
