@@ -25,7 +25,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity!.IsAuthenticated)
                         {
-                            if (User.IsInRole("Administrator") && User.IsInRole("Cashier") && User.IsInRole("Technician"))
+                            if (User.IsInRole(AdministratorRoleName) && User.IsInRole(CashierRoleName) && User.IsInRole(TechnicianRoleName))
                             {
                                 <li class="nav-item">
 
@@ -47,7 +47,7 @@
                                     <a class="nav-link text-dark" asp-area="Admin" asp-controller="User" asp-action="All">Admin Panel</a>
                                 </li>
                             }
-                            else if (User.IsInRole("Cashier"))
+                            else if (User.IsInRole(CashierRoleName))
                             {
                                 <li class="nav-item">
 
@@ -60,7 +60,7 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Invoice" asp-action="All">Invoices</a>
                                 </li>
                             }
-                            else if (User.IsInRole("Technician"))
+                            else if (User.IsInRole(TechnicianRoleName))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="TechnicalProblem" asp-action="All">Technical Problems</a>
