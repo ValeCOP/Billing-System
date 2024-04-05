@@ -5,9 +5,9 @@
     using Billing_System.Core.ViewModels.Payments;
     using Billing_System.Data;
     using Microsoft.EntityFrameworkCore;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Threading.Tasks;
+    using static Billing_System.Utilities.ValidationConstants.ValidationConstants;
 
     public class ClientService : IClientsService
     {
