@@ -20,17 +20,6 @@
                     Email = "test@gmail.com",
                     Phone = "0888888888",
                     UserId = Guid.Parse("274EC2C5-EC55-42D5-AAE7-619004EB964A"),
-                },
-                new Client()
-                {
-                    Id = Guid.Parse("274ec2c5-ec55-42d5-aae7-619004eb964d"),
-                    FullName = "Авксентия Мариус Койнарска",
-                    ActivationDate = new DateTime(2024, 01, 01),
-                    ExpiredDate = new DateTime(2024, 02, 01),
-                    Address = "ул. Цар Симеон 2",
-                    Email = "test2@gmail.com",
-                    Phone = "0888888889",
-                    UserId = Guid.Parse("274ec2c5-ec55-42d5-aae7-619004eb964b"),
                 });
         }
     }
