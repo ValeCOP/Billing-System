@@ -92,9 +92,14 @@ html {
     
 }
 
-body {
+.mainArea {
     margin-bottom: 60px;
     background-image: url("../images/bg.jpg");
+    font-size: 1rem;
+}
+.adminArea {
+    margin-bottom: 60px;
+    background-image: url("../images/bg3.jpg");
     font-size: 1rem;
 }
 
