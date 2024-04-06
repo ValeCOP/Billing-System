@@ -11,14 +11,14 @@ html {
         margin-right: 0px;
         margin-left: 0px;
     }
-    #createInvoice{
-        width:100%;
 
+    #createInvoice {
+        width: 100%;
     }
-
 }
-@media (max-width: 1200px) {
-  
+
+@media (max-width: 1500px) {
+
     #createInvoice {
         width: 80%;
     }
@@ -65,9 +65,13 @@ html {
         font-size: 14px;
     }
 
-        h2:nth-child(1) {
-            font-size: 18px;
-        }
+    h5 {
+        font-size: 12px;
+    }
+
+    h2:nth-child(1) {
+        font-size: 18px;
+    }
 
     #bancAccount {
         font-size: 12px;
@@ -89,7 +93,6 @@ html {
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
-    
 }
 
 .mainArea {
@@ -97,6 +100,7 @@ html {
     background-image: url("../images/bg.jpg");
     font-size: 1rem;
 }
+
 .adminArea {
     margin-bottom: 60px;
     background-image: url("../images/bg3.jpg");
