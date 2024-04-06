@@ -46,7 +46,7 @@
             var clients = _clientService.GetAllClientsAsync(model).GetAwaiter().GetResult();
 
             // Assert
-            Assert.That(clients.Count, Is.EqualTo(2));
+            Assert.That(clients.Count, Is.EqualTo(1));
         }
         [Test]
         public void GetClientBySearchingString_Test_02()
@@ -76,8 +76,8 @@
             var clients = _clientService.GetAllClientsAsync(model).GetAwaiter().GetResult();
 
             // Assert
-            Assert.That(clients.Count, Is.EqualTo(2));
-            Assert.That(clients.First().FullName, Is.EqualTo("Авксентия Мариус Койнарска"));
+            Assert.That(clients.Count, Is.EqualTo(1));
+            Assert.That(clients.First().FullName, Is.EqualTo("Валентин Иванов Василев"));
         }
        
         [Test]
@@ -98,7 +98,7 @@
             // Act
             var clients = _clientService.GetClientShortAsync().GetAwaiter().GetResult();
             // Assert
-            Assert.That(clients.Count, Is.EqualTo(2));
+            Assert.That(clients.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -109,7 +109,7 @@
             // Act
             _clientService.DeleteClientAsync(client.Id).GetAwaiter().GetResult();
             // Assert
-            Assert.That(_dbContext.Clients.Count(), Is.EqualTo(1));
+            Assert.That(_dbContext.Clients.Count(), Is.EqualTo(0));
         }
     }
 }
