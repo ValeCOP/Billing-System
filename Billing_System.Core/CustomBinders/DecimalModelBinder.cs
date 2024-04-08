@@ -12,7 +12,6 @@
             {
                 throw new ArgumentNullException(nameof(bindingContext));
             }
-            var test = bindingContext.ModelName;
             ValueProviderResult valueProviderResult =
                 bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 

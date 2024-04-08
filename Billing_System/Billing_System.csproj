@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Billing_System.Core\Billing_System.Core.csproj" />
-    <ProjectReference Include="..\Billing_System.data\Billing_System.Data.csproj" />
   </ItemGroup>
 
 </Project>
