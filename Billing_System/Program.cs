@@ -24,10 +24,9 @@ namespace Billing_System
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 });
 
-            builder.Services.AddAntiforgery(BindPropertiesAttribute =>
+            builder.Services.AddAntiforgery(option =>
             {
-                BindPropertiesAttribute.FormFieldName = "X-CSRF-TOKEN";
-                BindPropertiesAttribute.HeaderName = "X-CSRF-TOKEN";
+                option.HeaderName = "__RequestVerificationToken";
             });
 
             var app = builder.Build();
@@ -42,6 +41,8 @@ namespace Billing_System
                 app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
                 app.UseHsts();
             }
+            await app.SeedAdmin();
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
@@ -56,7 +57,6 @@ namespace Billing_System
 
             app.EnableUsersTracker();
 
-            await app.SeedAdmin();
 
             app.UseEndpoints(endpoints =>
             {

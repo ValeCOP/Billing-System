@@ -24,7 +24,7 @@ function getCurrentClientName(clientsISP) {
 
                 if (data.find(x => x.clientId === clientId)) {
 
-                    let token = document.querySelector('input[name="X-CSRF-TOKEN"]').value
+                    let token = document.querySelector('input[name="__RequestVerificationToken"]').value
                     
                     let message = "The Client: " + findedClient.FullName +
                         "is already exist in the database. You can add a payment to it."
@@ -43,7 +43,7 @@ function getCurrentClientName(clientsISP) {
                     fetch('Home/SetTempData?data=' + message, {
                         method: 'POST',
                         headers: {
-                            "X-CSRF-TOKEN": token
+                            "__RequestVerificationToken": token
                         }
                     }).then(response => {
                         if (response.ok) {
