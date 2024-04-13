@@ -25,7 +25,7 @@
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
-                    LastSeen = DateTime.UtcNow
+                    LastSeen = DateTime.Now
                 };
                 var userOnlineList = new List<UserOnline>();
                 if (_memoryCache.TryGetValue("OnlineUsers", out List<UserOnline> users))
@@ -40,7 +40,7 @@
                 });
                 if (userOnlineList.Count > 0)
                 {
-                    var usersToRemove = userOnlineList.Where(x => x.LastSeen < DateTime.UtcNow.AddSeconds(-30)).ToList();
+                    var usersToRemove = userOnlineList.Where(x => x.LastSeen < DateTime.Now.AddSeconds(-30)).ToList();
                     foreach (var userToRemove in usersToRemove)
                     {
                         userOnlineList.Remove(userToRemove);

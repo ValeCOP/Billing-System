@@ -30,8 +30,11 @@
 
                 string log = $"{username} - {logMessage} - {ipAddress} - {userAgent}{Environment.NewLine}" +
                     $"{replyUrl}{Environment.NewLine}";
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    await writer.WriteAsync(log);
+                }
 
-                await File.AppendAllTextAsync(filePath, log, Encoding.Unicode);
             }
 
             await _next(context);
