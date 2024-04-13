@@ -12,9 +12,52 @@ connection.start().then(function () {
 
 connection.on("ReceiveMessage", function (user, message) {
 
-    if (message) {
-        addMessageToChat(user, message);
+    if (user === null || user === "") {
+
+        let statusElement = document.getElementById("valid");
+        statusElement.hidden = false;
+        statusElement.textContent = `User name is required`;
+        return;
     }
+    else {
+        let statusElement = document.getElementById("valid");
+        statusElement.hidden = true;
+    }
+    if (user.length < 3 || user.length > 50) {
+
+        let statusElement = document.getElementById("valid");
+        statusElement.hidden = false;
+        statusElement.textContent = `User name must be between 3 and 50 characters`;
+        return;
+    }
+    else {
+        let statusElement = document.getElementById("valid");
+        statusElement.hidden = true;
+    }
+    if (message === null || message === "") {
+
+        let statusElement = document.getElementById("valid");
+        statusElement.hidden = false;
+        statusElement.textContent = `Message is required`;
+        return;
+    }
+    else {
+        let statusElement = document.getElementById("valid");
+        statusElement.hidden = true;
+    }
+    if (message.length < 3 || message.length > 1000) {
+
+        let statusElement = document.getElementById("valid");
+        statusElement.hidden = false;
+        statusElement.textContent = `Message must be between 3 and 1000 characters`;
+        return;
+    }
+    else {
+        let statusElement = document.getElementById("valid");
+        statusElement.hidden = true;
+    }
+    addMessageToChat(user, message);
+
 });
 connection.on("UserConnected", function (user) {
 
@@ -49,7 +92,7 @@ connection.on("UserConnected", function (user) {
 connection.on("UserDisconnected", function (user) {
 
     if (user !== null) {
-        
+
         statusElement.className = "alert alert-danger";
         statusElement.textContent = `${user} has left the chat`;
         statusElement.style.display = "block";
@@ -76,6 +119,16 @@ connection.on("UserDisconnected", function (user) {
     }
 });
 
+document.getElementById("sendButton").addEventListener("click", function (event) {
+    let user = document.getElementById("userInput").value;
+    let message = document.getElementById("messageInput").value;
+    connection.invoke("SendMessage", user, message).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+    document.getElementById("messageInput").value = "";
+});
+
 function addMessageToChat(user, message) {
 
     var message = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -100,14 +153,21 @@ function addMessageToChat(user, message) {
     localStorage.setItem("chatMessages", JSON.stringify(allMessages));
 }
 
+document.getElementById("messageInput").addEventListener("input", function () {
+    var textareaValue = this.value.trim(); 
+    let statusElement = document.getElementById("valid");
 
-document.getElementById("sendButton").addEventListener("click", function (event) {
-    let user = document.getElementById("userInput").value;
-    let message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
-        return console.error(err.toString());
-    });
-    event.preventDefault();
-    document.getElementById("messageInput").value = "";
+    if (textareaValue.length > 3) {
+        statusElement.innerHTML = "";
+    }
 });
+document.getElementById("messageInput").addEventListener("keypress", function (event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById("sendButton").click();
+        document.getElementById("messageInput").focus();
+        return false;
+    }
+});
+
 
