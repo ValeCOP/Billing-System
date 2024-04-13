@@ -17,9 +17,9 @@
         public DbSet<Payment> Payments { get; set; } = null!;
         public DbSet<TechnicalProblem> TechnicalProblems { get; set; } = null!;
         public DbSet<Expense> Expenses { get; set; } = null!;
-
         public DbSet<Promotion> Promotions { get; set; } = null!;
         public DbSet<Invoice> Invoices { get; set; } = null!;
+        public DbSet<Chat> Chats { get; set; } = null!;
 
         override protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

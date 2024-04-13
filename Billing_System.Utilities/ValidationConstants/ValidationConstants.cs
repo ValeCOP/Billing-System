@@ -113,6 +113,17 @@
             public const string VATINErrorMessage = "VATIN must be {1} characters";
         }
 
+        //chat
+        public static class Chat
+        {
+            public const int UserMaxLength = 50;
+            public const int UserMinLength = 3;
+            public const int MessageMaxLength = 1000;
+            public const int MessageMinLength = 1;
+            public const string UserErrorMessage = "User must be between {2} and {1} characters";
+            public const string MessageErrorMessage = "Message must be between {2} and {1} characters";
+        }
+
         public static class RolesConstants
         {
             public const string AreaName = "Admin";

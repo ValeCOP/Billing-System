@@ -5,6 +5,7 @@ namespace Billing_System
     using Billing_System.CustomExtensions;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using Billing_System.SignalRHubs;
 
     public class Program
     {
@@ -23,6 +24,8 @@ namespace Billing_System
                     options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 });
+
+            builder.Services.AddSignalR();
 
             builder.Services.AddAntiforgery(option =>
             {
@@ -53,13 +56,14 @@ namespace Billing_System
 
             app.UseAuthorization();
 
-            app.EnableOnlineUsersCheck();
-
             app.EnableUsersTracker();
 
+            app.EnableOnlineUsersCheck();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chatHub");
+
                 endpoints.MapControllerRoute(
                                        name: "Areas",
                                        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
@@ -67,7 +71,7 @@ namespace Billing_System
                 endpoints.MapControllerRoute(
                                        name: "default",
                                        pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapDefaultControllerRoute();
+
                 endpoints.MapRazorPages();
             });
 

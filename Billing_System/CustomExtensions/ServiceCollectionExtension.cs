@@ -2,6 +2,7 @@
 {
     using Billing_System.ActionFilters;
     using Billing_System.Core.Contracts.Archive;
+    using Billing_System.Core.Contracts.Chat;
     using Billing_System.Core.Contracts.Clients;
     using Billing_System.Core.Contracts.Expense;
     using Billing_System.Core.Contracts.Home;
@@ -14,6 +15,7 @@
     using Billing_System.Core.Contracts.Users;
     using Billing_System.Core.MailSender;
     using Billing_System.Core.Services.Archive;
+    using Billing_System.Core.Services.Chat;
     using Billing_System.Core.Services.Clients;
     using Billing_System.Core.Services.Expense;
     using Billing_System.Core.Services.Home;
@@ -24,6 +26,7 @@
     using Billing_System.Core.Services.TechnicalProblem;
     using Billing_System.Core.Services.Users;
     using Billing_System.Data;
+
     using Billing_System.Data.Entities;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
@@ -49,6 +52,7 @@
             services.AddScoped<IExpenseService, ExpenseService>();
             services.AddScoped<IPromotionService, PromotionService>();
             services.AddScoped<IInvoiceService, InvoiceService>();
+            services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<LogActionFilter>();
 
             return services;
