@@ -92,6 +92,7 @@ connection.on("UserConnected", function (user) {
 connection.on("UserDisconnected", function (user) {
 
     if (user !== null) {
+        let statusElement = document.getElementById("status");
 
         statusElement.className = "alert alert-danger";
         statusElement.textContent = `${user} has left the chat`;
@@ -129,6 +130,39 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     document.getElementById("messageInput").value = "";
 });
 
+
+document.getElementById("messageInput").addEventListener("input", function () {
+
+    let user = document.getElementById("userInput").value;
+    if (!isTyping) {
+        isTyping = true;
+        connection.invoke("StartTyping", user).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+
+    clearTimeout(timeout);
+    var timeout = setTimeout(function () {
+        isTyping = false;
+        connection.invoke("StopTyping", user).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }, 1000);
+    var textareaValue = this.value.trim();
+    let statusElement = document.getElementById("valid");
+
+    if (textareaValue.length > 3) {
+        statusElement.innerHTML = "";
+    }
+});
+document.getElementById("messageInput").addEventListener("keypress", function (event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById("sendButton").click();
+        document.getElementById("messageInput").focus();
+        return false;
+    }
+});
 function addMessageToChat(user, message) {
 
     var message = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -153,21 +187,21 @@ function addMessageToChat(user, message) {
     localStorage.setItem("chatMessages", JSON.stringify(allMessages));
 }
 
-document.getElementById("messageInput").addEventListener("input", function () {
-    var textareaValue = this.value.trim(); 
-    let statusElement = document.getElementById("valid");
+var isTyping = false;
 
-    if (textareaValue.length > 3) {
-        statusElement.innerHTML = "";
+
+connection.on("UserTyping", function (user, isTyping) {
+    if (isTyping) {
+        let statusElement = document.getElementById("status");
+        statusElement.className = "alert alert-warning";
+        statusElement.textContent = `${user} is typing...`;
+        statusElement.style.display = "block";
+        setTimeout(function () {
+            $('#status').fadeOut(1000);
+        }, 3000);
+
     }
 });
-document.getElementById("messageInput").addEventListener("keypress", function (event) {
-    if (event.keyCode === 13) {
-        event.preventDefault();
-        document.getElementById("sendButton").click();
-        document.getElementById("messageInput").focus();
-        return false;
-    }
-});
+
 
 

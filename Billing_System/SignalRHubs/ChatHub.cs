@@ -24,13 +24,15 @@
             var lastTenMessages = await _messageRepository.GetAllMessagesAsync();
             return lastTenMessages.Select(m => $"{m.User}: {m.Message}");
         }
-
+        public async Task StartTyping(string user)
+        {
+            await Clients.Others.SendAsync("UserTyping", user, true);
+        }
         public override async Task OnConnectedAsync()
         {
             await Clients.Others.SendAsync("UserConnected", Context.User!.Identity!.Name);
             await base.OnConnectedAsync();
         }
-
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             await Clients.Others.SendAsync("UserDisconnected", Context.User!.Identity!.Name);
