@@ -132,18 +132,8 @@ header {
 
 a {
     color: #007bff;
-    text-decoration: none;
 }
 
-    a:hover {
-        color: #0056b3;
-        text-decoration: underline;
-    }
-
-    a:active {
-        color: #0056b3;
-        text-decoration: underline;
-    }
 
 
 /*//////////////////*/

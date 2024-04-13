@@ -14,9 +14,9 @@
                 <h6>Online chat:</h6>
                 <hr />
                 <label class="control-label">User</label>
-                <input class="form-control" id="userInput" value="@currentUser" readonly />
+                <input class="form-control" id="userInput" maxlength="50" value="@currentUser" readonly />
                 <label class="control-label">Message</label>
-                <textarea class="form-control" id="messageInput"></textarea>
+                <textarea class="form-control" id="messageInput" maxlength="1000"></textarea>
                 <div class="form-group mt-2">
                     <input class="btn btn-outline-primary" type="button" id="sendButton" value="Send Message" />
                 </div>

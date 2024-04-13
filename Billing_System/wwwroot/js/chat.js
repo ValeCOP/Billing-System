@@ -1,0 +1,113 @@
+﻿"use strict";
+
+let connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+let sendButton = document.getElementById("sendButton").disabled = true;
+
+connection.start().then(function () {
+    document.getElementById("sendButton").disabled = false;
+}).catch(function (err) {
+    return console.error(err.toString());
+});
+
+connection.on("ReceiveMessage", function (user, message) {
+
+    if (message) {
+        addMessageToChat(user, message);
+    }
+});
+connection.on("UserConnected", function (user) {
+
+    if (user !== null) {
+
+        let statusElement = document.getElementById("status");
+        statusElement.className = "alert alert-success";
+        statusElement.textContent = `${user} has joined the chat`;
+        statusElement.style.display = "block";
+
+        setTimeout(function () {
+            $('#status').fadeOut(1000);
+        }, 10000);
+
+        let token = document.querySelector('input[name="__RequestVerificationToken"]').value
+
+        let data = { user: user, message: `${user} has joined the chat` };
+
+        fetch('/Chat/SaveChat/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                '__RequestVerificationToken': token
+            },
+            //body: JSON.stringify(data)
+        })
+            .then(console.log(data))
+            .catch(error => console.error('Unable to update item.', error));
+    }
+});
+connection.on("UserDisconnected", function (user) {
+
+    if (user !== null) {
+        
+        statusElement.className = "alert alert-danger";
+        statusElement.textContent = `${user} has left the chat`;
+        statusElement.style.display = "block";
+        setTimeout(function () {
+            $('#status').fadeOut(1000);
+        }, 10000);
+
+
+        let token = document.querySelector('input[name="__RequestVerificationToken"]').value
+
+        let data = { user: user, message: `${user} has left the chat` };
+
+        fetch('/Chat/SaveChat/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                '__RequestVerificationToken': token
+            },
+            //body: JSON.stringify(data)
+        })
+            .then(console.log(data))
+            .catch(error => console.error('Unable to update item.', error));
+    }
+});
+
+function addMessageToChat(user, message) {
+
+    var message = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    let chat = document.getElementById("messagesList");
+    let dateTimeNow = new Date().toLocaleString();
+
+    let div1 = document.createElement("div");
+    div1.textContent = `${user} ${dateTimeNow}`;
+    chat.insertBefore(div1, chat.children[0]);
+
+    let div = document.createElement("div");
+    div.textContent = `${message}`;
+    div.className = "alert alert-info";
+    chat.insertBefore(div, chat.children[1]);
+
+    if (chat.children.length >= 10) {
+        chat.removeChild(chat.children[9]);
+        chat.removeChild(chat.children[9]);
+    };
+    let allMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+    allMessages.push(user + ": " + message);
+    localStorage.setItem("chatMessages", JSON.stringify(allMessages));
+}
+
+
+document.getElementById("sendButton").addEventListener("click", function (event) {
+    let user = document.getElementById("userInput").value;
+    let message = document.getElementById("messageInput").value;
+    connection.invoke("SendMessage", user, message).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+    document.getElementById("messageInput").value = "";
+});
+
