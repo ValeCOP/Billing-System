@@ -19,7 +19,7 @@
                         </div>
                         <div class="col-6 text-end">
                             <h2 class="m-0 p-0">Фактура №: @Model.InvoiceNumber</h2>
-                            <h5 class="m-0 p-0">@Model.CreatedOn.ToString("D", CultureInfo.CurrentCulture)</h5>
+                            <input class="form-control text-end" type="text" value="@Model.CreatedOn.ToString("D", CultureInfo.CurrentCulture)">
                         </div>
                     </div>
                 </div>
@@ -58,8 +58,6 @@
                     <div class="col-6">
                         <strong>Дата на събитието:</strong><br>
                         <input class="form-control" type="text" value="@Model.CreatedOn.ToString("D", CultureInfo.CurrentCulture)">
-
-
                     </div>
                 </div>
                 <hr />
