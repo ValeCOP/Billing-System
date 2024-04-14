@@ -59,6 +59,8 @@
             Assert.That(messages.Count, Is.EqualTo(1));
             var message = messages.FirstOrDefault();
             Assert.That(message.User, Is.EqualTo("User4"));
+            var msgFromDb = _dbContext.Chats.CountAsync().GetAwaiter().GetResult();
+            Assert.That(msgFromDb, Is.EqualTo(0));
         }
         [Test]
         public void GetAndSaveTenMessagesAsync_Test_01()
@@ -81,6 +83,8 @@
             Assert.That(messages.Count, Is.EqualTo(10));
             var message = messages.FirstOrDefault();
             Assert.That(message.User, Is.EqualTo("User10"));
+            var msgFromDb = _dbContext.Chats.CountAsync().GetAwaiter().GetResult();
+            Assert.That(msgFromDb, Is.EqualTo(10));
         }
     }
 }

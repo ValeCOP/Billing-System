@@ -44,7 +44,7 @@
 
             var currentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            string path = Path.Combine(currentDirectory,"..\\..\\..\\","wwwroot", "images", "expense", sanitizedFileName);
+            string path = Path.Combine(currentDirectory, "..\\..\\..\\","wwwroot", "images", "expense", sanitizedFileName);
             try
             {
                 using (var stream = new FileStream(path, FileMode.Create))
@@ -58,7 +58,7 @@
                     Value = model.Value,
                     Date = DateTime.Now,
                     Description = model.Description,
-                    ReceiptUrl = @"/images/expense/" + model.File!.FileName
+                    ReceiptUrl = @"/images/expense/" + sanitizedFileName
                 };
                 await _context.Expenses.AddAsync(expense);
                 await _context.SaveChangesAsync();
@@ -80,7 +80,7 @@
             _context.Expenses.Remove(expense);
 
             var currentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var path = Path.Combine(currentDirectory, "..\\..\\..\\", "wwwroot","images","expense", expense.ReceiptUrl!.Split("/")[3]);  
+            var path = Path.Combine(currentDirectory , "..\\..\\..\\", "wwwroot","images","expense", expense.ReceiptUrl!.Split("/")[3]);  
 
             if (File.Exists(path))
             {
