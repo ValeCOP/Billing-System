@@ -12,52 +12,7 @@ connection.start().then(function () {
 
 connection.on("ReceiveMessage", function (user, message) {
 
-    if (user === null || user === "") {
-
-        let statusElement = document.getElementById("valid");
-        statusElement.hidden = false;
-        statusElement.textContent = `User name is required`;
-        return;
-    }
-    else {
-        let statusElement = document.getElementById("valid");
-        statusElement.hidden = true;
-    }
-    if (user.length < 3 || user.length > 50) {
-
-        let statusElement = document.getElementById("valid");
-        statusElement.hidden = false;
-        statusElement.textContent = `User name must be between 3 and 50 characters`;
-        return;
-    }
-    else {
-        let statusElement = document.getElementById("valid");
-        statusElement.hidden = true;
-    }
-    if (message === null || message === "") {
-
-        let statusElement = document.getElementById("valid");
-        statusElement.hidden = false;
-        statusElement.textContent = `Message is required`;
-        return;
-    }
-    else {
-        let statusElement = document.getElementById("valid");
-        statusElement.hidden = true;
-    }
-    if (message.length < 3 || message.length > 1000) {
-
-        let statusElement = document.getElementById("valid");
-        statusElement.hidden = false;
-        statusElement.textContent = `Message must be between 3 and 1000 characters`;
-        return;
-    }
-    else {
-        let statusElement = document.getElementById("valid");
-        statusElement.hidden = true;
-    }
     addMessageToChat(user, message);
-
 });
 connection.on("UserConnected", function (user) {
 

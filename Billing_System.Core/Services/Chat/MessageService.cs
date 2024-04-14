@@ -43,16 +43,14 @@
 
         public async Task SaveMessageAsync(ChatModel chatModels)
         {
-            if (string.IsNullOrEmpty(chatModels.User) || string.IsNullOrEmpty(chatModels.Message))
-            {
-                return;
-            }
+            
             if (!_cache.TryGetValue("ChatMessages", out List<ChatModel> messages))
             {
                 messages = new List<ChatModel>();
             }
-            chatModels.CreatedOn = DateTime.Now;
+
             messages.Add(chatModels);
+
             _cache.Set("ChatMessages", messages);
 
             if (messages.Count == 10)
@@ -63,7 +61,7 @@
                     {
                         User = message.User,
                         Message = message.Message,
-                        CreatedOn = DateTime.Now
+                        CreatedOn = message.CreatedOn
                     };
                     _context.Chats.Add(chat);
                 }
@@ -75,7 +73,6 @@
         public async Task SaveMessageImmediateAsync(ChatModel model)
         {
             var chats = new List<Chat>();
-            var dateNow = DateTime.Now;
 
             _cache.TryGetValue("ChatMessages", out List<ChatModel> messages1);
             if (messages1 != null)
@@ -86,7 +83,7 @@
                     {
                         User = message.User,
                         Message = message.Message,
-                        CreatedOn = dateNow
+                        CreatedOn = message.CreatedOn
                     };
                     chats.Add(chatMessage);
                 }
@@ -97,7 +94,7 @@
                 {
                     User = model.User,
                     Message = model.Message,
-                    CreatedOn = dateNow
+                    CreatedOn = DateTime.Now
                 };
                 chats.Add(chat);
             }

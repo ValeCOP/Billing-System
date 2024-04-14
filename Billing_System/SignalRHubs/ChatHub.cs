@@ -14,7 +14,12 @@
 
         public async Task SendMessage(string user, string message)
         {
-            await _messageRepository.SaveMessageAsync(new ChatModel() { User = user, Message = message });
+
+            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(message))
+            {
+                return;
+            }
+            await _messageRepository.SaveMessageAsync(new ChatModel() { User = user, Message = message, CreatedOn = DateTime.Now });
 
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
