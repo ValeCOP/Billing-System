@@ -38,9 +38,9 @@ connection.on("UserConnected", function (user) {
                 'Content-Type': 'application/json',
                 '__RequestVerificationToken': token
             },
-            //body: JSON.stringify(data)
+            body: JSON.stringify(data)
         })
-            .then(console.log(data))
+            .then(r => console.log(r))
             .catch(error => console.error('Unable to update item.', error));
     }
 });
@@ -68,9 +68,9 @@ connection.on("UserDisconnected", function (user) {
                 'Content-Type': 'application/json',
                 '__RequestVerificationToken': token
             },
-            //body: JSON.stringify(data)
+            body: JSON.stringify(data)
         })
-            .then(console.log(data))
+            .then(r => console.log(r))
             .catch(error => console.error('Unable to update item.', error));
     }
 });

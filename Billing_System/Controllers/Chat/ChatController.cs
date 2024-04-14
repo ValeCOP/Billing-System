@@ -27,8 +27,7 @@
         public async Task<IActionResult> SaveChat([FromBody] ChatModel model)
         {
             await _messageService.SaveMessageImmediateAsync(model);
-
-            return RedirectToAction("Chat");
+            return Ok();
         }
     }
 }
