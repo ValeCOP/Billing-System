@@ -6,10 +6,10 @@
 
     public class ChatHub : Hub
     {
-        private readonly IMessageService _messageRepository;
+        private readonly IMessageService _messageService;
         public ChatHub(IMessageService messageRepository)
         {
-            _messageRepository = messageRepository;
+            _messageService = messageRepository;
         }
 
         public async Task SendMessage(string user, string message)
@@ -19,14 +19,14 @@
             {
                 return;
             }
-            await _messageRepository.SaveMessageAsync(new ChatModel() { User = user, Message = message, CreatedOn = DateTime.Now });
+            await _messageService.SaveMessageAsync(new ChatModel() { User = user, Message = message, CreatedOn = DateTime.Now });
 
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 
         public async Task<IEnumerable<string>> GetAllMessages()
         {
-            var lastTenMessages = await _messageRepository.GetAllMessagesAsync();
+            var lastTenMessages = await _messageService.GetAllMessagesAsync();
             return lastTenMessages.Select(m => $"{m.User}: {m.Message}");
         }
         public async Task StartTyping(string user)
