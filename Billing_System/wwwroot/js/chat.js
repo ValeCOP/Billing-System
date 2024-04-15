@@ -31,17 +31,7 @@ connection.on("UserConnected", function (user) {
 
         let data = { user: user, message: `${user} has joined the chat` };
 
-        fetch('/Chat/SaveChat/', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                '__RequestVerificationToken': token
-            },
-            body: JSON.stringify(data)
-        })
-            .then(r => console.log(r))
-            .catch(error => console.error('Unable to update item.', error));
+        saveChat(token, data);
     }
 });
 connection.on("UserDisconnected", function (user) {
@@ -61,17 +51,8 @@ connection.on("UserDisconnected", function (user) {
 
         let data = { user: user, message: `${user} has left the chat` };
 
-        fetch('/Chat/SaveChat/', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                '__RequestVerificationToken': token
-            },
-            body: JSON.stringify(data)
-        })
-            .then(r => console.log(r))
-            .catch(error => console.error('Unable to update item.', error));
+        saveChat(token, data);
+
     }
 });
 
@@ -85,7 +66,19 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     document.getElementById("messageInput").value = "";
 });
 
+var isTyping = false;
+connection.on("UserTyping", function (user, isTyping) {
+    if (isTyping) {
+        let statusElement = document.getElementById("status");
+        statusElement.className = "alert alert-warning";
+        statusElement.textContent = `${user} is typing...`;
+        statusElement.style.display = "block";
+        setTimeout(function () {
+            $('#status').fadeOut(2000);
+        }, 5000);
 
+    }
+});
 document.getElementById("messageInput").addEventListener("input", function () {
 
     let user = document.getElementById("userInput").value;
@@ -95,20 +88,9 @@ document.getElementById("messageInput").addEventListener("input", function () {
             return console.error(err.toString());
         });
     }
-
-    clearTimeout(timeout);
-    var timeout = setTimeout(function () {
+    setTimeout(function () {
         isTyping = false;
-        connection.invoke("StopTyping", user).catch(function (err) {
-            return console.error(err.toString());
-        });
-    }, 1000);
-    var textareaValue = this.value.trim();
-    let statusElement = document.getElementById("valid");
-
-    if (textareaValue.length > 3) {
-        statusElement.innerHTML = "";
-    }
+    }, 5000);
 });
 document.getElementById("messageInput").addEventListener("keypress", function (event) {
     if (event.keyCode === 13) {
@@ -141,22 +123,16 @@ function addMessageToChat(user, message) {
     allMessages.push(user + ": " + message);
     localStorage.setItem("chatMessages", JSON.stringify(allMessages));
 }
-
-var isTyping = false;
-
-
-connection.on("UserTyping", function (user, isTyping) {
-    if (isTyping) {
-        let statusElement = document.getElementById("status");
-        statusElement.className = "alert alert-warning";
-        statusElement.textContent = `${user} is typing...`;
-        statusElement.style.display = "block";
-        setTimeout(function () {
-            $('#status').fadeOut(1000);
-        }, 3000);
-
-    }
-});
-
-
-
+function saveChat(token, data) {
+    fetch('/Chat/SaveChat/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            '__RequestVerificationToken': token
+        },
+        //body: JSON.stringify(data)
+    })
+        .then(r => console.log(r))
+        .catch(error => console.error('Unable to update item.', error));
+}
