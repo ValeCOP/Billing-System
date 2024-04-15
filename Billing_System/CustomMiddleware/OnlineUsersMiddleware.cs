@@ -33,11 +33,9 @@
                     userOnlineList = users;
                 }
                 userOnlineList.Add(userOnline);
-                _memoryCache.Set("OnlineUsers", userOnlineList, new MemoryCacheEntryOptions
-                {
-                    SlidingExpiration = TimeSpan.FromSeconds(30)
 
-                });
+                _memoryCache.Set("OnlineUsers", userOnlineList);
+
                 if (userOnlineList.Count > 0)
                 {
                     var usersToRemove = userOnlineList.Where(x => x.LastSeen < DateTime.Now.AddSeconds(-30)).ToList();
