@@ -1,10 +1,12 @@
 ﻿namespace Billing_System.CustomMiddlewares
 {
+    using Microsoft.CodeAnalysis.CSharp;
     using System.Text;
 
     public class UsersTrackerMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly object _lockObject = new object();
         private readonly string filePath = "trackUsers.txt";
 
         public UsersTrackerMiddleware(RequestDelegate next)
@@ -17,7 +19,7 @@
             if (context.User.Identity?.IsAuthenticated ?? false)
             {
 
-                string logMessage = $"{DateTime.Now} - {context.Request.Method} {context.Request.Path}{context.Request.QueryString.Value}" 
+                string logMessage = $"{DateTime.Now} - {context.Request.Method} {context.Request.Path}{context.Request.QueryString.Value}"
                     + Environment.NewLine;
 
                 string username = context.User.Identity.Name;
@@ -30,13 +32,19 @@
 
                 string log = $"{username} - {logMessage} - {ipAddress} - {userAgent}{Environment.NewLine}" +
                     $"{replyUrl}{Environment.NewLine}";
-                using (StreamWriter writer = new StreamWriter(filePath, true))
+
+                await Task.Run(() =>
                 {
-                    await writer.WriteAsync(log);
-                }
+                    lock (_lockObject)
+                    {
+                        using (StreamWriter writer = File.AppendText(filePath))
+                        {
+                            writer.WriteLine(log);
+                        }
+                    }
+                });
 
             }
-
             await _next(context);
         }
     }
