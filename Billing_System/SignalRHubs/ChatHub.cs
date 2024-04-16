@@ -3,6 +3,7 @@
     using Billing_System.Core.Contracts.Chat;
     using Billing_System.Core.ViewModels.Chat;
     using Microsoft.AspNetCore.SignalR;
+    using System.Net;
 
     public class ChatHub : Hub
     {
@@ -12,13 +13,17 @@
             _messageService = messageRepository;
         }
 
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(string user, string msg)
         {
 
-            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(message))
+            user = Context.User.Identity.Name;
+
+            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(msg))
             {
                 return;
             }
+            var message = WebUtility.HtmlEncode(msg);
+
             await _messageService.SaveMessageAsync(new ChatModel() { User = user, Message = message, CreatedOn = DateTime.Now });
 
             await Clients.All.SendAsync("ReceiveMessage", user, message);
@@ -31,6 +36,8 @@
         }
         public async Task StartTyping(string user)
         {
+            user = Context.User.Identity.Name;
+
             await Clients.Others.SendAsync("UserTyping", user, true);
         }
         public override async Task OnConnectedAsync()
