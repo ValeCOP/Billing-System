@@ -53,7 +53,7 @@
 
             if (!result.Succeeded)
             {
-                throw new System.Exception("Error creating user!");
+                throw new Exception("Error creating user!");
             }
 
             await AddUserToRole(model, user);
@@ -64,7 +64,7 @@
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == id);
             if (user == null)
             {
-                throw new System.Exception("User not found!");
+                throw new Exception("User not found!");
             }
             _context.UserRoles.RemoveRange(_context.UserRoles.Where(ur => ur.UserId == user.Id));
             _context.Expenses.RemoveRange(_context.Expenses.Where(e => e.UserId == user.Id));
@@ -78,9 +78,10 @@
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString().ToUpper() == Id.ToUpper());
             if (user == null)
             {
-                throw new System.Exception("User not found!");
+                throw new Exception("User not found!");
             }
             user.UserName = model.UserName;
+            user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
             user.Email = model.Email;
 
             _context.UserRoles.RemoveRange(_context.UserRoles.Where(ur => ur.UserId == user.Id));
@@ -97,7 +98,7 @@
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == id);
             if (user == null)
             {
-                throw new System.Exception("User not found!");
+                throw new Exception("User not found!");
             }
             return user;
 
