@@ -1,4 +1,4 @@
-﻿namespace Billing_System.Core.CustomExstensions
+﻿namespace Billing_System.Core.CustomExtensions
 {
     using Billing_System.CustomMiddleware;
     using Billing_System.CustomMiddlewares;

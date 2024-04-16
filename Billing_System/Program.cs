@@ -1,7 +1,7 @@
 namespace Billing_System
 {
     using Billing_System.Core.CustomBinders;
-    using Billing_System.Core.CustomExstensions;
+    using Billing_System.Core.CustomExtensions;
     using Billing_System.CustomExtensions;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
