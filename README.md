@@ -6,6 +6,3 @@ For activation systems:
   - Apply the migration to both projects (Billing_System; ISP_Clients_Web_API)
   - First start ISP_Clients_Web_API then Billing_System
   - Enjoy
-Live DEMO : https://94.236.201.183/
-user: admin
-pass: admin123
