@@ -3,8 +3,8 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /Billing-System
 
 # Копиране на csproj файловете и възстановяване на зависимостите
-COPY *.sln .
-COPY /*.csproj Billing-System
+COPY *.sln .\
+COPY Billing_System/*.csproj ./Billing_System/
 RUN dotnet restore
 
 # Копиране на останалите файлове и компилиране на приложението
