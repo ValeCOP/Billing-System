@@ -1,15 +1,14 @@
 # Етап 1: Създаване на билд среда
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /Billing-System
+WORKDIR /src
 
-# Копиране на csproj файловете и възстановяване на зависимостите
-COPY *.sln .\
-COPY Billing_System/*.csproj ./Billing_System/
-RUN dotnet restore
+# Копиране на csproj файл и възстановяване на зависимости
+COPY BillingSystem/BillingSystem.csproj BillingSystem/
+RUN dotnet restore BillingSystem/BillingSystem.csproj
 
 # Копиране на останалите файлове и компилиране на приложението
 COPY . .
-WORKDIR /Billing-System
+WORKDIR /src/BillingSystem
 RUN dotnet publish -c Release -o /app
 
 # Етап 2: Създаване на изпълнима среда
@@ -18,4 +17,4 @@ WORKDIR /app
 COPY --from=build /app ./
 
 # Дефиниране на командата за стартиране на приложението
-ENTRYPOINT ["dotnet", "Billing_System.dll"]
+ENTRYPOINT ["dotnet", "BillingSystem.dll"]
