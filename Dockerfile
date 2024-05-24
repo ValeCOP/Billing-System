@@ -4,7 +4,7 @@ WORKDIR /Billing-System
 
 # Копиране на csproj файловете и възстановяване на зависимостите
 COPY *.sln .
-COPY /Billing/*.csproj Billing-System/
+COPY /*.csproj Billing-System
 RUN dotnet restore
 
 # Копиране на останалите файлове и компилиране на приложението
