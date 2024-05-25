@@ -2,19 +2,23 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
-# Копиране на csproj файл и възстановяване на зависимости
-COPY /src/BillingSystem.csproj /src/BillingSystem/
-RUN dotnet restore /src/BillingSystem.csproj
+# Копиране на csproj и възстановяване на зависимости
+COPY ["Billing_System/Billing_System.csproj", "Billing_System/"]    
+RUN dotnet restore "Billing_System/Billing_System.csproj"
 
-# Копиране на останалите файлове и компилиране на приложението
+# Копиране на останалите файлове и билд
 COPY . .
-WORKDIR /src/BillingSystem
-RUN dotnet publish -c Release -o /app
+WORKDIR "/src/Billing_System"
+RUN dotnet build "Billing_System.csproj" -c Release -o /app/build
 
-# Етап 2: Създаване на изпълнима среда
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+# Етап 2: Публикуване на приложението
+FROM build AS publish
+RUN dotnet publish "Billing_System.csproj" -c Release -o /app/publish
+
+# Етап 3: Създаване на образ
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /app
-COPY --from=build /app ./
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Billing_System.dll"]
 
-# Дефиниране на командата за стартиране на приложението
-ENTRYPOINT ["dotnet", "BillingSystem.dll"]
+
