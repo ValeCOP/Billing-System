@@ -1,0 +1,57 @@
+﻿@model Billing_System.Core.ViewModels.Users.RegisterViewModel
+@{
+    ViewData["Title"] = "Create new user";
+
+}
+<h2><i class="fa-solid fa-user-plus"></i> Register New USER</h2>
+<hr />
+<div class="shadow-lg p-3">
+
+    <div class="col-md-4">
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserRole" class="control-label"></label>
+                <select asp-for="UserRole" class="form-control">
+                    <option value="">Select Role</option>
+                    <option value="Administrator">Administrator</option>
+                    <option value="Cashier">Cashier</option>
+                    <option value="Technician">Technician</option>
+                </select>
+                <span asp-validation-for="UserRole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-outline-primary mt-2" />
+            </div>
+            <a asp-action="All" class="btn btn-outline-primary mt-2">All</a>
+        </form>
+    </div>
+</div>
+<div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

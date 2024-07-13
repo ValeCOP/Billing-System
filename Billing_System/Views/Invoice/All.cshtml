@@ -1,0 +1,212 @@
+﻿@model FilteredInvoiceViewModel
+@{
+    ViewData["Title"] = "All - Invoices";
+}
+
+<h2><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i> All Invoices</h2>
+<hr />
+<div class="row shadow-lg p-3">
+    <div class="shadow-lg">
+        <h4 class="mt-5">Invoices</h4>
+        <hr />
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-success" id="alert">
+                <label>✔</label>
+                @TempData["message"]
+            </div>
+        }
+        <form class="row" asp-controller="Invoice" asp-action="All" method="get">
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-outline-primary"> Search </button>
+            </div>
+            <div class="col-md-2">
+                <input class="form-control" name="Filter" placeholder="Search">
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" name="OrderBy">
+                    <option value="">Order By</option>
+                    <option value="CreatedOn">Oldest</option>
+                    <option value="CreatedOnDesc">Latest</option>
+                </select>
+            </div>
+        </form>
+        <div class="row mt-3">
+            <div class="row mb-5">
+                @{
+                    var previousPage = Model.CurrentPage - 1;
+                    if (previousPage < 1)
+                    {
+                        previousPage = 1;
+                    }
+                }
+                <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+                    <a class="btn btn-outline-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+                       asp-controller="Invoice"
+                       asp-action="All"
+                       asp-route-orderBy="@Model.OrderBy"
+                       asp-route-filter="@Model.Filter"
+                       asp-route-CurrentPage="@previousPage">
+                        <<
+                    </a>
+
+                </div>
+
+                @{
+                    var shouldButtonBeDisabled = Model.InvoicesCount < 2;
+                }
+
+                <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a class="btn btn-outline-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+                       asp-controller="Invoice"
+                       asp-action="All"
+                       asp-route-orderBy="@Model.OrderBy"
+                       asp-route-filter="@Model.Filter"
+                       asp-route-CurrentPage="@(Model.CurrentPage + 1)">
+                        >>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model.Invoices)
+            {
+                decimal price = item.Payment.Fee + item.Payment.InstallationFee;
+
+                <div class="card @item.InvoiceNumber shadow-lg col-lg-6">
+                    <page class="row m-2">
+                        <div class="col-12 m-2">
+                            <div class="row m-2">
+
+                                <div class="alert alert-success">
+                                    <h4><em><i class="fa-solid fa-hand-holding-dollar"></i> INFOCAST SYSTEMS</em> - <strong><em>Billing</em></strong></h4>
+                                </div>
+                                <div class="alert row">
+                                    <div class="col-6">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <h5 class="m-0 p-0">ФАКТУРА - ОРИГИНАЛ</h5>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <h5 class="m-0 p-0">Фактура №: @item.InvoiceNumber</h5>
+                                        <h6 class="m-0 p-0">@item.CreatedOn.ToString("D", CultureInfo.CurrentCulture)</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row m-2">
+                                <div class="col-6 alert alert-success d-block p-1 mb-0 ">
+                                    <address>
+                                        <strong class="alert alert-success d-block p-1 mb-0 text-center">Получател:</strong><br>
+                                        <strong>Клиент: </strong>@item.Payment.Client.FullName<br>
+                                        <strong>Адрес: </strong>@item.Payment.Client.Address<br>
+                                        <strong>ЕИК: </strong>@item.UIN<br>
+                                        <strong>ИН по ДДС: </strong>@item.VATIN<br>
+                                        <strong>МОЛ: </strong>@item.MOL
+                                    </address>
+                                </div>
+                                <div class="col-6 alert alert-success d-block p-1 mb-0">
+                                    @await Component.InvokeAsync("Company")
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row m-2">
+                                <div class="col-6">
+                                    <strong>Начин на плащане:</strong>
+                                    @if (item.BankTransfer)
+                                    {
+                                        <div class="form-control">
+                                            @await Component.InvokeAsync("BankDetails")
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <div class="form-control">
+                                            <strong>Cach</strong><br>
+                                            <br>
+                                            <br>
+                                        </div>
+                                    }
+
+                                </div>
+                                <div class="col-6">
+                                    <strong>Дата на събитието:</strong><br>
+                                    @item.CreatedOn<br>
+
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row m-2">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td class="col-3"><strong>Такса за Интернет</strong></td>
+                                                <td class="text-center"><strong>Инсталационна такса</strong></td>
+                                                <td class="text-center"><strong>Месечна такса</strong></td>
+                                                <td class="text-center"><strong>Период</strong></td>
+                                                <td class="text-right"><strong>Общо</strong></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-3">@item.Payment.Name</td>
+                                                <td class="text-center">@item.Payment.InstallationFee</td>
+                                                <td class="text-center">@item.Payment.Fee</td>
+                                                <td class="text-center">@item.Payment.FromDate.ToString("D", CultureInfo.CurrentCulture) - @item.Payment.ToDate.ToString("D", CultureInfo.CurrentCulture)</td>
+                                                <td class="text-right">@price</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-3">чл.113, ал.9 от ЗДДС<br>Лицето не е регистрирано по ЗДДС</td>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
+                                                <td class="text-end">ДДС</td>
+                                                <td class="text-right">0.00%</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line text-right"><strong>Общо</strong></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line text-right"><strong>@price</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-6">
+                                        <strong>Съставил</strong><br>
+                                        @item.Issuer
+                                    </div>
+                                    <div class="col-6">
+                                        <strong>Получил</strong><br>
+                                        @item.Recipient
+                                    </div>
+                                </div>
+                                <hr />
+                            </div>
+                        </div>
+                    </page>
+                    <div>
+                        <a class="btn btn-outline-primary btn-sm mb-3" asp-action="Print" asp-controller="Invoice" asp-route-id="@item.Id">Print Mode</a>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-sm mb-3", onclick = $"return confirm('Are you sure you want to delete invoice: {item.InvoiceNumber}?');" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

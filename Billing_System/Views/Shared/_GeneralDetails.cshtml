@@ -1,0 +1,100 @@
+﻿@inject IUserServices _userServices
+@{
+    var users = await _userServices.GetAllUserWithPayments();
+    var currentUser = users.FirstOrDefault(u => u.UserName == User.Identity!.Name);
+    var availableSum = users.Sum(u => u.Payments.Where(p => !p.Pending).Sum(p => p.Fee + p.InstallationFee));
+    var expensesSum = users.Sum(u => u.Expenses.Sum(e => e.Value));
+    var totalSum = users.Sum(u => u.Payments.Sum(p => p.Fee + p.InstallationFee));
+    var pendingSum = users.Sum(u => u.Payments.Where(p => p.Pending).Sum(p => p.Fee + p.InstallationFee));
+    var receiptIssued = users.Sum(u => u.Payments.Where(p => p.Receipt).Sum(p => p.Fee + p.InstallationFee));
+    var profit = availableSum - expensesSum;
+}
+
+
+<div class="col-lg-6">
+    <h4>Pay per User</h4>
+    <hr />
+    @if (User.IsInRole("Administrator"))
+    {
+        @foreach (var user in users)
+        {
+            <div class="card">
+                <div class="card-header"><i class="fa-solid fa-user"></i> <span class="fw-bold">User: @user.UserName</span></div>
+                <div class="card-body">
+                    Total SUM: @user.Payments.Sum(p => p.Fee + p.InstallationFee)
+                    <br>
+                    Pending SUM: @user.Payments.Where(u => u.Pending).Sum(p => p.Fee + p.InstallationFee)
+                    <br>
+                    Expenses SUM: <span class="fw-bold">@user.Expenses.Sum(e => e.Value)</span>
+                </div>
+                <div class="card-footer">
+                    <i class="fa-regular fa-circle-right"></i>
+                    Available SUM: <span class="fw-bold">@user.Payments.Where(u => !u.Pending).Sum(p => p.Fee + p.InstallationFee)</span>
+                    <br>
+                </div>
+            </div>
+            <hr />
+        }
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-header">
+                <i class="fa-solid fa-user"></i> <span class="fw-bold">User: @User.Identity.Name</span>
+            </div>
+            <div class="card-body">
+                Total SUM: @currentUser.Payments.Sum(p => p.Fee + p.InstallationFee)
+                <br>
+                Pending SUM: @currentUser.Payments.Where(p => p.Pending).Sum(p => p.Fee + p.InstallationFee)
+                <br>
+            </div>
+            <div class="card-footer">
+                <i class="fa-regular fa-circle-right"></i>
+                Available SUM: <span class="fw-bold">@currentUser.Payments.Where(p => !p.Pending).Sum(p => p.Fee + p.InstallationFee)</span>
+            </div>
+        </div>
+    }
+
+</div>
+<div class="col-lg-6">
+    @if (User.IsInRole("Administrator"))
+    {
+        <h4>Monthly Report</h4>
+        <hr />
+        <div class="card">
+            <div class="card-header">
+                <i class="fa-solid fa-hand-holding-dollar"></i> <span class="fw-bold">Billing</span>
+            </div>
+            <div class="card-body">
+                <p>
+                    <i class="fa-regular fa-circle-check"></i> Total SUM: @totalSum
+                    <br>
+                    <i class="fa-regular fa-circle-xmark"></i> Pending SUM: @pendingSum
+                </p>
+                <hr />
+                <p>
+                    <i class="fa-regular fa-circle-check"></i> Available SUM: <span class="fw-bold">@availableSum</span>
+                    <br>
+                    <i class="fa-regular fa-circle-xmark"></i> Expenses SUM: <span class="fw-bold">@expensesSum</span>
+                </p>
+                <hr />
+                <p>
+                    <i class="fa-solid fa-receipt"></i> Receipt Issued: @receiptIssued
+
+                </p>
+            </div>
+        </div>
+        <div class="card-footer">
+            <i class="fa-regular fa-circle-right"></i>
+            <span class="fw-bold">Profit: @profit</span>
+        </div>
+    }
+    else
+    {
+        <div class=" col-md-12 p-3">
+            <p class="shadow-lg p-3 text-center text-muted"><em><i class="fa-solid fa-hand-holding-dollar"></i> INFOCAST SYSTEMS</em> - <strong><em>Billing</em></strong></p>
+        </div>
+    }
+</div>
+
+

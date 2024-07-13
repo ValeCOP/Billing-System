@@ -1,0 +1,73 @@
+﻿@model ActivatedClientsViewModel
+@{
+    ViewData["Title"] = "Details";
+
+}
+<h2><i class="fa-solid fa-circle-info"></i> Details</h2>
+<hr />
+<div class="row shadow-lg p-3">
+    <h5 class="card-title mt-2">@Model.FullName</h5>
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-info" id="alert">
+            <label>✔</label>
+            @TempData["message"]
+        </div>
+    }
+    <div class="shadow-lg col-md-3 p-3 text-lg-start">
+        <div>
+            <dl class="col">
+                <dt class="row-sm-2">
+                    Activation Date
+                </dt>
+                <dd class="row-sm-10">
+                    @Html.DisplayFor(model => model.ActivationDate)
+                </dd>
+                <dt class="row-sm-2">
+                    Expired Date
+                </dt>
+                <dd class="row-sm-10">
+                    @Html.DisplayFor(model => model.ExpiredDate)
+                </dd>
+                <dt class="row-sm-2">
+                    @Html.DisplayNameFor(model => model.Comments)
+                </dt>
+                <dd class="row-sm-10">
+                    @Html.DisplayFor(model => model.Comments)
+                </dd>
+                <dt class="row-sm-2">
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+                <dd class="row-sm-10">
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+                <dt class="row-sm-2">
+                    @Html.DisplayNameFor(model => model.Phone)
+                </dt>
+                <dd class="row-sm-10">
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
+                <dt class="row-sm-2">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="row-sm-10">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+            </dl>
+            <hr />
+            <h5>
+                User:  @Html.DisplayFor(model => model.ApplicationUser)
+            </h5>
+        </div>
+    </div>
+    <div class="shadow-lg col-md-9 p-3">
+        <h6 class="card-title mt-2">Payments</h6>
+        <hr />
+        <div>
+            @{
+                await Html.RenderPartialAsync("_PaymentDetails", Model.Payments.ToList());
+            }
+        </div>
+        <a asp-controller="Payment" asp-action="Add" id="createPayment" asp-route-id="@Model.ClientId" class="btn btn-outline-primary mt-2">Add</a>
+    </div>
+</div>

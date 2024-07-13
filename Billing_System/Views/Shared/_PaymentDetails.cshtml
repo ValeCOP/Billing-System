@@ -1,0 +1,95 @@
+﻿@using Billing_System.Core.Contracts.Invoice
+@model IEnumerable<PaymentsDetailsView>
+@inject IInvoiceService invoiceService;
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["Error"]
+    </div>
+}
+<div class="p-2">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.Raw("Fee")
+                    </th>
+                    <th>
+                        @Html.Raw("Instal")
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Pending)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Receipt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FromDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ToDate)
+                    </th>
+                    <th>
+                        @Html.Raw("User")
+                    </th>
+                    <th>
+                         @Html.Raw("Action")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var hasInvoice = await invoiceService.GetInvoiceByPaymentIdAsync(item.Id);
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Value)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InstallationFee)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pending)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Receipt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FromDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ToDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationUser)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit","Payment", new { id = item.Id }, new { @class = "btn btn-outline-primary btn-sm" })<br>
+
+                            @Html.ActionLink("Delete", "Delete", "Payment", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-sm", onclick = $"return confirm('Are you sure you want to delete {item.Name}?');" })<br>
+                            @if (hasInvoice != null)
+                            {
+                                <a asp-controller="Invoice" asp-action="Print" asp-route-id="@hasInvoice.Id" class="btn btn-outline-success btn-sm">Print Invoice</a>
+
+                                <br>
+                            }
+                            else
+                            {
+                                <a asp-controller="Invoice" asp-action="Index" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Create Invoice</a>
+
+                                <br>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

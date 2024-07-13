@@ -1,0 +1,125 @@
+﻿@model AllInvoiceViewModel
+@{
+    ViewData["Title"] = "Invoice";
+    decimal price = Model.Payment.Fee + Model.Payment.InstallationFee;
+}
+<h2><i class="fa-solid fa-file-invoice-dollar"></i> @ViewData["Title"]</h2>
+<hr />
+<div class="row p-3 shadow-lg text-lg-start">
+    <div class="container" id="containerId">
+        <page class="row m-2">
+            <div class="col-12 m-2">
+                <div class="row m-2">
+                    <div class="alert alert-success">
+                        <h4><em><i class="fa-solid fa-hand-holding-dollar"></i> INFOCAST SYSTEMS</em> - <strong><em>Billing</em></strong></h4>
+                    </div>
+                    <div class="alert row">
+                        <div class="col-6">
+                            <h2 class="m-0 p-0">ФАКТУРА - ОРИГИНАЛ</h2>
+                        </div>
+                        <div class="col-6 text-end">
+                            <h2 class="m-0 p-0">Фактура №: @Model.InvoiceNumber</h2>
+                            <input class="form-control text-end" type="text" value="@Model.CreatedOn.ToString("D", CultureInfo.CurrentCulture)">
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row m-2">
+                    <div class="col-6 alert alert-success d-block p-1 mb-0 ">
+                        <address>
+                            <strong class="alert alert-success d-block p-1 mb-0 text-center">Получател:</strong><br>
+                            <strong>Клиент: </strong>@Model.ClientFullName<br>
+                            <strong>Адрес: </strong>@Model.ClientAddress<br>
+                            <strong>ЕИК: </strong>@Model.UIN<br>
+                            <strong>ИН по ДДС: </strong>@Model.VATIN<br>
+                            <strong>МОЛ: </strong>@Model.MOL
+                        </address>
+                    </div>
+                    <div class="col-6 alert alert-success d-block p-1 mb-0">
+                        @await Component.InvokeAsync("Company")
+                    </div>
+                </div>
+                <hr />
+                <div class="row m-3">
+                    <div class="col-6">
+                        <strong>Начин на плащане:</strong><br>
+                        @if (Model.BankTransfer)
+                        {
+                            <label>Банков път</label>
+                            <div class="alert">
+                                @await Component.InvokeAsync("BankDetails")
+                            </div>
+                        }
+                        else
+                        {
+                            <label>В брой</label>
+                        }
+                    </div>
+                    <div class="col-6">
+                        <strong>Дата на събитието:</strong><br>
+                        <input class="form-control" type="text" value="@Model.CreatedOn.ToString("D", CultureInfo.CurrentCulture)">
+                    </div>
+                </div>
+                <hr />
+                <div class="row m-2">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <td><strong>Такса за Интернет</strong></td>
+                                    <td class="text-center"><strong>Инсталационна такса</strong></td>
+                                    <td class="text-center"><strong>Месечна такса</strong></td>
+                                    <td class="text-center"><strong>Период</strong></td>
+                                    <td class="text-right"><strong>Общо</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@Model.Payment.Name</td>
+                                    <td class="text-center">@Model.Payment.InstallationFee</td>
+                                    <td class="text-center">@Model.Payment.Fee</td>
+                                    <td class="text-center">@Model.Payment.FromDate.ToString("D", CultureInfo.CurrentCulture) - @Model.Payment.ToDate.ToString("D", CultureInfo.CurrentCulture)</td>
+                                    <td class="text-right">@price</td>
+                                </tr>
+                                <tr>
+                                    <td>чл.113, ал.9 от ЗДДС<br>Лицето не е регистрирано по ЗДДС</td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-end">ДДС</td>
+                                    <td class="text-right">0.00%</td>
+                                </tr>
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-right"><strong>Общо</strong></td>
+
+                                </tr>
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-right"><strong>@price</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col-6">
+                            <strong>Съставил</strong><br>@Model.Issuer
+                        </div>
+                        <div class="col-6">
+                            <strong>Получил</strong><br>@Model.Recipient
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            </div>
+        </page>
+        <div class="form-group printBtn mb-3">
+            <input type="submit" value="Print" class="btn btn-outline-primary mt-2" onclick="printInvoice()" />
+        </div>
+    </div>
+</div>

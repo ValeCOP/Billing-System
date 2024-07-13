@@ -1,0 +1,59 @@
+﻿@model AddExpenseViewModel
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h2><i class="fa-solid fa-cart-shopping"></i> All Expenses</h2>
+<hr />
+<div class="row shadow-lg p-3">
+    <div class="shadow-lg col-md-4 p-3">
+        <h4>Add expense</h4>
+        <hr />
+        <form asp-action="Add" enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" id="name-input" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="UserId" hidden />
+            </div>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <input asp-for="Value" class="form-control" id="value-input" type="number" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" id="description-input"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="File" class="control-label"></label>
+                <input asp-for="File" name="File" type="file" class="form-control" accept="image/jpeg, image/jpg, image/pjpeg" onchange="loadFile(event)">
+                <span asp-validation-for="File" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-outline-primary mt-2" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8 shadow-lg p-3">
+        <h4>Preview</h4>
+        <hr />
+        <div class="shadow-lg col-md-6 p-3">
+            <h5 id="output-name"></h5>
+            <hr />
+            <h6 id="output-value"></h6>
+            <p id="output-description"></p>
+            <img id="output" class="img-thumbnail shadow-lg w-80 h-100" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

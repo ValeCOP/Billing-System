@@ -1,0 +1,45 @@
+﻿@model ICollection<ChatModel>;
+@{
+    ViewData["Title"] = "Chat";
+}
+@{
+    var currentUser = User.Identity.Name;
+}
+<h2><i class="fa-regular fa-comments"></i> @ViewData["Title"]</h2>
+<hr />
+<div class="row shadow-lg p-3">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-lg-4 shadow-lg p-3">
+                <h6>Online chat:</h6>
+                <hr />
+                <div class="text-danger" id="valid" hidden></div>
+                <label class="control-label">User</label>
+                <input class="form-control" id="userInput" maxlength="50" value="@currentUser" readonly />
+                <label class="control-label">Message</label>
+                <textarea class="form-control" id="messageInput" maxlength="1000"></textarea>
+                <div class="form-group mt-2">
+                    <input class="btn btn-outline-primary" type="button" id="sendButton" value="Send Message" />
+                </div>
+            </div>
+            <div class="col-lg-8 shadow-lg p-3">
+                <h4>Messages</h4>
+                <hr />
+                <div id="status"></div>
+                <div class="p-2">
+                    <div class="overflow-auto" id="messagesList" style="max-width: 100%; max-height: 500px;">
+                        @foreach (var chat in Model)
+                        {
+                            <div>@chat.User - @chat.CreatedOn.ToString("M/d/yyyy, h:mm:ss tt", CultureInfo.InvariantCulture)</div>
+                            <div class="alert alert-info">@chat.Message</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.6/signalr.min.js"></script>
+<script src="~/js/chat.js"></script>
+
+

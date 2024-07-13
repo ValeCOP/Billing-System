@@ -1,0 +1,110 @@
+﻿@using System.Globalization
+@model AddPaymentViewModel
+<h2>Add Payment</h2>
+<div class="shadow-lg" style="padding: 30px">
+    <hr />
+    <div class="row shadow-lg text-lg-start">
+        <div class="shadow-lg col-md-8" style="padding: 30px">
+            <div>
+                <h5 class="card-title mt-2">@Model.Client!.FullName</h5>
+                @if (TempData["message"] != null)
+                {
+                    <div class="alert alert-success" id="alert">
+                        <label>✔</label>
+                        @TempData["message"]
+                    </div>
+                }
+                <hr />
+                <dl class="col">
+                    <dt class="row-sm-2">
+                        User
+                    </dt>
+                    <dd class="row-sm-10">
+                        @Html.DisplayFor(model => model.Client!.ApplicationUser.UserName)
+                    </dd>
+                </dl>
+                <hr />
+                <h2><em><i class="fa-solid fa-hand-holding-dollar"></i> INFOCAST SYSTEMS</em> - <strong><em>Billing</em></strong></h2>
+
+            </div>
+        </div>
+        <div class="shadow-lg col-md-4" style="padding: 30px">
+            <div>
+                <form asp-action="Add" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" value="Additional Payment" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Fee" class="control-label"></label>
+                        <select asp-for="Fee" class="form-control">
+                            <option value="">--Please choose Fee--</option>
+                            <option value="22.00">22.00</option>
+                            <option value="50.00">50.00</option>
+                        </select>
+                        <span asp-validation-for="Fee" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-25">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <label asp-for="Months" class="control-label"></label>
+                        <select asp-for="Months" class="form-control">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <span asp-validation-for="Months" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Pending" /> @Html.DisplayNameFor(model => model.Pending)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Receipt" checked /> @Html.DisplayNameFor(model => model.Receipt)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FromDate" class="control-label"></label>
+                        <input asp-for="FromDate" value="@DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")" name="FromDate" class="form-control" readonly />
+                        <span asp-validation-for="FromDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ToDate" class="control-label"></label>
+                        <input asp-for="ToDate" name="ToDate" class="form-control tcal" type="text" value="@Model.ToDate" />
+                        <span asp-validation-for="ToDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="ClId" class="form-control" hidden />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="UserId" class="form-control" hidden />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-outline-primary" style="margin: 6px" />
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

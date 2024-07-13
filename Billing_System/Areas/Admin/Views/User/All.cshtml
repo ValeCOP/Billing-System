@@ -1,0 +1,64 @@
+﻿@using Billing_System.Core.ViewModels.Users
+@using Billing_System.CustomMiddleware
+@using Microsoft.Extensions.Caching.Memory
+@model IEnumerable<AllUsersViewModel>
+@inject IMemoryCache cache
+@{
+    ViewBag.Title = "Users";
+}
+<h2><i class="fa-solid fa-user-tie"></i> Users</h2>
+<hr />
+<div class="shadow-lg p-3">
+    <div class="table-responsive">
+        <table class="table table-striped ">
+            <thead>
+                <tr>
+                    <th><label>Username</label></th>
+                    <th><label>Email</label></th>
+                    <th><label>Online User</label></th>
+                    <th><label>User Roles</label></th>
+                    <th><label>Action</label></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td><label>@user.UserName</label></td>
+                        <td><label>@user.Email</label></td>
+                        <td>
+                            @if (OnlineUsersMiddleware.CheckIfUserIsOnline(Guid.Parse(user.Id), cache))
+                            {
+                                <label>✔</label>
+                            }
+                            else
+                            {
+                                <label class="text-center">❌</label>
+                            }
+                        </td>
+                        <td>
+                            <label>
+
+                                @foreach (var role in user.Roles)
+                                {
+                                    @role <br />
+                                }
+
+                            </label>
+                        </td>
+                        <td>
+                            @if (user.Email != "admin@infocastsystems.eu")
+                            {
+                                @Html.ActionLink("Delete", "Delete", new { id = user.Id }, new { @class = "btn btn-outline-danger btn-sm", onclick = $"return confirm('Are you sure you want to delete {user.UserName}?');" })
+
+                                <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-outline-primary btn-sm">Edit</a>
+                            }
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <a asp-action="Register" class="btn btn-outline-primary mt-2">Register new</a>
+</div>
